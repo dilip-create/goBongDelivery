@@ -1,0 +1,61 @@
+.flag-css{
+    border-radius: 10%;
+}
+/* Desktop view (default) */
+p {
+    font-size: 13px;
+}
+.promotion-img {
+    height: 200px;
+}
+.popular-promotion-trip{
+    position: absolute;
+        top: 10px; left: 10px;
+        font-size: 14px;
+        padding : 3px;
+        width:80px;
+}
+.promotion-trip{
+        position: absolute;
+        top: 10px; left: 10px;
+        font-size: 14px;
+        padding : 3px;
+    }
+.step-img{
+    height:300px;
+}
+.closed-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.6); /* semi-transparent gray */
+  z-index: 2;
+  border-radius: 8px;
+}
+
+/* Mobile (Android / small screens) */
+@media only screen and (max-width: 767px) {
+    p {
+        font-size: 8px; /* smaller text */
+    }
+    .promotion-img {
+        height: 100px; /* smaller image */
+    }
+    .promotion-trip{
+        position: absolute !important;
+        top: 10px;
+        left: 10px;
+        font-size: 8px;
+        width: 50%;
+    }
+    .hidden, .owl-nav, .carousel-control-prev, .carousel-control-next{
+        display: none;
+    }
+    .step-img{
+        height:150px;
+    }
+    
+}
+
