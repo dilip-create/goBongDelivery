@@ -98,6 +98,11 @@ class StorFoodResource extends Resource
                     ->numeric()
                     ->maxLength(255)
                     ->default(null), 
+                Forms\Components\FileUpload::make('food_img')
+                    ->label(__('message.Food Image'))
+                    ->required()
+                    ->directory('images/restaurant/food')
+                    ->image(),
                 Forms\Components\Select::make('trending_status')
                             ->label(__('message.Show trending or popular'))
                             ->options([
@@ -106,11 +111,6 @@ class StorFoodResource extends Resource
                             ])
                             ->prefixIcon('heroicon-o-arrow-trending-up')
                             ->default('0'),
-                Forms\Components\FileUpload::make('food_img')
-                    ->label(__('message.Food Image'))
-                    ->required()
-                    ->directory('images/restaurant/food')
-                    ->image(),
                 Forms\Components\Toggle::make('status')
                     ->label(__('message.Status'))
                     ->default(1)
