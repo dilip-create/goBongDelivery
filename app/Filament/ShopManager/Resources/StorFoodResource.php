@@ -49,6 +49,8 @@ class StorFoodResource extends Resource
                     ->prefixIcon('heroicon-o-tag')
                     ->searchable()
                     ->required(),
+                
+
                 Forms\Components\TextInput::make('food_name')
                     ->label(__('message.Food name'))
                     ->required()
@@ -61,11 +63,11 @@ class StorFoodResource extends Resource
                     ->required()
                     ->default(3)
                     ->reactive(),
-                Forms\Components\FileUpload::make('food_img')
-                    ->label(__('message.Food Image'))
-                    ->required()
-                    ->directory('images/restaurant/food')
-                    ->image(),
+                Forms\Components\TextInput::make('ordering')
+                    ->label(__('message.Sequence'))
+                    ->numeric()
+                    ->prefixIcon('heroicon-o-adjustments-horizontal')
+                    ->default(null),
                 Forms\Components\TextInput::make('cost_price')
                     ->label(__('message.Cost Price'))
                     ->required()
@@ -95,13 +97,7 @@ class StorFoodResource extends Resource
                     ->required()
                     ->numeric()
                     ->maxLength(255)
-                    ->default(null)
-                    ->readOnly(), 
-                Forms\Components\TextInput::make('ordering')
-                    ->label(__('message.Sequence'))
-                    ->numeric()
-                    ->prefixIcon('heroicon-o-adjustments-horizontal')
-                    ->default(null),
+                    ->default(null), 
                 Forms\Components\Select::make('trending_status')
                             ->label(__('message.Show trending or popular'))
                             ->options([
@@ -110,6 +106,11 @@ class StorFoodResource extends Resource
                             ])
                             ->prefixIcon('heroicon-o-arrow-trending-up')
                             ->default('0'),
+                Forms\Components\FileUpload::make('food_img')
+                    ->label(__('message.Food Image'))
+                    ->required()
+                    ->directory('images/restaurant/food')
+                    ->image(),
                 Forms\Components\Toggle::make('status')
                     ->label(__('message.Status'))
                     ->default(1)
@@ -122,6 +123,7 @@ class StorFoodResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->owner()) 
             ->columns([
                 Tables\Columns\TextColumn::make('getCategoryData.cat_name')
                     ->label(__('message.Category Name or Menu name'))
@@ -133,12 +135,9 @@ class StorFoodResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('food_img')
                     ->label(__('message.Food Image'))
-                    ->circular(false) // disable circle
-                    ->height('120px') // set height
-                    ->width('200px')  // set width
-                    ->extraImgAttributes([
-                        'class' => 'object-cover rounded-md', // optional: cover + rounded rectangle
-                    ]),
+                    ->circular() 
+                    ->height('80px') 
+                    ->width('100px'),
                 Tables\Columns\TextColumn::make('cost_price')
                     ->label(__('message.Cost Price'))
                     ->searchable(),

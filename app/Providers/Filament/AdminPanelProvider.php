@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login(CustomLogin::class)
+            ->login()
             ->profile()
             ->colors([
                 'primary' => Color::Green,
