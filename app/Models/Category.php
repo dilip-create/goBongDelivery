@@ -23,9 +23,32 @@ class Category extends Model
     }
 
     // acc to owner login show dropdown for select in Form
+    // public static function getSellerOptions()
+    // {
+    //     return static::owner()->pluck('cat_name', 'id');
+    // }
+
     public static function getSellerOptions()
     {
-        return static::owner()->pluck('cat_name', 'id');
+        $locale = app()->getLocale();
+        $langId = Language::where('code', $locale)->value('id');
+
+        return static::owner()
+            ->with(['translations' => function ($query) use ($langId) {
+                $query->where('language_id', $langId);
+            }])
+            ->get()
+            ->mapWithKeys(function ($category) {
+                $translatedName = $category->translations->first()->cat_translation_name ?? $category->cat_name;
+                return [$category->id => $translatedName];
+            });
     }
+
+
+    public function translations()
+    {
+        return $this->hasMany(CategoryTranslation::class);
+    }
+
     
 }

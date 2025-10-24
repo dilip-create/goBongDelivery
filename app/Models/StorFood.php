@@ -17,4 +17,20 @@ class StorFood extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+     //modify query in table for show list of product acc to owner login
+    public function scopeOwner(Builder $query)
+    {
+        $stordata = Stor::where('storLoginId', auth()->id())->first();
+       
+        if ($stordata) {
+            // $query = $query
+            //     ->join('categories', 'categories.id', '=', 'stor_foods.category_id')
+            //     ->join('stors', 'stors.id', '=', 'categories.stor_id')
+            //     ->where('stors.id', $stordata->id)
+            //     ->select('stor_foods.*');
+                $query = $query->where('stor_id', $stordata->id);
+        }
+        return $query;
+    }
 }
