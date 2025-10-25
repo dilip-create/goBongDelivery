@@ -23,12 +23,13 @@ class Category extends Model
     }
 
     // acc to owner login show dropdown for select in Form
-    // public static function getSellerOptions()
+    // public static function getCategoryOptions()
     // {
     //     return static::owner()->pluck('cat_name', 'id');
     // }
 
-    public static function getSellerOptions()
+    // acc to owner login show dropdown for select in Form
+    public static function getCategoryOptions()
     {
         $locale = app()->getLocale();
         $langId = Language::where('code', $locale)->value('id');

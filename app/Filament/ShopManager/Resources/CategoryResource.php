@@ -88,6 +88,10 @@ class CategoryResource extends Resource
         return $table
             ->modifyQueryUsing(fn ($query) => $query->owner()) 
             ->columns([
+                Tables\Columns\TextColumn::make('Serial_number')
+                    ->label(__('message.Serial number'))
+                    ->badge()
+                    ->state(fn($column) => $column->getRowLoop()->iteration),
                 Tables\Columns\TextColumn::make('cat_name')
                     ->label(__('message.Category Name or Menu name'))
                     ->searchable(),

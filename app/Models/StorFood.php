@@ -33,4 +33,26 @@ class StorFood extends Model
         }
         return $query;
     }
+
+    // acc to owner login show dropdown for select in Form
+    public static function getFoodnameOptions()
+    {
+        $locale = app()->getLocale();
+        $langId = Language::where('code', $locale)->value('id');
+
+        return static::owner()
+            ->with(['translations' => function ($query) use ($langId) {
+                $query->where('language_id', $langId);
+            }])
+            ->get()
+            ->mapWithKeys(function ($category) {
+                $translatedName = $category->translations->first()->food_translation_name ?? $category->food_name;
+                return [$category->id => $translatedName];
+            });
+    }
+
+    public function translations()
+    {
+        return $this->hasMany(StorFoodTranslation::class);
+    }
 }
