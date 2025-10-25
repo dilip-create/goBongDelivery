@@ -45,12 +45,10 @@ class StorFoodResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('category_id')
                     ->label(__('message.Select Category'))
-                    ->options(Category::getSellerOptions())
+                    ->options(Category::getCategoryOptions())
                     ->prefixIcon('heroicon-o-tag')
                     ->searchable()
                     ->required(),
-                
-
                 Forms\Components\TextInput::make('food_name')
                     ->label(__('message.Food name'))
                     ->required()
@@ -125,6 +123,10 @@ class StorFoodResource extends Resource
         return $table
             ->modifyQueryUsing(fn ($query) => $query->owner()) 
             ->columns([
+                Tables\Columns\TextColumn::make('Serial_number')
+                    ->label(__('message.Serial number'))
+                    ->badge()
+                    ->state(fn($column) => $column->getRowLoop()->iteration),
                 Tables\Columns\TextColumn::make('getCategoryData.cat_name')
                     ->label(__('message.Category Name or Menu name'))
                     ->numeric()
@@ -179,8 +181,9 @@ class StorFoodResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->label(__('message.View'))->modalHeading(__('message.View')),
+                Tables\Actions\EditAction::make()->label(__('message.Edit'))->modalButton(__('message.Save changes')),
+                Tables\Actions\DeleteAction::make()->label(__('message.Delete')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
