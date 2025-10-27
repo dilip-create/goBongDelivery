@@ -61,6 +61,7 @@ class StorFoodTranslationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->owner()) 
             ->columns([
                 Tables\Columns\TextColumn::make('Serial_number')
                     ->label(__('message.Serial number'))
