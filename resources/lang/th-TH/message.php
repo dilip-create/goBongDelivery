@@ -625,6 +625,11 @@ return [
     "Cost Price" => "ราคาต้นทุน",
     "Selling Price (Calculated by GP)" => "ราคาขาย (คำนวณโดย GP)",
     "Food menu" => "เมนูอาหาร",
+    "Food menu translation" => "แปลเมนูอาหาร",
+    "Select food" => "เลือกอาหาร",
+    "Food Translation Name" => "ชื่อการแปลอาหาร",
+    "Open" => "เปิด",
+    
     
     
     
