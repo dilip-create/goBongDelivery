@@ -1,7 +1,7 @@
 <template>
      <div class="container-fluid vesitable">
             <div class="container py-5">
-                <h2 class="mb-0">📌{{ $page.props.translations['Recommended shops'] }}</h2>
+                <h2>📌{{ $page.props.translations['Recommended shops'] }}</h2>
                 <div class=" justify-content-center">
                     
                       <div class="carousel-viewport" @mouseenter="pauseAutoplay" @mouseleave="resumeAutoplay">

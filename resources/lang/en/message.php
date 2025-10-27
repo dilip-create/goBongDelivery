@@ -637,7 +637,7 @@ return [
     "Food menu translation" => "Food menu translation",
     "Select food" => "Select food",
     "Food Translation Name" => "Food Translation Name",
-    "DeliveryBoyId" => "DeliveryBoyId",
+    "Open" => "Open",
     "DeliveryBoyId" => "DeliveryBoyId",
     "DeliveryBoyId" => "DeliveryBoyId",
 

@@ -625,6 +625,10 @@ return [
     "Cost Price" => "តម្លៃថ្លៃដើម",
     "Selling Price (Calculated by GP)" => "តម្លៃលក់ (គណនាដោយ GP)",
     "Food menu" => "ម៉ឺនុយអាហារ",
+    "Food menu translation" => "ការបកប្រែម៉ឺនុយអាហារ",
+    "Select food" => "ជ្រើសរើសអាហារ",
+    "Food Translation Name" => "ឈ្មោះការបកប្រែអាហារ",
+    "Open" => "បើក",
 
 
 
