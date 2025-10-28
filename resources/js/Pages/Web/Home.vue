@@ -114,7 +114,7 @@
                                         <div v-for="stor in props.stors" :key="stor.id" class="col-6 col-md-4 col-lg-2">
                                             
                                             <div class="rounded position-relative fruite-item">
-                                                <a href="#ddddd">
+                                                
                                                 <div class="fruite-img">
                                                     <img  v-if="stor.stor_photo" :src="`/storage/${stor.stor_photo}`" class="promotion-img img-fluid w-100 rounded-top" alt="">
                                                      <!-- Closed Shop Overlay -->
@@ -122,7 +122,7 @@
                                                             <span class="text-white fw-bold fs-5">{{ $page.props.translations.Closed }}</span>
                                                         </div>
                                                 </div>
-                                                </a>
+                                               
                                                   <div class="text-white bg-secondary  rounded position-absolute promotion-trip" style="">{{ stor.openStatus==1 ? 'Promotion' : $page.props.translations.Closed }}</div>
                                                 <div class="p-2 border border-secondary border-top-0 rounded-bottom">
                                                            

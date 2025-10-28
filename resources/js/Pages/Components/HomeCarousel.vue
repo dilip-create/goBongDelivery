@@ -8,11 +8,11 @@
                         <!-- sliding track -->
                         <div class="carousel-track" :style="{ transform: `translateX(-${(currentIndex * 100) / itemsPerView}%)` }">
                           <div v-for="(stor, i) in recommendedstors" :key="stor.id ?? i" class="card">
-                            <a href="#ddddd">
-                            <div class="card-image">
+                            
+                            <div class="card-image" @click="openMenu(stor.id)">
                               <img :src="stor.stor_photo ? `/storage/${stor.stor_photo}` : placeholder" alt="" />
                             </div>
-                            </a>
+                           
                             <div class="text-white bg-primary rounded position-absolute popular-promotion-trip" >Promotion</div>
                             <div class="card-body">
                               <span class="badge">{{ stor.stor_type ? $page.props.translations[stor.stor_type] : '' }}</span>
@@ -44,8 +44,21 @@
 </template>
 
 <script setup>
-import  webloyout from "@/Layouts/Weblayout.vue";
-    defineOptions({ layout: webloyout });
+import { router } from '@inertiajs/vue3'
+// const openMenu = (id) => {
+//   router.('/menus', { stor_id: id }) // send via POST (hidden)
+// }
+
+const openMenu = (id) => {
+  // Encode ID using base64
+  const storId = btoa(id.toString())
+  // Navigate to FoodListing page
+  router.get(`/menus/${storId}`)
+}
+
+
+
+//For carousel Custom code START
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
@@ -121,6 +134,8 @@ onBeforeUnmount(() => {
   stopAutoplay()
   if (typeof window !== 'undefined') window.removeEventListener('resize', handleResize)
 })
+
+//For carousel Custom code START
 
   // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
     const formatTime = (timeString) => {
