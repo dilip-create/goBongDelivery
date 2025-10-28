@@ -6,6 +6,7 @@ use App\Livewire\Website\HomePage;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\FoodListingController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -21,6 +22,7 @@ Route::get('lang', [LanguageController::class, 'change'])->name("change.lang");
 Route::middleware('guest')->group(function (){
     
     Route::get('/', [HomeController::class, 'index'])->name('/');
+    Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('menus.show');
 
    
 });

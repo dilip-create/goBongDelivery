@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Category extends Model
 {
+    use HasFactory;
     protected $guarded = ['id'];
     
 
@@ -46,10 +49,34 @@ class Category extends Model
     }
 
 
-    public function translations()
+    protected $relationsToCascade = ['translations'];
+    public function translations(): HasMany
     {
         return $this->hasMany(CategoryTranslation::class);
     }
 
+    public function translationValue(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->translations()
+                    ->where(['language_id' => Language::where('code', app()->getLocale())->first()?->id ?? 'en'])
+                    ->get()->first();
+            }
+        );
+    }
+
     
+
+
+
+    
+   
+
+    
+    
+
+
+
+
 }
