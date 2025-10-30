@@ -51,32 +51,32 @@
                     <div class="col-md-12 col-lg-5">
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
+                                <!-- <div class="carousel-item active rounded">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step1.jpg`" class="img-fluid w-100 step-img rounded" alt="Service not available">
+                                </div> -->
                                 <div class="carousel-item active rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step1.jpg`" class="img-fluid w-100 step-img rounded" alt="First slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step2.png`" class="img-fluid w-100 step-img  rounded" alt="lets go">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step2.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step6.png`" class="img-fluid w-100 step-img  rounded" alt="Wait a moment">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step3.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step5.png`" class="img-fluid w-100 step-img  rounded" alt="I got the item...I am on the way">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step4.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step8.png`" class="img-fluid w-100 step-img  rounded" alt="Rider have arrived">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step5.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step9.png`" class="img-fluid w-100 step-img  rounded" alt="Where do I send thing?">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step6.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step7.png`" class="img-fluid w-100 step-img  rounded" alt="Understand">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step7.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step3.png`" class="img-fluid w-100 step-img  rounded" alt="OK">
                                 </div>
-                                <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step8.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
-                                </div>
-                                <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step9.png`" class="img-fluid w-100 step-img  rounded" alt="Second slide">
+                                 <div class="carousel-item rounded">
+                                    <img :src="`${appUrl}/website/assets/img/banners/step4.png`" class="img-fluid w-100 step-img  rounded" alt="Thank you"> 
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">

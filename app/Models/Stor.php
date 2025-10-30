@@ -53,5 +53,12 @@ class Stor extends Model
     }
      //Created by sushil sir for seller END
 
+      // Translation for VueJS page START
+    public function translationforvuepage()
+    {
+        return $this->hasOne(StorTranslation::class, 'stor_id', 'id')
+                    ->where('language_id', Language::where('code', app()->getLocale())->first()?->id);
+    }
+    // Translation for VueJS page END
 
 }
