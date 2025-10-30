@@ -52,7 +52,7 @@ class Category extends Model
     protected $relationsToCascade = ['translations'];
     public function translations(): HasMany
     {
-        return $this->hasMany(CategoryTranslation::class);
+        return $this->hasMany(CategoryTranslation::class, 'category_id', 'id');
     }
 
     public function translationValue(): Attribute
@@ -65,6 +65,14 @@ class Category extends Model
             }
         );
     }
+
+    // Translation for VueJS page START
+    public function translationforvuepage()
+    {
+        return $this->hasOne(CategoryTranslation::class, 'category_id', 'id')
+                    ->where('language_id', Language::where('code', app()->getLocale())->first()?->id);
+    }
+    // Translation for VueJS page END
 
     
 

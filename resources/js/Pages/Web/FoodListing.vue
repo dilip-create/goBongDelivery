@@ -7,6 +7,7 @@
     const props = defineProps({
       stors: Array,
       trendingCategory: Array,
+      allCategories: Array,
       foods: Array,
     })
 
@@ -38,12 +39,19 @@
     <Head :title="'- ' + $page.props.translations.Home"></Head>
         
     <!-- Single Page Header start -->
-        <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Shop</h1>
+       
+        <div class="container-fluid page-header py-5"
+            :style="{
+                position: 'relative',
+                background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/storage/${stors.stor_photo}')`,
+                backgroundPosition: 'center center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+            }">
+            <h1 class="text-center text-white display-6">{{ stors.translationforvuepage?.stor_name || stors.cuisine }}</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Shop</li>
+                <li class="breadcrumb-item"><a href="#">{{ stors.translationforvuepage?.desc || stors.cuisine }}</a></li>
+                
             </ol>
         </div>
         <!-- Single Page Header End -->
@@ -60,14 +68,15 @@
                         </div>
                         <div class="col-lg-8 text-end">
                             <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                                
                                 <li class="nav-item">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
-                                        <span class="text-dark" style="width: 130px;">All Products</span>
+                                        <span class="text-dark" style="width: 130px;">All</span>
                                     </a>
                                 </li>
                                 <li v-for="catrow in props.trendingCategory" :key="catrow.id" class="nav-item">
                                     <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                        <span class="text-dark" style="width: 130px;">{{ catrow.cat_name ? catrow.translationValue.cat_translation_name : '' }}</span>
+                                        <span class="text-dark" style="width: 130px;">{{ catrow.translationforvuepage?.cat_translation_name || catrow.cat_name }}</span>
                                     </a>
                                 </li>
                                 
@@ -78,42 +87,20 @@
                     <div class="row g-4">
                         <div class="col-lg-12">
                             <div class="row g-4">
-                                <div class="col-lg-3">
+                                <div class="col-lg-3" v-if="props.allCategories.length">
                                     <div class="row g-4">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <h4>Categories</h4>
                                                 <ul class="list-unstyled fruite-categorie">
-                                                    <li>
+                                                    
+                                                    <li v-for="row in props.allCategories" :key="row.id">
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>{{ row.translationforvuepage?.cat_translation_name || row.cat_name }}</a>
                                                             <span>(3)</span>
                                                         </div>
                                                     </li>
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                                            <span>(5)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                                            <span>(2)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                            <span>(8)</span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                            <span>(5)</span>
-                                                        </div>
-                                                    </li>
+                                                   
                                                 </ul>
                                             </div>
                                         </div>
@@ -288,142 +275,6 @@
                                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
                                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                                     <h4>Raspberries</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="tab-3" class="tab-pane fade show p-0">
-                                            <div class="row g-4">
-                                                <div class="col-lg-12">
-                                                    <div class="row g-4">
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-1.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Oranges</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-6.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Apple</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="tab-4" class="tab-pane fade show p-0">
-                                            <div class="row g-4">
-                                                <div class="col-lg-12">
-                                                    <div class="row g-4">
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-5.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Grapes</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-4.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Apricots</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="tab-5" class="tab-pane fade show p-0">
-                                            <div class="row g-4">
-                                                <div class="col-lg-12">
-                                                    <div class="row g-4">
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-3.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Banana</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-2.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Raspberries</h4>
-                                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                                            <div class="rounded position-relative fruite-item">
-                                                                <div class="fruite-img">
-                                                                    <img :src="`${appUrl}/website/assets/img/fruite-item-1.jpg`" class="img-fluid w-100 rounded-top" alt="">
-                                                                </div>
-                                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                    <h4>Oranges</h4>
                                                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
                                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                                         <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
