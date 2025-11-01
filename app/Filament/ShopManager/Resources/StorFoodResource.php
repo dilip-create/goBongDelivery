@@ -146,6 +146,9 @@ class StorFoodResource extends Resource
                 Tables\Columns\TextColumn::make('selling_price')
                     ->label(__('message.Selling Price (Calculated by GP)'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('getCurrencies.currency_code')
+                    ->label(__('message.Currency'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label(__('message.Status'))
                     ->searchable()

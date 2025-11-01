@@ -32,8 +32,8 @@ class FoodListingController extends Controller
                             ->with('translationforvuepage') // load only single translation
                             ->get();
 
-        $foods = StorFood::where('stor_id', $stor_id)->get();
-        // dd($storData);
+        $foods = StorFood::where('stor_id', $stor_id)->where('status', '1')->orderBy('ordering', 'ASC')->with('translationforvuepage')->with('getCurrencies')->get();
+        // dd($foods);
         return Inertia::render('Web/FoodListing', [
             'stors' => $storData,
             'trendingCategory' => $trendingCategory,

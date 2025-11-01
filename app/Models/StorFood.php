@@ -18,6 +18,11 @@ class StorFood extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function getCurrencies()
+    {
+        return $this->belongsTo(Currency::class,  'currency_id', 'id');
+    }
+
      //modify query in table for show list of product acc to owner login
     public function scopeOwner(Builder $query)
     {
@@ -55,4 +60,12 @@ class StorFood extends Model
     {
         return $this->hasMany(StorFoodTranslation::class);
     }
+
+     // Translation for VueJS page START
+    public function translationforvuepage()
+    {
+        return $this->hasOne(StorFoodTranslation::class, 'stor_food_id', 'id')
+                    ->where('language_id', Language::where('code', app()->getLocale())->first()?->id);
+    }
+    // Translation for VueJS page END
 }
