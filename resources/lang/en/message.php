@@ -638,8 +638,14 @@ return [
     "Select food" => "Select food",
     "Food Translation Name" => "Food Translation Name",
     "Open" => "Open",
-    "DeliveryBoyId" => "DeliveryBoyId",
-    "DeliveryBoyId" => "DeliveryBoyId",
+    "Categories" => "Categories",
+    "Search in menu" => "Search in menu",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
 
     
    

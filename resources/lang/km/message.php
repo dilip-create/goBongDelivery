@@ -629,6 +629,8 @@ return [
     "Select food" => "ជ្រើសរើសអាហារ",
     "Food Translation Name" => "ឈ្មោះការបកប្រែអាហារ",
     "Open" => "បើក",
+    "Categories" => "ប្រភេទ",
+    "Search in menu" => "ស្វែងរកក្នុងម៉ឺនុយ",
 
 
 
