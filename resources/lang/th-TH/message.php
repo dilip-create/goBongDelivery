@@ -629,6 +629,8 @@ return [
     "Select food" => "เลือกอาหาร",
     "Food Translation Name" => "ชื่อการแปลอาหาร",
     "Open" => "เปิด",
+    "Categories" => "หมวดหมู่",
+    "Search in menu" => "ค้นหาในเมนู",
     
     
     

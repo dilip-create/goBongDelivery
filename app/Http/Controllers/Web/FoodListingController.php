@@ -12,36 +12,166 @@ use Session;
 
 class FoodListingController extends Controller
 {
-    public function showFoodList($storId)
-    {   
+    
+    public function showFoodList(Request $request, $storId)
+    {
         $stor_id = base64_decode($storId);
-        $storData = Stor::where('id', $stor_id)->with('translationforvuepage')->first();
-        $trendingCategory = Category::where([
-                                'stor_id' => $stor_id,
-                                'trending_status' => '1',    
-                                'cat_status' => '1',
-                            ])
-                            ->orderBy('ordering', 'asc')
-                            ->with('translationforvuepage') // load only single translation
-                            ->get();
-        $allCategories = Category::where([
-                                'stor_id' => $stor_id,
-                                'cat_status' => '1',
-                            ])
-                            ->orderBy('ordering', 'asc')
-                            ->with('translationforvuepage') // load only single translation
-                            ->get();
 
-        $foods = StorFood::where('stor_id', $stor_id)->where('status', '1')->orderBy('ordering', 'ASC')->with('translationforvuepage')->with('getCurrencies')->get();
-        // dd($foods);
+        $storData = Stor::where('id', $stor_id)
+            ->with('translationforvuepage')
+            ->first();
+
+        // Trending categories first
+        $trendingCategory = Category::where([
+                'stor_id' => $stor_id,
+                'trending_status' => '1',
+                'cat_status' => '1',
+            ])
+            ->orderBy('ordering', 'asc')
+            ->with('translationforvuepage')
+            ->get();
+
+        // All active categories
+        $allCategories = Category::where([
+                'stor_id' => $stor_id,
+                'trending_status' => '0',
+                'cat_status' => '1',
+            ])
+            ->orderBy('ordering', 'asc')
+            ->with('translationforvuepage')
+            ->get();
+
+        // Base food query
+        $foodQuery = StorFood::where('stor_id', $stor_id)
+            ->where('status', '1')
+            ->with(['translationforvuepage', 'getCurrencies']);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $foodQuery->where(function ($q) use ($request) {
+                $q->where('food_name', 'like', '%' . $request->search . '%')
+                ->orWhereHas('translationforvuepage', function ($tq) use ($request) {
+                    $tq->where('food_translation_name', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Category filter (optional)
+        if ($request->filled('category_id')) {
+            $foodQuery->where('category_id', $request->category_id);
+        }
+
+        $foods = $foodQuery->get();
+
+        // 🧠 Group foods by category
+        $groupedFoods = [];
+
+        // Trending categories first
+        foreach ($trendingCategory as $cat) {
+            $catFoods = $foods->where('category_id', $cat->id)->values();
+            if ($catFoods->isNotEmpty()) {
+                $groupedFoods[] = [
+                    'category' => $cat,
+                    'foods' => $catFoods,
+                    'is_trending' => true,
+                ];
+            }
+        }
+
+        // Then normal categories
+        foreach ($allCategories as $cat) {
+            // skip trending categories to avoid duplication
+            if ($cat->trending_status == '1') continue;
+
+            $catFoods = $foods->where('category_id', $cat->id)->values();
+            if ($catFoods->isNotEmpty()) {
+                $groupedFoods[] = [
+                    'category' => $cat,
+                    'foods' => $catFoods,
+                    'is_trending' => false,
+                ];
+            }
+        }
+
         return Inertia::render('Web/FoodListing', [
             'stors' => $storData,
-            'trendingCategory' => $trendingCategory,
+             'trendingCategory' => $trendingCategory,
             'allCategories' => $allCategories,
-            'foods' => $foods,
-            
+            'groupedFoods' => $groupedFoods,
+            'filters' => [
+                'search' => $request->search,
+                'category_id' => $request->category_id,
+            ],
         ]);
-
-
     }
+
+
+    // public function showFoodList(Request $request, $storId)
+    // {   
+    //     $stor_id = base64_decode($storId);
+
+    //     $storData = Stor::where('id', $stor_id)
+    //         ->with('translationforvuepage')
+    //         ->first();
+
+    //     $trendingCategory = Category::where([
+    //             'stor_id' => $stor_id,
+    //             'trending_status' => '1',
+    //             'cat_status' => '1',
+    //         ])
+    //         ->orderBy('ordering', 'asc')
+    //         ->with('translationforvuepage')
+    //         ->get();
+
+    //     $allCategories = Category::where([
+    //             'stor_id' => $stor_id,
+    //             'cat_status' => '1',
+    //         ])
+    //         ->orderBy('ordering', 'asc')
+    //         ->with('translationforvuepage')
+    //         ->get();
+
+    //     // 🌟 Food Filtering Logic
+    //     $foodsQuery = StorFood::where('stor_id', $stor_id)
+    //         ->where('status', '1')
+    //         ->orderBy('ordering', 'ASC')
+    //         ->with(['translationforvuepage', 'getCurrencies']);
+
+    //     // 🔍 Search Filter
+    //     if ($request->filled('search')) {
+    //         $foodsQuery->where(function ($q) use ($request) {
+    //             $q->where('food_name', 'like', '%' . $request->search . '%')
+    //             ->orWhereHas('translationforvuepage', function ($tq) use ($request) {
+    //                 $tq->where('food_translation_name', 'like', '%' . $request->search . '%');
+    //             });
+    //         });
+    //     }
+
+    //     // 🍔 Category Filter
+    //     if ($request->filled('category_id')) {
+    //         $foodsQuery->where('category_id', $request->category_id);
+    //     }
+
+    //     // 🌟 Trending Filter
+    //     if ($request->filled('trending') && $request->trending == 1) {
+    //         $foodsQuery->where('trending_status', '1');
+    //     }
+
+    //     $foods = $foodsQuery->get();
+
+    //     return Inertia::render('Web/FoodListing', [
+    //         'stors' => $storData,
+    //         'trendingCategory' => $trendingCategory,
+    //         'allCategories' => $allCategories,
+    //         'foods' => $foods,
+    //         'filters' => [
+    //             'search' => $request->search,
+    //             'category_id' => $request->category_id,
+    //             'trending' => $request->trending,
+    //         ],
+    //     ]);
+    // }
+
+
+
 }

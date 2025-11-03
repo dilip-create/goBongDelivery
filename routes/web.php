@@ -22,7 +22,7 @@ Route::get('lang', [LanguageController::class, 'change'])->name("change.lang");
 Route::middleware('guest')->group(function (){
     
     Route::get('/', [HomeController::class, 'index'])->name('/');
-    Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('menus.show');
+    Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('food.list');
 
    
 });
