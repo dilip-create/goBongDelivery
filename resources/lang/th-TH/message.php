@@ -631,6 +631,7 @@ return [
     "Open" => "เปิด",
     "Categories" => "หมวดหมู่",
     "Search in menu" => "ค้นหาในเมนู",
+    "Popup" => "ป๊อปอัป",
     
     
     
