@@ -9,7 +9,42 @@
     const props = defineProps({
       stors: Array,
       recommendedstors: Array,
+      popups: Array,
     })
+
+    // script for POPUP START
+    import { ref, onMounted } from 'vue'
+    // Track which popup is visible
+    const showFirstPopup = ref(false)
+    const showSecondPopup = ref(false)
+
+    // Handle closing the first popup
+    const closeFirstPopup = () => {
+    showFirstPopup.value = false
+    if (props.popups.length > 1) {
+        // If there's a second popup, show it
+        showSecondPopup.value = true
+    } else {
+        // If only one popup, mark as shown
+        localStorage.setItem('popupShown', 'true')
+    }
+    }
+
+    // Handle closing the second popup
+    const closeSecondPopup = () => {
+    showSecondPopup.value = false
+    localStorage.setItem('popupShown', 'true')
+    }
+
+    // Show popup only once (first visit)
+    onMounted(() => {
+    const popupShown = localStorage.getItem('popupShown')
+    if (!popupShown && props.popups.length > 0) {
+        showFirstPopup.value = true
+    }
+    })
+    //script for POPUP END
+
 
 
     // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
@@ -36,12 +71,30 @@
 
 <template>
     <Head :title="'- ' + $page.props.translations.Home"></Head>
-        <!-- Hero Start -->
+
+        <!-- POPUP START -->
+            <!-- FIRST POPUP -->
+            <div v-if="showFirstPopup" class="popup-overlay d-flex align-items-center justify-content-center">
+            <div class="popup-content position-relative">
+                <img :src="`/storage/${props.popups[0].popup_img}`" class="popup-image" alt="Popup 1" />
+                <button @click="closeFirstPopup" class="close-btn">✕</button>
+            </div>
+            </div>
+
+            <!-- SECOND POPUP -->
+            <div v-if="showSecondPopup && props.popups.length == 2" class="popup-overlay d-flex align-items-center justify-content-center">
+            <div class="popup-content position-relative">
+                <img :src="`/storage/${props.popups[1].popup_img}`" class="popup-image" alt="Popup 2" />
+                <button @click="closeSecondPopup" class="close-btn">✕</button>
+            </div>
+            </div>
+
+        <!-- POPUP END -->
         <div class="container-fluid hero-header">
             <div class="container py-2">
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
-                        <h4 class="mb-3 text-secondary">{{ $page.props.translations.Welcome }} Go Bong! </h4>
+                        <h4 class="mb-3 text-secondary">{{ $page.props.translations.Welcome }} Go Bong!</h4>
                         <h3 class="mb-5 text-primary hidden">{{ $page.props.translations.signup_text  }}</h3>
                         <div class="position-relative mx-auto">
                             <input class="form-control border-2 border-secondary w-75 py-2 rounded-pill" type="number" :placeholder="$page.props.translations.Search_here + '...'">

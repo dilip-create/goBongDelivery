@@ -107,8 +107,7 @@
                             <ul class="nav nav-pills d-inline-flex text-center mb-5">
                                 
                                 <li class="nav-item">
-                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" :class="{ active: !selectedCategory && !trending }"
-                                    @click="filterByCategory('')" >
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" :class="{ active: !selectedCategory && !trending }" @click="filterByCategory('')" >
                                     <span class="text-dark" style="width: 130px;">{{ $page.props.translations['All'] }}</span>
                                     </a>
                                 </li>

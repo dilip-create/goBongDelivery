@@ -631,6 +631,7 @@ return [
     "Open" => "បើក",
     "Categories" => "ប្រភេទ",
     "Search in menu" => "ស្វែងរកក្នុងម៉ឺនុយ",
+    "Popup" => "លេចឡើង",
 
 
 

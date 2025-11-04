@@ -640,7 +640,7 @@ return [
     "Open" => "Open",
     "Categories" => "Categories",
     "Search in menu" => "Search in menu",
-    "Categories" => "Categories",
+    "Popup" => "Popup",
     "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",
