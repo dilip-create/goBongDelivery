@@ -632,6 +632,7 @@ return [
     "Categories" => "ប្រភេទ",
     "Search in menu" => "ស្វែងរកក្នុងម៉ឺនុយ",
     "Popup" => "លេចឡើង",
+    "See more stor information" => "មើលព័ត៌មានហាងបន្ថែម",
 
 
 

@@ -2,7 +2,7 @@
     // import your components
     import Carousel from '../Components/HomeCarousel.vue'
     //For base URL code START
-    import { usePage } from '@inertiajs/vue3'
+    import { router, usePage } from '@inertiajs/vue3'
     const appUrl = usePage().props.appUrl;
      //For base URL code ENND
     // Props passed from Laravel controller
@@ -46,6 +46,13 @@
     //script for POPUP END
 
 
+    //Onclick redirect page code START 
+    const openMenu = (id) => {
+    // Encode ID using base64
+    const storId = btoa(id.toString())
+    router.get(`/menus/${storId}`)
+    }
+    //Onclick redirect page code END
 
     // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
     const formatTime = (timeString) => {
@@ -168,7 +175,7 @@
                                             
                                             <div class="rounded position-relative fruite-item">
                                                 
-                                                <div class="fruite-img">
+                                                <div class="fruite-img" @click="openMenu(stor.id)">
                                                     <img  v-if="stor.stor_photo" :src="`/storage/${stor.stor_photo}`" class="promotion-img img-fluid w-100 rounded-top" alt="">
                                                      <!-- Closed Shop Overlay -->
                                                         <div v-if="stor.openStatus == 0" class="closed-overlay d-flex align-items-center justify-content-center" >
@@ -196,7 +203,7 @@
                                             
                                             <div class="rounded position-relative fruite-item">
                                                 <a href="#ddddd">
-                                                <div class="fruite-img">
+                                                <div class="fruite-img" @click="openMenu(stor.id)">
                                                     <img  v-if="stor.stor_photo" :src="`/storage/${stor.stor_photo}`" class="promotion-img img-fluid w-100 rounded-top" alt="">
                                                      <!-- Closed Shop Overlay -->
                                                         <div v-if="stor.openStatus == 0" class="closed-overlay d-flex align-items-center justify-content-center" >
@@ -224,7 +231,7 @@
                                             
                                             <div class="rounded position-relative fruite-item">
                                                 <a href="#ddddd">
-                                                <div class="fruite-img">
+                                                <div class="fruite-img" @click="openMenu(stor.id)">
                                                     <img  v-if="stor.stor_photo" :src="`/storage/${stor.stor_photo}`" class="promotion-img img-fluid w-100 rounded-top" alt="">
                                                      <!-- Closed Shop Overlay -->
                                                         <div v-if="stor.openStatus == 0" class="closed-overlay d-flex align-items-center justify-content-center" >

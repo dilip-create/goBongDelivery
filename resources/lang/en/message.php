@@ -641,7 +641,7 @@ return [
     "Categories" => "Categories",
     "Search in menu" => "Search in menu",
     "Popup" => "Popup",
-    "Categories" => "Categories",
+    "See more stor information" => "See more stor information",
     "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",

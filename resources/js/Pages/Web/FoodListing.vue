@@ -48,6 +48,13 @@
 
 
 
+    // //Onclick redirect page code START 
+    // const openFoodDetails = (id) => {
+    // // Encode ID using base64
+    // const foodId = btoa(id.toString())
+    // router.get(`/foodDetails/${foodId}`)
+    // }
+    // //Onclick redirect page code END
 
     // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
     const formatTime = (timeString) => {
@@ -69,14 +76,28 @@
     if (!text) return ''
         return text.charAt(0).toUpperCase() + text.slice(1)
     }
+
+    // 🪟 Modal controls
+    const showModal = ref(false)
+    const openModal = () => (showModal.value = true)
+    const closeModal = () => (showModal.value = false)
 </script>
+<style scoped>
+.page-header {
+  min-height: 300px;
+}
+
+.btn-close {
+  background-color: #f8f9fa;
+  border-radius: 50%;
+}
+</style>
 
 
 <template>
     <Head :title="'- ' + $page.props.translations.Home"></Head>
         
-    <!-- Single Page Header start -->
-       
+        <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5"
             :style="{
                 position: 'relative',
@@ -85,11 +106,31 @@
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             }">
+            <!-- Rating (Top-Right Corner) -->
+            <div class="position-absolute top-0 end-0 m-3 bg bg-primary text-white px-3 py-1 rounded-pill shadow-sm fw-bold" v-if="stors.id">
+                <i class="fa fa-star text-secondary"></i> 5.5
+            </div>
             <h1 class="text-center text-white display-6">{{ capitalizeFirst(stors.translationforvuepage?.stor_name || stors.cuisine) }}</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="#">{{ capitalizeFirst(stors.translationforvuepage?.desc || stors.cuisine) }}</a></li>
                 
             </ol>
+            <button class="btn btn-light position-absolute bottom-0 end-0 m-3 px-4 py-2 shadow rounded-pill" @click="openModal">{{ $page.props.translations['See more stor information'] }}</button>
+                <!-- Stor Popup Modal START-->
+                <div v-if="showModal" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center closed-overlay bg-opacity-75" style="z-index: 1050;">
+                    <div class="bg-white rounded-4 shadow-lg p-4 position-relative" style="max-width: 600px; width: 90%;">
+                        <!-- Close Button -->
+                        <button class="btn-close position-absolute top-0 end-0 m-3" @click="closeModal"></button>
+                        <!-- Store Image -->
+                        <img :src="`/storage/${stors.stor_photo}`" alt="Store Image" class="w-100 rounded-3 mb-3"/>
+                        <!-- Store Info -->
+                        <h4 class="fw-bold">{{ stors.translationforvuepage?.stor_name || stors.cuisine }} : <i class="fa fa-star text-secondary"></i> 5.5</h4>
+                        <p class="text-muted">{{ stors.translationforvuepage?.desc || '' }}</p>
+                        <p><strong>{{ stors.cuisine ? $page.props.translations[stors.cuisine] : '' }} : {{ stors.distance_from_office ? stors.distance_from_office+' '+$page.props.translations.km : '' }}</strong></p>
+                        <p>{{ $page.props.translations['Opening hours'] }}: {{ stors.opentime ? formatTime(stors.opentime) : '' }} - {{ stors.closetime ? formatTime(stors.closetime) : '' }}</p>
+                    </div>
+                </div>
+                <!-- Stor Popup Modal START-->
         </div>
         <!-- Single Page Header End -->
     <!-- Fruits Shop Start-->
@@ -167,7 +208,7 @@
                                                             <div class="row g-4">
                                                             <div v-for="records in group.foods" :key="records.id" class="col-lg-6 col-xl-4">
                                                                 <div class="p-4 rounded bg-light">
-                                                                <div class="row align-items-center">
+                                                                <div class="row align-items-center" @click="openFoodDetails(records.id)">
                                                                     <div class="col-6">
                                                                     <img
                                                                         v-if="records.food_img"
