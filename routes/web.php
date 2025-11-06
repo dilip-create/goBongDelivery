@@ -23,6 +23,7 @@ Route::middleware('guest')->group(function (){
     
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('food.list');
+    // Route::get('/foodDetails/{foodId}', [FoodListingController::class, 'showFoodDetails'])->name('food.details');
 
    
 });

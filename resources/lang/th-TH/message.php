@@ -632,6 +632,7 @@ return [
     "Categories" => "หมวดหมู่",
     "Search in menu" => "ค้นหาในเมนู",
     "Popup" => "ป๊อปอัป",
+    "See more stor information" => "ดูข้อมูลร้านค้าเพิ่มเติม",
     
     
     
