@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->integer('stor_food_id')->nullable();
             $table->integer('f_qty')->nullable();
+            $table->string('suggetion')->nullable();
             $table->integer('order_status')->default(false);
             $table->integer('food_cart_status')->default(true);
             $table->timestamps();
