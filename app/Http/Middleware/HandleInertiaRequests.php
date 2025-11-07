@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Cart;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,6 +36,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+         $customerId = 1; // Dummy customer for now
         return array_merge(parent::share($request), [ 
                 // 'auth.user' => 'Dilipss' ?? null,
                 // Lazily
@@ -50,6 +52,8 @@ class HandleInertiaRequests extends Middleware
                     // If you’re using Laravel localization like resources/lang/en/message.php
                     return __('message');
                 },
+                 // 🧮 Add global cart count
+                'cartCount' => fn() => Cart::where('customer_id', $customerId)->sum('f_qty') ?? 0,
         ]);
           
     }
