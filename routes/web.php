@@ -7,6 +7,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\FoodListingController;
+use App\Http\Controllers\Web\CartController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -23,7 +24,10 @@ Route::middleware('guest')->group(function (){
     
     Route::get('/', [HomeController::class, 'index'])->name('/');
     Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('food.list');
-    // Route::get('/foodDetails/{foodId}', [FoodListingController::class, 'showFoodDetails'])->name('food.details');
+   
+    Route::post('/cart/add', [FoodListingController::class, 'addToCart']);
+    Route::get('/cart/{foodId}', [FoodListingController::class, 'getCartItem']);
+
 
    
 });

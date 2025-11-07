@@ -8,6 +8,7 @@ use App\Models\Stor;
 use App\Models\Category;
 use App\Models\StorFood;
 use App\Models\Language;
+use App\Models\Cart;
 use Session;
 
 class FoodListingController extends Controller
@@ -95,7 +96,7 @@ class FoodListingController extends Controller
 
         return Inertia::render('Web/FoodListing', [
             'stors' => $storData,
-             'trendingCategory' => $trendingCategory,
+            'trendingCategory' => $trendingCategory,
             'allCategories' => $allCategories,
             'groupedFoods' => $groupedFoods,
             'filters' => [
@@ -104,6 +105,37 @@ class FoodListingController extends Controller
             ],
         ]);
     }
+
+    // Add to cart
+    public function addToCart(Request $request)
+    {
+        $validated = $request->validate([
+            'food_id' => 'required|integer',
+            'quantity' => 'required|integer|min:1',
+            'suggestion' => 'nullable|string',
+        ]);
+
+        $customerId = 1; // Dummy user ID
+
+        $cart = Cart::updateOrCreate(
+            ['customer_id' => $customerId, 'stor_food_id' => $validated['food_id']],
+            ['f_qty' => $validated['quantity'], 'suggestion' => $validated['suggestion']]
+        );
+
+        return response()->json(['success' => true, 'cart' => $cart]);
+    }
+
+    // Fetch existing cart item
+    public function getCartItem($foodId)
+    {
+        $customerId = 1;
+        $cart = Cart::where('customer_id', $customerId)
+                    ->where('stor_food_id', $foodId)
+                    ->first();
+
+        return response()->json(['cart' => $cart]);
+    }
+
 
 
 }
