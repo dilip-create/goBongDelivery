@@ -48,13 +48,59 @@
 
 
 
-    // //Onclick redirect page code START 
-    // const openFoodDetails = (id) => {
-    // // Encode ID using base64
-    // const foodId = btoa(id.toString())
-    // router.get(`/foodDetails/${foodId}`)
-    // }
-    // //Onclick redirect page code END
+    // Onclick redirect page code START 
+    import axios from "axios";
+
+    const showPopup = ref(false);
+    const selectedFood = ref({});
+    const suggestion = ref("");
+    const quantity = ref(1);
+    const cartQuantities = ref({});
+
+    const openFoodDetails = async (food) => {
+    selectedFood.value = food;
+    showPopup.value = true;
+
+    const { data } = await axios.get(`/cart/${food.id}`);
+    if (data.cart) {
+        quantity.value = data.cart.f_qty;
+        suggestion.value = data.cart.suggestion ?? "";
+    } else {
+        quantity.value = 1;
+        suggestion.value = "";
+    }
+    };
+
+    const closePopup = () => {
+    showPopup.value = false;
+    };
+
+    const increaseQty = () => {
+    quantity.value++;
+    };
+
+    const decreaseQty = () => {
+    if (quantity.value > 1) quantity.value--;
+    };
+
+    const addToCart = async () => {
+    const payload = {
+        food_id: selectedFood.value.id,
+        quantity: quantity.value,
+        suggestion: suggestion.value,
+    };
+
+    const { data } = await axios.post("/cart/add", payload);
+    if (data.success) {
+        cartQuantities.value[selectedFood.value.id] = quantity.value;
+
+        // 🔁 Refresh only cartCount from backend
+        router.reload({ only: ["cartCount"] });
+
+        closePopup();
+    }
+    };
+    // Onclick redirect page code END
 
     // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
     const formatTime = (timeString) => {
@@ -91,8 +137,26 @@
   background-color: #f8f9fa;
   border-radius: 50%;
 }
-</style>
 
+
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  top: 50px;
+}
+.popup-content {
+  max-width: 400px;
+  background: white;
+  border-radius: 10px;
+}
+.badge {
+  font-size: 0.8rem;
+  padding: 4px 6px;
+}
+</style>
 
 <template>
     <Head :title="'- ' + $page.props.translations.Home"></Head>
@@ -206,31 +270,58 @@
 
                                                             <!-- 🍔 Food Cards -->
                                                             <div class="row g-4">
-                                                            <div v-for="records in group.foods" :key="records.id" class="col-lg-6 col-xl-4">
-                                                                <div class="p-4 rounded bg-light">
-                                                                <div class="row align-items-center" @click="openFoodDetails(records.id)">
-                                                                    <div class="col-6">
-                                                                    <img
-                                                                        v-if="records.food_img"
-                                                                        :src="`/storage/${records.food_img}`"
-                                                                        class="img-fluid rounded-circle w-100 food-img"
-                                                                        alt=""
-                                                                    />
+                                                                <div v-for="records in group.foods" :key="records.id" class="col-lg-6 col-xl-4">
+                                                                    <div class="p-4 rounded bg-light">
+                                                                        
+                                                                    <div class="row align-items-center" @click="openFoodDetails(records)">
+                                                                        <div class="col-6">
+                                                                        <img
+                                                                            v-if="records.food_img"
+                                                                            :src="`/storage/${records.food_img}`"
+                                                                            class="img-fluid rounded-circle w-100 food-img"
+                                                                            alt=""
+                                                                        />
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                        <a href="#" class="h6">
+                                                                            {{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }} <span v-if="cartQuantities[records.id]"
+                                                                                class="badge bg-danger position-absolute">
+                                                                                *{{ cartQuantities[records.id] ?? '' }}
+                                                                            </span>
+                                                                        </a>
+                                                                        
+                                                                        <p>{{ capitalizeFirst(records.translationforvuepage?.food_desc ?? '') }}</p>
+                                                                        <h6 class="mb-3">
+                                                                            {{ records.get_currencies?.currency_symbol ?? '฿' }}{{ records.selling_price ?? '' }}
+                                                                        </h6>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-6">
-                                                                    <a href="#" class="h6">
-                                                                        {{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }}
-                                                                    </a>
-                                                                    <p>{{ capitalizeFirst(records.translationforvuepage?.food_desc ?? '') }}</p>
-                                                                    <h6 class="mb-3">
-                                                                        {{ records.get_currencies?.currency_symbol ?? '฿' }}{{ records.selling_price ?? '' }}
-                                                                    </h6>
                                                                     </div>
                                                                 </div>
-                                                                </div>
-                                                            </div>
                                                             </div>
 
+                                                        </div>
+                                                        </div>
+
+                                                        <!-- Popup -->
+                                                        <div v-if="showPopup" class="popup-overlay d-flex align-items-center justify-content-center">
+                                                        <div class="popup-content bg-white rounded p-4 position-relative" style="width: 350px;">
+                                                            <button @click="closePopup" class="btn-close position-absolute top-0 end-0 m-2"></button>
+
+                                                            <img :src="`/storage/${selectedFood.food_img}`" class="img-fluid rounded mb-3 food-img" style="height:300px"/>
+                                                            <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
+                                                            <h6>฿{{ selectedFood.selling_price }}</h6>
+
+                                                            <label class="form-label mt-3">Recomend</label>
+                                                            <input v-model="suggestion" type="text" class="form-control" placeholder="need sweet" />
+
+                                                            <div class="d-flex align-items-center justify-content-center my-3">
+                                                            <button @click="decreaseQty" class="btn btn-success btn-sm">-</button>
+                                                            <span class="mx-3">{{ quantity }}</span>
+                                                            <button @click="increaseQty" class="btn btn-success btn-sm">+</button>
+                                                            </div>
+
+                                                            <button @click="addToCart" class="btn btn-success w-100">เพิ่ม</button>
                                                         </div>
                                                         </div>
 
