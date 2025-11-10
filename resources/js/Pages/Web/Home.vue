@@ -14,35 +14,33 @@
 
     // script for POPUP START
     import { ref, onMounted } from 'vue'
-    // Track which popup is visible
-    const showFirstPopup = ref(false)
-    const showSecondPopup = ref(false)
 
-    // Handle closing the first popup
-    const closeFirstPopup = () => {
-    showFirstPopup.value = false
-    if (props.popups.length > 1) {
-        // If there's a second popup, show it
-        showSecondPopup.value = true
-    } else {
-        // If only one popup, mark as shown
-        localStorage.setItem('popupShown', 'true')
-    }
-    }
+const showFirstPopup = ref(false)
+const showSecondPopup = ref(false)
 
-    // Handle closing the second popup
-    const closeSecondPopup = () => {
-    showSecondPopup.value = false
-    localStorage.setItem('popupShown', 'true')
-    }
+const closeFirstPopup = () => {
+  showFirstPopup.value = false
+  if (props.popups.length > 1) {
+    // show second popup if there are 2
+    showSecondPopup.value = true
+  } else {
+    // if only one popup, mark as shown (for this session only)
+    sessionStorage.setItem('popupShown', 'true')
+  }
+}
 
-    // Show popup only once (first visit)
-    onMounted(() => {
-    const popupShown = localStorage.getItem('popupShown')
-    if (!popupShown && props.popups.length > 0) {
-        showFirstPopup.value = true
-    }
-    })
+const closeSecondPopup = () => {
+  showSecondPopup.value = false
+  sessionStorage.setItem('popupShown', 'true')
+}
+
+onMounted(() => {
+  const popupShown = sessionStorage.getItem('popupShown')
+  if (!popupShown && props.popups.length > 0) {
+    showFirstPopup.value = true
+  }
+})
+
     //script for POPUP END
 
 
