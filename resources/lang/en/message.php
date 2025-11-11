@@ -642,8 +642,8 @@ return [
     "Search in menu" => "Search in menu",
     "Popup" => "Popup",
     "See more stor information" => "See more stor information",
-    "Categories" => "Categories",
-    "Categories" => "Categories",
+    "Increase" => "Increase",
+    "Product recommendations (optional)" => "Product recommendations (optional)",
     "Categories" => "Categories",
     "Categories" => "Categories",
 

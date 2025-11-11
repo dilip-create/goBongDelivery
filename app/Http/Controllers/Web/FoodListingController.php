@@ -119,7 +119,7 @@ class FoodListingController extends Controller
 
         $cart = Cart::updateOrCreate(
             ['customer_id' => $customerId, 'stor_food_id' => $validated['food_id']],
-            ['f_qty' => $validated['quantity'], 'suggestion' => $validated['suggestion']]
+            ['f_qty' => $validated['quantity'], 'suggetion' => $validated['suggestion']]
         );
 
         return response()->json(['success' => true, 'cart' => $cart]);

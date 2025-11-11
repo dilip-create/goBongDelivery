@@ -633,6 +633,8 @@ return [
     "Search in menu" => "ស្វែងរកក្នុងម៉ឺនុយ",
     "Popup" => "លេចឡើង",
     "See more stor information" => "មើលព័ត៌មានហាងបន្ថែម",
+    "Increase" => "កើនឡើង",
+    "Product recommendations (optional)" => "ការណែនាំផលិតផល (ជាជម្រើស)",
 
 
 

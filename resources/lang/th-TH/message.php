@@ -633,6 +633,8 @@ return [
     "Search in menu" => "ค้นหาในเมนู",
     "Popup" => "ป๊อปอัป",
     "See more stor information" => "ดูข้อมูลร้านค้าเพิ่มเติม",
+    "Increase" => "เพิ่มขึ้น",
+    "Product recommendations (optional)" => "คำแนะนำผลิตภัณฑ์ (ไม่บังคับ)",
     
     
     
