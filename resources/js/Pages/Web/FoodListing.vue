@@ -64,7 +64,7 @@
     const { data } = await axios.get(`/cart/${food.id}`);
     if (data.cart) {
         quantity.value = data.cart.f_qty;
-        suggestion.value = data.cart.suggestion ?? "";
+        suggestion.value = data.cart.suggetion ?? "";
     } else {
         quantity.value = 1;
         suggestion.value = "";
@@ -285,8 +285,7 @@
                                                                         <div class="col-6">
                                                                         <a href="#" class="h6">
                                                                             {{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }} <span v-if="cartQuantities[records.id]"
-                                                                                class="badge bg-danger position-absolute">
-                                                                                *{{ cartQuantities[records.id] ?? '' }}
+                                                                                class="badge bg-danger position-absolute"> <span class="h5 text-white">×</span>{{ cartQuantities[records.id] ?? '' }}
                                                                             </span>
                                                                         </a>
                                                                         
@@ -312,16 +311,16 @@
                                                             <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
                                                             <h6>฿{{ selectedFood.selling_price }}</h6>
 
-                                                            <label class="form-label mt-3">Recomend</label>
-                                                            <input v-model="suggestion" type="text" class="form-control" placeholder="need sweet" />
+                                                            <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
+                                                            <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" />
 
                                                             <div class="d-flex align-items-center justify-content-center my-3">
-                                                            <button @click="decreaseQty" class="btn btn-success btn-sm">-</button>
+                                                            <button @click="decreaseQty" class="btn btn-primary btn-sm">-</button>
                                                             <span class="mx-3">{{ quantity }}</span>
-                                                            <button @click="increaseQty" class="btn btn-success btn-sm">+</button>
+                                                            <button @click="increaseQty" class="btn btn-primary btn-sm">+</button>
                                                             </div>
 
-                                                            <button @click="addToCart" class="btn btn-success w-100">เพิ่ม</button>
+                                                            <button @click="addToCart" class="btn btn-primary w-100">{{ $page.props.translations['Increase'] }}</button>
                                                         </div>
                                                         </div>
 
