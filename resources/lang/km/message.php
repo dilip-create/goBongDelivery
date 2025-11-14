@@ -635,6 +635,9 @@ return [
     "See more stor information" => "មើលព័ត៌មានហាងបន្ថែម",
     "Increase" => "កើនឡើង",
     "Product recommendations (optional)" => "ការណែនាំផលិតផល (ជាជម្រើស)",
+    "No have account" => "មិនមានគណនីទេ។",
+    "Unregistered" => "មិនបានចុះឈ្មោះ",
+    "Please enter your phone number for more experiences, happiness and privileges." => "សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នកសម្រាប់បទពិសោធន៍ សុភមង្គល និងសិទ្ធិជាច្រើនទៀត។",
 
 
 

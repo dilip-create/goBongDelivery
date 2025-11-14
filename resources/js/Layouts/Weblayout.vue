@@ -35,7 +35,7 @@ const  props  = usePage()
                     <div class="navbar-nav mx-auto">
                        
                         <Link :href="route('/')" :class="{'active' : $page.component === 'Web/Home'}" class="nav-item nav-link">{{ $page.props.translations.Home  }}</Link>
-                        <a href="shop.html" class="nav-item nav-link">{{ $page.props.translations.Login  }}</a>
+                        <Link :href="route('customerLogin')" :class="{'active' : $page.component === 'Web/Auth/customerLogin'}" class="nav-item nav-link">{{ $page.props.translations.Login  }}</Link>
                         <a href="shop-detail.html" class="nav-item nav-link">{{ $page.props.translations.Register  }}</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -93,7 +93,7 @@ const  props  = usePage()
     <slot />
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+    <div v-if="$page.component != 'Web/Auth/customerLogin'" class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
         <div class="container py-5">
             <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
                 <div class="row g-4">
@@ -157,7 +157,7 @@ const  props  = usePage()
     <!-- Footer End -->
 
     <!-- Copyright Start -->
-    <div class="container-fluid copyright bg-dark py-4">
+    <div v-if="$page.component != 'Web/Auth/customerLogin'" class="container-fluid copyright bg-dark py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
