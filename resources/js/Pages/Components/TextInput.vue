@@ -12,6 +12,14 @@ const props = defineProps({
     type: String,
     default: 'text',
   },
+  placeholder: {
+    type: String,
+    default: null,
+  },
+  maxlength: {
+    type: Number,
+    default: null,
+  },
   message: String,
 })
 
@@ -20,12 +28,12 @@ const emit = defineEmits(['update:modelValue'])
 
 <template>
     
-  <div class="mb-6">
+
     <label>{{ labelname }}</label>
-    <input :type="type" :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" :class="{'red' : message}"/>
+    <input :type="type" :placeholder="placeholder" :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" :class="{'red' : message}" class="w-100 form-control border-0 py-3 mb-4" :maxlength="maxlength"/>
     <span v-if="message" style="color:red;">{{ message }}</span>
-  </div>
-  <br />
+ 
+ 
 </template>
 
 

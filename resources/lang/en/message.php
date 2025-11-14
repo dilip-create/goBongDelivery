@@ -644,6 +644,13 @@ return [
     "See more stor information" => "See more stor information",
     "Increase" => "Increase",
     "Product recommendations (optional)" => "Product recommendations (optional)",
+    "No have account" => "No have account",
+    "Unregistered" => "Unregistered",
+    "Please enter your phone number for more experiences, happiness and privileges." => "Please enter your phone number for more experiences, happiness and privileges.",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
+    "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",
 

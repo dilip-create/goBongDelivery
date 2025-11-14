@@ -31,10 +31,10 @@
     <form @submit.prevent="submit">
 
       <!-- <TextInput name="Name" v-model="form.name" :message="form.errors.name" /> -->
-      <TextInput name="Phone Number" v-model="form.phoneNumber" :message="form.errors.phoneNumber" /> 
+      <TextInput labelname="Phone Number" v-model="form.phoneNumber" :message="form.errors.phoneNumber" /> 
       <!-- <TextInput name="Email" type="email" v-model="form.email" :message="form.errors.email" /> -->
     
-      <TextInput name="Password" type="password" v-model="form.password" :message="form.errors.password" />
+      <TextInput labelname="Password" type="password" v-model="form.password" :message="form.errors.password" />
      
         <div>
             <p>No have account register ?

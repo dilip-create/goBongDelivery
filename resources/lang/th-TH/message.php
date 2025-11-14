@@ -635,6 +635,10 @@ return [
     "See more stor information" => "ดูข้อมูลร้านค้าเพิ่มเติม",
     "Increase" => "เพิ่มขึ้น",
     "Product recommendations (optional)" => "คำแนะนำผลิตภัณฑ์ (ไม่บังคับ)",
+    "No have account" => "ไม่มีบัญชี",
+    "Unregistered" => "ไม่ได้ลงทะเบียน",
+    "Please enter your phone number for more experiences, happiness and privileges." => "กรุณากรอกเบอร์โทรศัพท์ของท่าน เพื่อรับประสบการณ์ ความสุข และสิทธิพิเศษเพิ่มเติม",
+    
     
     
     

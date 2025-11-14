@@ -12,12 +12,12 @@ use Session;
 
 class CartController extends Controller
 {
-    public function getCartCount()
-    {
-        $customerId = 1; // dummy customer
-        $count = Cart::where('customer_id', $customerId)->sum('f_qty');
+    // public function getCartCount()
+    // {
+    //     $customerId = 1; // dummy customer
+    //     $count = Cart::where('customer_id', $customerId)->sum('f_qty');
 
-        return response()->json(['count' => $count]);
-    }
+    //     return response()->json(['count' => $count]);
+    // }
 
 }

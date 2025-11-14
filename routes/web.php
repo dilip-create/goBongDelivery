@@ -28,7 +28,7 @@ Route::middleware('guest')->group(function (){
     Route::post('/cart/add', [FoodListingController::class, 'addToCart']);
     Route::get('/cart/{foodId}', [FoodListingController::class, 'getCartItem']);
 
-
+    Route::inertia('/customerLogin', 'Web/Auth/customerLogin')->name('customerLogin');
    
 });
 
