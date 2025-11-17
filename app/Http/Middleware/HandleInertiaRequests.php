@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
     {
          $customerId = 1; // Dummy customer for now
         return array_merge(parent::share($request), [ 
-                // 'auth.user' => 'Dilipss' ?? null,
+                'auth.customer' => $request->session()->get('customerAuth'),
                 // Lazily
                  'auth.user' => fn () => $request->user()
                 ? $request->user()->only('id', 'name', 'phoneNumber', 'role')

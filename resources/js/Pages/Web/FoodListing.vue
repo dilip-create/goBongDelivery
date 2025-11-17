@@ -138,8 +138,7 @@
   border-radius: 50%;
 }
 
-
-
+/* //CSS for add to cart popup START */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -156,6 +155,7 @@
   font-size: 0.8rem;
   padding: 4px 6px;
 }
+/* //CSS for add to cart popup END */
 </style>
 
 <template>
@@ -180,7 +180,7 @@
                 
             </ol>
             <button class="btn btn-light position-absolute bottom-0 end-0 m-3 px-4 py-2 shadow rounded-pill" @click="openModal">{{ $page.props.translations['See more stor information'] }}</button>
-                <!-- Stor Popup Modal START-->
+                <!-- Stor details Popup Modal START-->
                 <div v-if="showModal" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center closed-overlay bg-opacity-75" style="z-index: 1050;">
                     <div class="bg-white rounded-4 shadow-lg p-4 position-relative" style="max-width: 600px; width: 90%;">
                         <!-- Close Button -->
@@ -194,7 +194,7 @@
                         <p>{{ $page.props.translations['Opening hours'] }}: {{ stors.opentime ? formatTime(stors.opentime) : '' }} - {{ stors.closetime ? formatTime(stors.closetime) : '' }}</p>
                     </div>
                 </div>
-                <!-- Stor Popup Modal START-->
+                <!-- Stor details Popup Modal START-->
         </div>
         <!-- Single Page Header End -->
     <!-- Fruits Shop Start-->

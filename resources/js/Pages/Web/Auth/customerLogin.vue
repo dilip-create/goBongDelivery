@@ -13,17 +13,12 @@
     })
 
     const submit = () => {
-        form.post(route('login'), {
+        form.post(route('customerLogin'), {
             onError: () => form.reset('password')
         });
         console.log(form);
     }
 </script>
-<style scoped>
-.green-color{
-   background-color : #00A631;
-}
-</style>
 <template>
 <Head title="- Login Form">
 </Head>

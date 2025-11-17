@@ -35,8 +35,21 @@ const  props  = usePage()
                     <div class="navbar-nav mx-auto">
                        
                         <Link :href="route('/')" :class="{'active' : $page.component === 'Web/Home'}" class="nav-item nav-link">{{ $page.props.translations.Home  }}</Link>
-                        <Link :href="route('customerLogin')" :class="{'active' : $page.component === 'Web/Auth/customerLogin'}" class="nav-item nav-link">{{ $page.props.translations.Login  }}</Link>
-                        <a href="shop-detail.html" class="nav-item nav-link">{{ $page.props.translations.Register  }}</a>
+                        
+                        
+                            <Link v-if="$page.props.auth.customer" :href="route('/')" :class="{'active' : $page.component === 'Web/Home'}" class="nav-item nav-link">{{ $page.props.translations.Account  }}</Link>
+                          
+
+                     
+                           
+                            <Link v-if="$page.props.auth.customer" :href="route('customerlogout')" class="nav-item nav-link">Logout {{ $page.props.auth.customer.id }}</Link> 
+                     
+                    
+                        <div v-else>
+                           <Link :href="route('customerLogin')" :class="{'active' : $page.component === 'Web/Auth/customerLogin'}" class="nav-item nav-link">{{ $page.props.translations.Login  }}</Link>
+                        </div>
+
+
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                 <img v-if="$page.props.locale === 'th-TH'" :src="`${$page.props.appUrl}/website/assets/flags/th.png`" alt="th-TH" height="23" width="35" class="flag-css me-2" />
@@ -50,8 +63,8 @@ const  props  = usePage()
                                 </div>
                         </div>
 
-                        <a href="contact.html" class="nav-item nav-link">{{ $page.props.translations.Account  }}</a>
-                        <a href="contact.html" class="nav-item nav-link">{{ $page.props.translations.Logout  }}</a>
+                        
+                        <!-- <a href="contact.html" class="nav-item nav-link">{{ $page.props.translations.Logout  }}</a> -->
                     </div>
 
                     <div class="d-flex m-3 me-0">

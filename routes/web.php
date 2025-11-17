@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\inertia;
 use App\Livewire\Website\HomePage;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\AuthController;
+// use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\FoodListingController;
 use App\Http\Controllers\Web\CartController;
-
+use App\Http\Controllers\Web\AuthController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -29,8 +29,10 @@ Route::middleware('guest')->group(function (){
     Route::get('/cart/{foodId}', [FoodListingController::class, 'getCartItem']);
 
     Route::inertia('/customerLogin', 'Web/Auth/customerLogin')->name('customerLogin');
-   
+    Route::post('/customerLogin', [AuthController::class, 'customerLogin']);
 });
+
+Route::get('/customerlogout', [AuthController::class, 'logout'])->name('customerlogout');
 
 
 
@@ -59,7 +61,7 @@ Route::middleware('guest')->group(function (){
 
 Route::middleware('auth')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
+    // Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
 });
 
