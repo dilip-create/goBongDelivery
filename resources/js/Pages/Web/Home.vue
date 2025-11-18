@@ -99,7 +99,7 @@ onMounted(() => {
             <div class="container py-2">
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
-                        <h4 class="mb-3 text-secondary">{{ $page.props.translations.Welcome }} {{ capitalizeFirst($page.props.auth.customer?.name) ?? 'Guest' }} in Go Bong! <h2 class="text-primary">{{ $page.props.flash?.greet }}</h2></h4>
+                        <h4 class="mb-3 text-secondary">{{ $page.props.translations.Welcome }} {{ capitalizeFirst($page.props.auth.customer?.name) ?? 'Guest' }} in Go Bong! <span class="text-primary">{{ $page.props.flash?.greet }}</span></h4>
                         <h3 class="mb-5 text-primary hidden">{{ $page.props.translations.signup_text  }}</h3>
                         <div class="position-relative mx-auto">
                             <input class="form-control border-2 border-secondary w-75 py-2 rounded-pill" type="number" :placeholder="$page.props.translations.Search_here + '...'">
