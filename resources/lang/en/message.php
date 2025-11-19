@@ -647,7 +647,7 @@ return [
     "No have account" => "No have account",
     "Unregistered" => "Unregistered",
     "Please enter your phone number for more experiences, happiness and privileges." => "Please enter your phone number for more experiences, happiness and privileges.",
-    "Categories" => "Categories",
+    "My orders" => "My orders",
     "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",

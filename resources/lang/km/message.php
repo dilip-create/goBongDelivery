@@ -638,6 +638,7 @@ return [
     "No have account" => "មិនមានគណនីទេ។",
     "Unregistered" => "មិនបានចុះឈ្មោះ",
     "Please enter your phone number for more experiences, happiness and privileges." => "សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នកសម្រាប់បទពិសោធន៍ សុភមង្គល និងសិទ្ធិជាច្រើនទៀត។",
+    "My orders" => "ការបញ្ជាទិញរបស់ខ្ញុំ",
 
 
 

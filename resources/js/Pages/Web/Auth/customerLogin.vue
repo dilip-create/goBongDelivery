@@ -20,7 +20,7 @@
     }
 </script>
 <template>
-<Head title="- Login Form">
+<Head title="- Login">
 </Head>
 <div>
      <!-- Contact Start --><br/><br/><br/>
