@@ -32,7 +32,9 @@ Route::middleware('guest')->group(function (){
     Route::post('/customerLogin', [AuthController::class, 'customerLogin']);
 });
 
-Route::get('/customerlogout', [AuthController::class, 'logout'])->name('customerlogout');
+    Route::get('/customerlogout', [AuthController::class, 'logout'])->name('customerlogout');
+
+    Route::inertia('/CustomerAccount', 'Web/Auth/CustomerAccount')->name('CustomerAccount');
 
 
 
@@ -61,7 +63,7 @@ Route::middleware('guest')->group(function (){
 
 Route::middleware('auth')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    // Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
+    Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
 
 });
 

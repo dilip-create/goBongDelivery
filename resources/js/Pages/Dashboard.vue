@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/vue3'
 
 <template>
   <Head title="- Dashboard" />
-  <div>
+  <div><br/><br/><br/><br/><br/><br/>
     <h1>Dashboard page</h1>
     <h2 style="color:green">{{ $page.props.flash?.greet }}</h2>
     {{ page.props.auth.user }}
