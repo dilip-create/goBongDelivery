@@ -34,7 +34,12 @@ Route::middleware('guest')->group(function (){
 
     Route::get('/customerlogout', [AuthController::class, 'logout'])->name('customerlogout');
 
-    Route::inertia('/CustomerAccount', 'Web/Auth/CustomerAccount')->name('CustomerAccount');
+   
+
+    Route::get('/CustomerAccount', [AuthController::class, 'getCustomerAccount'])->name('CustomerAccount');
+    Route::post('/account/update', [AuthController::class, 'updateAccount'])->name('account.update');
+
+
 
 
 
