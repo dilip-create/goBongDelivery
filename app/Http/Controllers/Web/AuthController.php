@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Inertia\Inertia;
 use App\Models\Customer;
 use Session;
 use Storage;
@@ -46,10 +47,41 @@ class AuthController extends Controller
     }
 
     
-    // public function CustomerAccount(Request $request)
-    // {
+    public function getCustomerAccount(Request $request)
+    {
+        $customerId = $request->session()->get('customerAuth')->id;
        
-    // }
+        $customer = Customer::find($customerId);
+        // dd($customer);
+        return Inertia::render('Web/Auth/CustomerAccount', [
+            'customer' => $customer
+        ]);
+    }
+
+    public function updateAccount(Request $request)
+    {
+        $customer = Auth::guard('customer')->user();
+
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phoneNumber' => 'nullable|string|max:15',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Update text fields
+        $customer->name = $request->name;
+        $customer->phoneNumber = $request->phoneNumber;
+
+        // Update picture only if new image uploaded
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('customers', 'public');
+            $customer->picture = $path;
+        }
+
+        $customer->save();
+
+        return back()->with('success', 'Profile updated successfully!');
+    }
 
     
 
