@@ -51,7 +51,7 @@ const  props  = usePage()
                                     </Link>
                                 </div>
                         </div>
-                        <Link v-if="$page.props.auth.customer" :href="route('customerlogout')" class="nav-item nav-link">{{ $page.props.translations.Logout  }} {{ $page.props.auth.customer.id }}</Link>
+                        <Link v-if="$page.props.auth.customer" :href="route('customerlogout')" class="nav-item nav-link">{{ $page.props.translations.Logout  }}</Link>
                     </div>
 
                     <div class="d-flex m-3 me-0">
@@ -93,7 +93,7 @@ const  props  = usePage()
     <slot />
 
     <!-- Footer Start -->
-    <div v-if="$page.component != 'Web/Auth/customerLogin'" class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+    <div v-if="$page.component !== 'Web/Auth/customerLogin' && $page.component !== 'Web/Auth/CustomerAccount'" class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
         <div class="container py-5">
             <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
                 <div class="row g-4">
@@ -157,7 +157,7 @@ const  props  = usePage()
     <!-- Footer End -->
 
     <!-- Copyright Start -->
-    <div v-if="$page.component != 'Web/Auth/customerLogin'" class="container-fluid copyright bg-dark py-4">
+    <div v-if="$page.component !== 'Web/Auth/customerLogin' && $page.component !== 'Web/Auth/CustomerAccount'" class="container-fluid copyright bg-dark py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">

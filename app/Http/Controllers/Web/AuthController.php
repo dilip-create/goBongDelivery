@@ -50,7 +50,6 @@ class AuthController extends Controller
     public function getCustomerAccount(Request $request)
     {
         $customerId = $request->session()->get('customerAuth')->id;
-       
         $customer = Customer::find($customerId);
         // dd($customer);
         return Inertia::render('Web/Auth/CustomerAccount', [
@@ -60,14 +59,13 @@ class AuthController extends Controller
 
     public function updateAccount(Request $request)
     {
-        $customer = Auth::guard('customer')->user();
-
         $request->validate([
-            'name' => 'nullable|string|max:255',
-            'phoneNumber' => 'nullable|string|max:15',
+            'name' => 'required|string|max:255',
+            'phoneNumber' => 'required|digits_between:8,10',
             'picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        $customer = Customer::find($request->id);
         // Update text fields
         $customer->name = $request->name;
         $customer->phoneNumber = $request->phoneNumber;
@@ -77,10 +75,9 @@ class AuthController extends Controller
             $path = $request->file('picture')->store('customers', 'public');
             $customer->picture = $path;
         }
-
         $customer->save();
-
-        return back()->with('success', 'Profile updated successfully!');
+        $msg = __('message.Profile updated Successfully!');
+        return back()->with('greet', $msg);
     }
 
     
