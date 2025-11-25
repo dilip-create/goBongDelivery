@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 use App\Models\Customer;
+use App\Models\Cart;
 use Session;
 use Storage;
 
@@ -22,6 +23,14 @@ class AuthController extends Controller
         if(!empty($customerData)){
             // dd($customerData);
             session::put('customerAuth', $customerData);
+
+            // Update Guestid with customer START
+            if (session()->has('guest_id')) {
+                Cart::where('customer_id', session('guest_id'))->update(['customer_id' => $customerData->id]);
+
+                session()->forget('guest_id');
+            }
+            // Update Guestid with customer END
 
             return redirect()->intended('/')->with('greet' , 'Login Successfully!');
         }else{

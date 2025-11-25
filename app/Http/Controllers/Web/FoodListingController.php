@@ -109,17 +109,43 @@ class FoodListingController extends Controller
     // Add to cart
     public function addToCart(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
+            'stor_id' => 'required|integer',
             'food_id' => 'required|integer',
             'quantity' => 'required|integer|min:1',
             'suggestion' => 'nullable|string',
         ]);
 
-        $customerId = 1; // Dummy user ID
+        if (!session()->has('guest_id') && !session()->has('customerAuth')) {
+            session()->put('guest_id', random_int(100000, 999999));
+        }
+        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
+
+
+         // Check if customer already has cart items with another stor_id
+        $differentStoreExists = Cart::where('customer_id', $customerId)
+            ->where('stor_id', '!=', $validated['stor_id'])
+            ->exists();
+
+        // If another store's items exist, delete them first
+        if ($differentStoreExists) {
+            Cart::where('customer_id', $customerId)->delete();
+        }
+
+        // Now insert/update the item for current store
+        // $cart = Cart::updateOrCreate(
+        //     ['customer_id' => $customerId, 'stor_id' => $validated['stor_id'], 'stor_food_id' => $validated['food_id']],
+        //     ['f_qty' => $validated['quantity'], 'suggetion' => $validated['suggestion']]
+        // );
 
         $cart = Cart::updateOrCreate(
-            ['customer_id' => $customerId, 'stor_food_id' => $validated['food_id']],
-            ['f_qty' => $validated['quantity'], 'suggetion' => $validated['suggestion']]
+            [
+                'customer_id'   => $customerId, 'stor_id' => $validated['stor_id'], 'stor_food_id'   => $validated['food_id'],
+            ],
+            [
+                'f_qty'       => $validated['quantity'], 'suggetion'   => $validated['suggestion'],
+            ]
         );
 
         return response()->json(['success' => true, 'cart' => $cart]);
