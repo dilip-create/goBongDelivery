@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-         $customerId = 1; // Dummy customer for now
+        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id'); // for New Guest
         return array_merge(parent::share($request), [ 
                 'auth.customer' => $request->session()->get('customerAuth'),
                 // Lazily

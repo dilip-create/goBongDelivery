@@ -85,6 +85,7 @@
 
     const addToCart = async () => {
     const payload = {
+        stor_id: selectedFood.value.stor_id,
         food_id: selectedFood.value.id,
         quantity: quantity.value,
         suggestion: suggestion.value,
