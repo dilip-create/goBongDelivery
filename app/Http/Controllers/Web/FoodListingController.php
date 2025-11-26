@@ -64,12 +64,24 @@ class FoodListingController extends Controller
 
         $foods = $foodQuery->get();
 
-        // 🧠 Group foods by category
+        // 🧠 Group foods by category 
+
+
+        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
+
+        $cartItems = Cart::where('customer_id', $customerId)->pluck('f_qty', 'stor_food_id');   // returns [ food_id => quantity ]
+
+
+
         $groupedFoods = [];
 
         // Trending categories first
         foreach ($trendingCategory as $cat) {
-            $catFoods = $foods->where('category_id', $cat->id)->values();
+            $catFoods = $foods->where('category_id', $cat->id)->values()->map(function ($food) use ($cartItems) {
+                $food->cart_qty = $cartItems[$food->id] ?? 0; // 🔥 Add this line
+                return $food;
+            });
+
             if ($catFoods->isNotEmpty()) {
                 $groupedFoods[] = [
                     'category' => $cat,
@@ -84,7 +96,11 @@ class FoodListingController extends Controller
             // skip trending categories to avoid duplication
             if ($cat->trending_status == '1') continue;
 
-            $catFoods = $foods->where('category_id', $cat->id)->values();
+            $catFoods = $foods->where('category_id', $cat->id)->values()->map(function ($food) use ($cartItems) {
+                $food->cart_qty = $cartItems[$food->id] ?? 0; // 🔥 Add this line
+                return $food;
+            });
+
             if ($catFoods->isNotEmpty()) {
                 $groupedFoods[] = [
                     'category' => $cat,
@@ -134,30 +150,20 @@ class FoodListingController extends Controller
         }
 
         // Now insert/update the item for current store
-        // $cart = Cart::updateOrCreate(
-        //     ['customer_id' => $customerId, 'stor_id' => $validated['stor_id'], 'stor_food_id' => $validated['food_id']],
-        //     ['f_qty' => $validated['quantity'], 'suggetion' => $validated['suggestion']]
-        // );
-
         $cart = Cart::updateOrCreate(
-            [
-                'customer_id'   => $customerId, 'stor_id' => $validated['stor_id'], 'stor_food_id'   => $validated['food_id'],
-            ],
-            [
-                'f_qty'       => $validated['quantity'], 'suggetion'   => $validated['suggestion'],
-            ]
+            ['customer_id'   => $customerId, 'stor_id' => $validated['stor_id'], 'stor_food_id'   => $validated['food_id']],
+            ['f_qty'       => $validated['quantity'], 'suggetion'   => $validated['suggestion']]
         );
 
         return response()->json(['success' => true, 'cart' => $cart]);
     }
 
+
     // Fetch existing cart item
     public function getCartItem($foodId)
     {
-        $customerId = 1;
-        $cart = Cart::where('customer_id', $customerId)
-                    ->where('stor_food_id', $foodId)
-                    ->first();
+        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
+        $cart = Cart::where('customer_id', $customerId)->where('stor_food_id', $foodId)->first();
 
         return response()->json(['cart' => $cart]);
     }
