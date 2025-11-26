@@ -96,8 +96,8 @@
         cartQuantities.value[selectedFood.value.id] = quantity.value;
 
         // 🔁 Refresh only cartCount from backend
-        router.reload({ only: ["cartCount"] });
-
+        // router.reload({ only: ["cartCount"] });
+        router.reload();
         closePopup();
     }
     };
@@ -285,8 +285,12 @@
                                                                         </div>
                                                                         <div class="col-6">
                                                                         <a href="#" class="h6">
-                                                                            {{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }} <span v-if="cartQuantities[records.id]"
+                                                                            {{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }}
+                                                                             <!-- <span v-if="cartQuantities[records.id]"
                                                                                 class="badge bg-danger position-absolute"> <span class="h5 text-white">×</span>{{ cartQuantities[records.id] ?? '' }}
+                                                                            </span> -->
+                                                                            <span v-if="records.cart_qty > 0" class="badge bg-danger position-absolute">
+                                                                            <span class="h5 text-white">×</span>{{ records.cart_qty }}
                                                                             </span>
                                                                         </a>
                                                                         
@@ -301,7 +305,7 @@
                                                             </div>
 
                                                         </div>
-                                                        </div>
+                                                    </div>
 
                                                         <!-- Popup -->
                                                         <div v-if="showPopup" class="popup-overlay d-flex align-items-center justify-content-center">

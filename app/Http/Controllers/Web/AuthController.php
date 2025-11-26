@@ -23,7 +23,8 @@ class AuthController extends Controller
         if(!empty($customerData)){
             // dd($customerData);
             session::put('customerAuth', $customerData);
-
+            //clear previous cart item
+            Cart::where('customer_id', $customerData->id)->delete();
             // Update Guestid with customer START
             if (session()->has('guest_id')) {
                 Cart::where('customer_id', session('guest_id'))->update(['customer_id' => $customerData->id]);
