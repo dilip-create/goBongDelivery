@@ -95,7 +95,7 @@ onMounted(() => {
             </div>
 
         <!-- POPUP END -->
-        <div class="container-fluid hero-header">
+        <div class="container-fluid hero-header"> 
             <div class="container py-2">
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
