@@ -39,6 +39,8 @@ Route::middleware('guest')->group(function (){
     Route::get('/CustomerAccount', [AuthController::class, 'getCustomerAccount'])->name('CustomerAccount');
     Route::post('/account/update', [AuthController::class, 'updateAccount'])->name('account.update');
 
+    Route::get('/cart', [CartController::class, 'getCartList'])->name('cart');
+
 
 
 
