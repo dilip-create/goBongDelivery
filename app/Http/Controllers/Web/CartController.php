@@ -12,12 +12,21 @@ use Session;
 
 class CartController extends Controller
 {
-    // public function getCartCount()
-    // {
-    //     $customerId = 1; // dummy customer
-    //     $count = Cart::where('customer_id', $customerId)->sum('f_qty');
+   
+    public function getCartList()
+    {
+        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
+        $cart = Cart::where('customer_id', $customerId)->get();
 
-    //     return response()->json(['count' => $count]);
-    // }
+        // dd($cart);
+        return Inertia::render('Web/Cart', [
+          
+         
+            'carts' => $cart,
+           
+            
+        ]);
+
+    }
 
 }
