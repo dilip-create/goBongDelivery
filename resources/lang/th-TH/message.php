@@ -639,6 +639,16 @@ return [
     "Unregistered" => "ไม่ได้ลงทะเบียน",
     "Please enter your phone number for more experiences, happiness and privileges." => "กรุณากรอกเบอร์โทรศัพท์ของท่าน เพื่อรับประสบการณ์ ความสุข และสิทธิพิเศษเพิ่มเติม",
     "My orders" => "คำสั่งของฉัน",
+    "Choose a shipping address" => "เลือกที่อยู่สำหรับจัดส่ง",
+    "CHANGE SHIPPING ADDRESS" => "เปลี่ยนที่อยู่จัดส่งสินค้า",
+    "ADD A LIST" => "เพิ่มรายการ",
+    "Is there a discount coupon" => "มีคูปองส่วนลดไหม",
+    "USE COUPONS" => "ใช้คูปอง",
+    "Shipping cost" => "ค่าจัดส่ง",
+    "New customer discount" => "ส่วนลดลูกค้าใหม่",
+    "Confirm Order" => "ยืนยันการสั่งซื้อ",
+    "Distance" => "ระยะทาง",
+    "Order summary" => "สรุปการสั่งซื้อ",
     
     
     

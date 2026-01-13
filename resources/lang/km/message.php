@@ -639,6 +639,16 @@ return [
     "Unregistered" => "មិនបានចុះឈ្មោះ",
     "Please enter your phone number for more experiences, happiness and privileges." => "សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នកសម្រាប់បទពិសោធន៍ សុភមង្គល និងសិទ្ធិជាច្រើនទៀត។",
     "My orders" => "ការបញ្ជាទិញរបស់ខ្ញុំ",
+    "Choose a shipping address" => "ជ្រើសរើសអាសយដ្ឋានដឹកជញ្ជូន",
+    "CHANGE SHIPPING ADDRESS" => "ផ្លាស់ប្តូរអាសយដ្ឋានដឹកជញ្ជូន",
+    "ADD A LIST" => "បន្ថែមបញ្ជី",
+    "Is there a discount coupon" => "តើមានប័ណ្ណបញ្ចុះតម្លៃទេ?",
+    "USE COUPONS" => "ប្រើគូប៉ុង",
+    "Shipping cost" => "ថ្លៃដឹកជញ្ជូន",
+    "New customer discount" => "ការបញ្ចុះតម្លៃអតិថិជនថ្មី។",
+    "Confirm Order" => "បញ្ជាក់ការបញ្ជាទិញ",
+    "Distance" => "ចម្ងាយ",
+    "Order summary" => "សេចក្តីសង្ខេបនៃការបញ្ជាទិញ",
 
 
 

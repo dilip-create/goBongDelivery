@@ -153,3 +153,34 @@ a.activecatColor {
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 /* CSS for drag & drop and upload profile image design END */
+/* Cart Page CSS START */
+.map-box,
+.address-box {
+    height: 200px;
+}
+.order-header {
+    background-color: #81c408; 
+    padding: 14px 16px;
+    border-radius: 0 0 14px 14px;
+}
+.order-header h5 {
+    font-size: 16px;
+}
+.order-header small {
+    font-size: 12px;
+}
+.back-btn {
+    background: #ffffff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+.back-btn i {
+    color: #81c408;
+    font-size: 16px;
+}
+/* Cart Page CSS END */
