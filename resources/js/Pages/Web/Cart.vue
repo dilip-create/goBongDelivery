@@ -53,9 +53,7 @@
             <div class="container bg-light p-2 rounded py-1">
                 <div class="order-header d-flex align-items-center">
                     <!-- Back button -->
-                    <button :href="route('/')" class="btn back-btn me-3">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
+                        <a :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></a>
                     <div class="text-center flex-grow-1">
                         <h5 class="mb-0 text-white fw-semibold">
                             {{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }} <br/> {{ $page.props.translations['Order summary'] ?? 'Order summary' }}
