@@ -18,6 +18,9 @@ class CartController extends Controller
         $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
         $cart = Cart::where('customer_id', $customerId)->first();
     
+        if(empty($cart)){
+            return redirect()->route('/');
+        }
         $storData = Stor::where('id', $cart->stor_id)->with('translationforvuepage')->first();
 
         $foodLists = StorFood::join('carts', 'stor_foods.id', '=', 'carts.stor_food_id')
@@ -37,13 +40,41 @@ class CartController extends Controller
             ])
             ->get();
 
+        $subTotal = $foodLists->sum(function ($food) {
+            return ($food->selling_price ?? 0) * ($food->f_qty ?? 1);
+        });
+        $shippingCost = 10;
+        $newCustomerDiscount = 20;
 
-        
+        $finalAmount = max(
+            ($subTotal + $shippingCost - $newCustomerDiscount),
+            0 // prevent negative total
+        );
+
+
         return Inertia::render('Web/Cart', [
             'storData' => $storData,
             'foodLists' => $foodLists,
+             'summary' => [
+                'sub_total' => $subTotal,
+                'shipping_cost' => $shippingCost,
+                'new_customer_discount' => -$newCustomerDiscount,
+                'final_amount' => $finalAmount,
+            ]
         ]);
 
     }
+
+    public function destroy($id)
+    {
+        Cart::where('id', $id)->delete();
+        $this->getCartList();
+        return response()->json([
+            'status' => true,
+            'message' => 'This item deleted'
+        ]);
+        
+    }
+
 
 }

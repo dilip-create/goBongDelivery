@@ -48,7 +48,7 @@
 
 
 
-    // Onclick redirect page code START 
+    // Onclick Edit popup cart code START 
     import axios from "axios";
 
     const showPopup = ref(false);
@@ -101,7 +101,7 @@
         closePopup();
     }
     };
-    // Onclick redirect page code END
+    // Onclick Edit popup cart code END
 
     // Format "HH:mm:ss" → "hh:mm AM/PM" Code START
     const formatTime = (timeString) => {
@@ -133,30 +133,6 @@
 .page-header {
   min-height: 300px;
 }
-
-.btn-close {
-  background-color: #f8f9fa;
-  border-radius: 50%;
-}
-
-/* //CSS for add to cart popup START */
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-  top: 50px;
-}
-.popup-content {
-  max-width: 400px;
-  background: white;
-  border-radius: 10px;
-}
-.badge {
-  font-size: 0.8rem;
-  padding: 4px 6px;
-}
-/* //CSS for add to cart popup END */
 </style>
 
 <template>
@@ -312,9 +288,11 @@
                                                         <div class="popup-content bg-white rounded p-4 position-relative" style="width: 350px;">
                                                             <button @click="closePopup" class="btn-close position-absolute top-0 end-0 m-2"></button>
 
-                                                            <img :src="`/storage/${selectedFood.food_img}`" class="img-fluid rounded mb-3 food-img" style="height:300px"/>
+                                                            <div class="d-flex justify-content-center">
+                                                                <img :src="`/storage/${selectedFood.food_img}`" class="img-fluid rounded mb-3 cart-popup-img"/>
+                                                            </div>
                                                             <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
-                                                            <h6>฿{{ selectedFood.selling_price }}</h6>
+                                                            <h6>{{ selectedFood.get_currencies?.currency_symbol ?? '฿' }}{{ selectedFood.selling_price }}</h6>
 
                                                             <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
                                                             <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" />
