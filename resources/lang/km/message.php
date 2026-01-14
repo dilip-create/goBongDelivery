@@ -649,6 +649,11 @@ return [
     "Confirm Order" => "បញ្ជាក់ការបញ្ជាទិញ",
     "Distance" => "ចម្ងាយ",
     "Order summary" => "សេចក្តីសង្ខេបនៃការបញ្ជាទិញ",
+    "This item will be deleted" => "ធាតុនេះនឹងត្រូវបានលុប",
+    "Yes, delete it" => "បាទ លុបវាចោល",
+    "Deleted!" => "លុបហើយ!",
+    "Item deleted" => "ធាតុត្រូវបានលុប",
+    "Add Address" => "បន្ថែមអាសយដ្ឋាន",
 
 
 

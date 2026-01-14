@@ -184,3 +184,30 @@ a.activecatColor {
     font-size: 16px;
 }
 /* Cart Page CSS END */
+
+/* //CSS for add to cart popup START */
+.btn-close {
+  background-color: #f8f9fa;
+  border-radius: 50%;
+}
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  top: 50px;
+}
+.popup-content {
+  max-width: 400px;
+  background: white;
+  border-radius: 10px;
+}
+.badge {
+  font-size: 0.8rem;
+  padding: 4px 6px;
+}
+.cart-popup-img{
+    height:300px;
+    width:100%
+}
+/* //CSS for add to cart popup END */

@@ -40,6 +40,9 @@ Route::middleware('guest')->group(function (){
     Route::post('/account/update', [AuthController::class, 'updateAccount'])->name('account.update');
 
     Route::get('/cart', [CartController::class, 'getCartList'])->name('cart');
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+    Route::get('/shipping/addressDetails', [AuthController::class, 'getAddressList'])->name('shipping.addressDetails.list');
+
 
 
 

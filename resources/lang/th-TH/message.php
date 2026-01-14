@@ -649,6 +649,12 @@ return [
     "Confirm Order" => "ยืนยันการสั่งซื้อ",
     "Distance" => "ระยะทาง",
     "Order summary" => "สรุปการสั่งซื้อ",
+    "This item will be deleted" => "รายการนี้จะถูกลบ",
+    "Yes, delete it" => "ใช่ ลบมันออก",
+    "Deleted!" => "ลบแล้ว!",
+    "Item deleted" => "ลบรายการแล้ว",
+    "Add Address" => "เพิ่มที่อยู่",
+    
     
     
     

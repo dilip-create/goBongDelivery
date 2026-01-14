@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Customer;
 use App\Models\Cart;
+use App\Models\DeliveryAddress;
 use Session;
 use Storage;
 
@@ -18,7 +19,7 @@ class AuthController extends Controller
                 'phoneNumber' => ['required', 'numeric', 'min:9'],
        ]);
        
-        $customerData = customer::where('phoneNumber', $request->phoneNumber)->first();
+        $customerData = Customer::where('phoneNumber', $request->phoneNumber)->first();
        
         if(!empty($customerData)){
             // dd($customerData);
@@ -88,6 +89,21 @@ class AuthController extends Controller
         $customer->save();
         $msg = __('message.Profile updated Successfully!');
         return back()->with('greet', $msg);
+    }
+
+    
+    public function getAddressList(Request $request)
+    {
+        $customerId = $request->session()->get('customerAuth')->id ?? 0;
+        if(empty($customerId)){
+            return redirect()->route('customerLogin');
+        }
+        $customer = Customer::find($customerId);
+        $addressLists = DeliveryAddress::where('cust_id', $customerId)->get();
+        // dd($customer);
+        return Inertia::render('Web/Auth/ShippingAddress', [
+            'customer' => $customer
+        ]);
     }
 
     
