@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Stor;
 use App\Models\StorFood;
 use App\Models\Language;
+use App\Models\DeliveryAddress;
 use Session;
 
 class CartController extends Controller
@@ -21,6 +22,7 @@ class CartController extends Controller
         if(empty($cart)){
             return redirect()->route('/');
         }
+        $shipAddress = DeliveryAddress::where('cust_id', $customerId)->where('status', '1')->first();
         $storData = Stor::where('id', $cart->stor_id)->with('translationforvuepage')->first();
 
         $foodLists = StorFood::join('carts', 'stor_foods.id', '=', 'carts.stor_food_id')
@@ -53,6 +55,7 @@ class CartController extends Controller
 
 
         return Inertia::render('Web/Cart', [
+            'shipAddress' => $shipAddress,
             'storData' => $storData,
             'foodLists' => $foodLists,
              'summary' => [

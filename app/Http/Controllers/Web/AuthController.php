@@ -12,6 +12,12 @@ use Storage;
 
 class AuthController extends Controller
 {
+    public function showLoginPage()
+    {
+        session(['url.intended' => url()->previous()]);
+        return inertia('Web/Auth/customerLogin');
+    }
+
     public function customerLogin(Request $request)
     {
         sleep(1);
@@ -40,7 +46,7 @@ class AuthController extends Controller
             //Login
             session::put('customerAuth', $newCustomer);
             //Redirect
-            return redirect()->route('/')->with('greet' , 'Welcome to Laravel inertia Vue JS !');
+            return redirect()->intended('/')->with('greet', 'Welcome to Laravel Inertia Vue JS!');
         }
 
         return back()->withErrors([
@@ -91,20 +97,72 @@ class AuthController extends Controller
         return back()->with('greet', $msg);
     }
 
-    
     public function getAddressList(Request $request)
     {
         $customerId = $request->session()->get('customerAuth')->id ?? 0;
-        if(empty($customerId)){
+
+        if (!$customerId) {
             return redirect()->route('customerLogin');
         }
-        $customer = Customer::find($customerId);
-        $addressLists = DeliveryAddress::where('cust_id', $customerId)->get();
-        // dd($customer);
+
         return Inertia::render('Web/Auth/ShippingAddress', [
-            'customer' => $customer
+            'addressLists' => DeliveryAddress::where('cust_id', $customerId)->get(),
         ]);
     }
+
+    public function saveAddress(Request $request)
+    {
+        $customerId = $request->session()->get('customerAuth')->id;
+
+        $data = $request->validate([
+            'id'       => 'nullable|exists:delivery_addresses,id',
+            'address'  => 'required|string|max:255',
+            'landmark' => 'nullable|string|max:500',
+        ]);
+
+        /** 🔴 Step 1: Set all addresses of this customer to status = 0 */
+        DeliveryAddress::where('cust_id', $customerId)->update([
+            'status' => 0,
+        ]);
+
+        /** 🟢 Step 2: Update or Create */
+        DeliveryAddress::updateOrCreate(
+            [
+                'id' => $data['id'] ?? null,
+            ],
+            [
+                'cust_id'  => $customerId,
+                'address'  => $data['address'],
+                'landmark' => $data['landmark'],
+                'status'   => 1, // active address
+            ]
+        );
+         return redirect()->back()->with('success', 'Address saved successfully');
+    }
+
+    public function deleteAddress(Request $request, DeliveryAddress $address)
+    {
+        $customerId = $request->session()->get('customerAuth')->id;
+
+        // Security check
+        if ($address->cust_id !== $customerId) {
+            abort(403);
+        }
+
+        $wasActive = $address->status === 1;
+
+        $address->delete();
+
+        // If deleted address was active, set latest address as active
+        if ($wasActive) {
+            DeliveryAddress::where('cust_id', $customerId)
+                ->latest()
+                ->first()?->update(['status' => 1]);
+        }
+
+        return redirect()->back()->with('success', 'Address deleted successfully');
+    }
+
 
     
 

@@ -7,6 +7,7 @@
     }
 
     const props = defineProps({
+    shipAddress: Array,
     storData: Array,
     foodLists: Array,
     summary: Array,
@@ -142,15 +143,15 @@
                     </div>
                     <!-- Right: Button -->
                     <div class="col-5 text-end">
-                         <Link :href="route('shipping.addressDetails.list')"><button class="btn btn-outline-dark px-4">{{ $page.props.translations['CHANGE SHIPPING ADDRESS'] }}</button></Link>
+                         <Link :href="route('shipping.address.list')"><button class="btn btn-outline-dark px-4">{{ $page.props.translations['CHANGE SHIPPING ADDRESS'] }}</button></Link>
                         <div class="address-box">
                                 <!-- <h4>Poipet Banteay Meanchey Province</h4>
                                 <h6 >Beer City Poipet Zone 3 </h6>  -->
                                 <div class="d-flex p-4 rounded mb-4">
-                                    <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                                    <i class="fas fa-map-marker-alt fa-2x text-danger"></i>&nbsp;
                                     <div>
                                         <h4>Poipet Banteay Meanchey Province</h4>
-                                        <p class="mb-2">Beer City Poipet Zone 3</p>
+                                        <p class="mb-2"> {{ capitalizeFirst(shipAddress.address) ?? '' }}, {{ capitalizeFirst(shipAddress.landmark) ?? '' }}</p>
                                     </div>
                                 </div>
                                 

@@ -654,6 +654,9 @@ return [
     "Deleted!" => "ลบแล้ว!",
     "Item deleted" => "ลบรายการแล้ว",
     "Add Address" => "เพิ่มที่อยู่",
+    "House number, group, building / village name, alley, road" => "เลขที่บ้าน, กลุ่มบ้าน, อาคาร/ชื่อหมู่บ้าน, ซอย, ถนน",
+    "Confirm" => "ยืนยัน",
+    "Update Address" => "อัปเดตที่อยู่",
     
     
     
