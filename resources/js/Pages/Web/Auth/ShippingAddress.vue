@@ -1,58 +1,66 @@
 <script setup>
-    import { router, usePage  } from '@inertiajs/vue3'
-    const page = usePage()
-    const t = (key, fallback = key) => {
+import { router } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
+import TextInput from '../../Components/TextInput.vue'
+import Textarea from '../../Components/Textarea.vue'
+
+
+/** TAB LABEL change code START */
+import { ref, computed } from 'vue'
+const activeTab = ref('all')        // all | form
+const isEditMode = ref(false)       // true when editing
+const t = (key, fallback = key) => {
         return page.props.translations?.[key] ?? fallback
     }
+const tabLabel = computed(() =>
+    isEditMode.value ? t('Update Address') : t('Add Address')
+)
+/** TAB LABEL change code END */
 
-    const props = defineProps({
-    storData: Array,
-    foodLists: Array,
-    summary: Array,
-   
+const props = defineProps({
+    addressLists: Array,
+})
+const page = usePage()
+
+const form = useForm({
+    id: null,
+    address: '',
+    landmark: '',
+})
+
+/** SUBMIT (CREATE + UPDATE) */
+const submit = () => {
+    form.post(route('shipping.address.save'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset()
+            isEditMode.value = false
+            activeTab.value = 'all'
+        },
     })
-   
+}
 
 
-    // Onclick Delete Item code START
-        // import Swal from 'sweetalert2';
-        // const deleteInCartFun = async (cartId) => {
-        
-        //     Swal.fire({
-        //         title: t('Are you sure?'),
-        //         text: t('This item will be deleted'),
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#dc3545',
-        //         cancelButtonColor: '#6c757d',
-        //         confirmButtonText: t('Yes, delete it')
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             axios.delete(`/cart/${cartId}`)
-        //                 .then(() => {
-        //                     Swal.fire(
-        //                         t('Deleted!'),
-        //                         t('Item deleted'),
-        //                         'success'
-        //                     )
-        //                     // refresh the page without reload reload whole page
-        //                     router.reload();
-                            
-        //                 })
-        //         }
-        //     })
-        // }
-    // Onclick Delete Item code START
+/** EDIT */
+const editAddress = (record) => {
+    isEditMode.value = true
+    activeTab.value = 'form'
 
+    form.id = record.id
+    form.address = record.address
+    form.landmark = record.landmark
+}
 
-    // const capitalizeFirst = (text) => {
-    // if (!text) return ''
-    //     return text.charAt(0).toUpperCase() + text.slice(1)
-    // }
-    // function base64Encode(value) {
-    //     return window.btoa(String(value));
-    // }
+/** Delete */
+const deleteAddress = (id) => {
+    
+    router.delete(route('shipping.address.delete', id), {
+        preserveScroll: true,
+    })
+}
 </script>
+
+
 
 <template>
     <Head :title="`- ${$page.props.translations['Shipping Address']}`" />
@@ -62,7 +70,7 @@
             <div class="container py-5 bg-light">
                 <div class="order-header d-flex align-items-center">
                     <!-- Back button -->
-                        <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
+                    <Link :href="route('cart')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
                         <h5 class="mb-0 text-white fw-semibold">
                              {{ $page.props.translations['Address'] }}
@@ -75,111 +83,78 @@
                         <div class="col-lg-12">
                             <nav>
                                 <div class="nav nav-tabs mb-3">
-                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                    <button class="nav-link border-white border-bottom-0" :class="{ active: activeTab === 'all' }" @click="activeTab = 'all'" type="button" role="tab"
                                         id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
-                                        aria-controls="nav-about" aria-selected="true">{{ $page.props.translations['All'] }}</button>
-                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                        aria-controls="nav-about" aria-selected="true">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $page.props.translations['All'] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    
+                                        <button class="nav-link border-white border-bottom-0" :class="{ active: activeTab === 'form' }" @click="activeTab = 'form'; isEditMode = false; form.reset()" type="button" role="tab"
                                         id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
-                                        aria-controls="nav-mission" aria-selected="false">{{ $page.props.translations['Add Address'] }}</button>
+                                        aria-controls="nav-mission" aria-selected="false"> {{ tabLabel }}</button>
                                 </div>
                             </nav>
                             <div class="tab-content mb-5">
-                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                    <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc. 
-                                        Susp endisse ultricies nisi vel quam suscipit </p>
-                                    <p>Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish filefish Antarctic 
-                                        icefish goldeye aholehole trumpetfish pilot fish airbreathing catfish, electric ray sweeper.</p>
-                                    <div class="px-2">
-                                        <div class="row g-4">
-                                            <div class="col-6">
-                                                <div class="row bg-light align-items-center text-center justify-content-center py-2">
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Weight</p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="mb-0">1 kg</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row text-center align-items-center justify-content-center py-2">
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Country of Origin</p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Agro Farm</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Quality</p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Organic</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row text-center align-items-center justify-content-center py-2">
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Сheck</p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Healthy</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                    <div class="col-6">
-                                                        <p class="mb-0">Min Weight</p>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="mb-0">250 Kg</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div v-if="activeTab === 'all'" class="tab-pane" :class="{ active: activeTab === 'all' }" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                    
+                                    <div v-for="records in props.addressLists" :key="records.id" class="d-flex p-4 rounded mb-4 bg-white">
+                                        <i class="fas fa-map-marker-alt fa-2x me-4" :class="records.status === 1 ? 'text-success' : 'text-danger'"></i>
+
+                                        <div class="flex-grow-1">
+                                            <h5>
+                                                {{ records.address }}
+                                                <span v-if="records.status === 1" class="badge bg-success ms-2">
+                                                    Default
+                                                </span>
+                                            </h5>
+                                            <small>{{ records.landmark }}</small>
                                         </div>
+
+                                        <button @click="editAddress(records)" class="rounded-circle bg-light border"><i class="fa fa-edit text-danger"></i></button>
+                                        <button @click="deleteAddress(records.id)" class="rounded-circle bg-light border"><i class="fa fa-times text-danger"></i></button>
+
                                     </div>
+
+
                                 </div>
-                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                    <div class="d-flex">
-                                      
-                                        <div class="">
-                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                            <div class="d-flex justify-content-between">
-                                                <h5>Jason Smith</h5>
-                                                <div class="d-flex mb-3">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
+                                <div v-if="activeTab === 'form'" class="tab-pane" :class="{ active: activeTab === 'form' }" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                    
+                                    <!-- Contact Start -->
+                                    <div class="row g-4">
+                                        <div class="col-lg-12">
+                                            <div class="h-100 rounded">
+                                                <iframe class="rounded w-100" 
+                                                style="height: 200px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd" 
+                                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                             </div>
-                                            <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
                                         </div>
-                                    </div>
-                                    <div class="d-flex">
+                                        <div class="col-lg-7">
+                                            
+                                            <form @submit.prevent="submit">
+                                                <TextInput v-model="form.address" :message="form.errors.address" :placeholder="$page.props.translations['Add Address']"/>
+
                                         
-                                        <div class="">
-                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                            <div class="d-flex justify-content-between">
-                                                <h5>Sam Peters</h5>
-                                                <div class="d-flex mb-3">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                                <Textarea v-model="form.landmark" :message="form.errors.landmark" :rows="5" :cols="10" :placeholder="$page.props.translations['House number, group, building / village name, alley, road']" />
+
+
+                                                <button class="w-100 btn border-secondary py-3 bg-white text-primary" :disabled="form.processing">{{ tabLabel }}
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="d-flex p-4 rounded mb-4 bg-white">
+                                                <i class="fas fa-map-marker-alt fa-2x text-danger me-4"></i>
+                                                <div>
+                                                    <h4>{{ $page.props.translations['Address'] }}</h4>
+                                                    <p class="mb-2">123 Street New York.USA</p>
                                                 </div>
                                             </div>
-                                            <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic 
-                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
                                         </div>
                                     </div>
+                                    <!-- Contact End -->
+                                   
                                 </div>
-                                <div class="tab-pane" id="nav-vision" role="tabpanel">
-                                    <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
-                                        amet diam et eos labore. 3</p>
-                                    <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
-                                        Clita erat ipsum et lorem et sit</p>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

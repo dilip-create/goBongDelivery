@@ -654,6 +654,9 @@ return [
     "Deleted!" => "លុបហើយ!",
     "Item deleted" => "ធាតុត្រូវបានលុប",
     "Add Address" => "បន្ថែមអាសយដ្ឋាន",
+    "House number, group, building / village name, alley, road" => "ផ្ទះលេខ ក្រុម អាគារ/ឈ្មោះភូមិ ផ្លូវលំ",
+    "Confirm" => "បញ្ជាក់",
+    "Update Address" => "ធ្វើបច្ចុប្បន្នភាពអាសយដ្ឋាន",
 
 
 
