@@ -33,7 +33,7 @@ const emit = defineEmits(['update:modelValue'])
 <template>
     
 
-    <label>{{ labelname }}</label>
+    <label><h6>{{ labelname }}</h6></label>
     <textarea :rows="rows" :cols="cols" :placeholder="placeholder" :value="props.modelValue" @input="emit('update:modelValue', $event.target.value)" :class="{'red' : message}" class="w-100 form-control border-0 mb-4" :maxlength="maxlength">
     </textarea>
     <span v-if="message" style="color:red;">{{ message }}</span>

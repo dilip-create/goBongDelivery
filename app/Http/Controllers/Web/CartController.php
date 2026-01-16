@@ -17,7 +17,8 @@ class CartController extends Controller
     public function getCartList()
     {
         $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
-        $cart = Cart::where('customer_id', $customerId)->first();
+        $cart = Cart::where('customer_id', $customerId)->where('order_status', '0')->where('food_cart_status', '1')->first();
+
     
         if(empty($cart)){
             return redirect()->route('/');

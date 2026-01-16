@@ -1,6 +1,8 @@
 <script setup>
+    // import TextInput from '../Components/TextInput.vue'
+    import Textarea from '../Components/Textarea.vue'
     import { ref } from 'vue'
-    import { router, usePage  } from '@inertiajs/vue3'
+    import { router, usePage, useForm  } from '@inertiajs/vue3'
     const page = usePage()
     const t = (key, fallback = key) => {
         return page.props.translations?.[key] ?? fallback
@@ -11,7 +13,6 @@
     storData: Array,
     foodLists: Array,
     summary: Array,
-   
     })
    
 
@@ -101,6 +102,23 @@
             })
         }
     // Onclick Delete Item code START
+
+
+    const form = useForm({
+        special_instructions: '',
+    })
+
+    /** SUBMIT (CREATE + UPDATE) */
+    const submit = () => {
+        form.post(route('save.checkout'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                form.reset()
+                // isEditMode.value = false
+                // activeTab.value = 'all'
+            },
+        })
+    }
 
 
     const capitalizeFirst = (text) => {
@@ -219,6 +237,31 @@
                         <button class="btn btn-primary px-4 text-white">{{ $page.props.translations['USE COUPONS'] }}</button>
                     </div>
                 </div>
+                <form @submit.prevent="submit">
+                <div class="row align-items-center mt-4">
+                    <div class="col-md-5">
+                            <h6>{{ $page.props.translations['Choose a payment method'] }}</h6>
+                            <div class="row">
+                                <!-- Payment Card -->
+                                <div class="col-12">
+                                    <div class="card shadow-sm border-0 rounded-3 p-3">
+                                        <div class="d-flex align-items-center">
+                                            <input class="form-check-input me-3" type="radio" checked name="payment_method" value="promptpay" v-model="form.payment_method"/>
+                                            <img :src="`${$page.props.appUrl}/website/assets/img/promptpay.png`" alt="PromptPay" style="width:40px;height:40px" class="me-3"/>
+                                            <div>
+                                                <div class="fw-semibold"><b>PromptPay ({{ $page.props.translations['attach slip'] }})</b></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-md-7"><br/>
+                        
+                        <Textarea :labelname="$page.props.translations['Special Instructions']" v-model="form.special_instructions" :message="form.errors.special_instructions" :rows="3" :cols="10" :placeholder="$page.props.translations['House number, group, building / village name, alley, road']" />
+                        
+                    </div>
+                </div>
                 <div class="row g-4 justify-content-end">
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                         <div class="bg-light rounded">
@@ -243,11 +286,23 @@
                                 <h5 class="mb-0 ps-4">{{ $page.props.translations['Total'] }}</h5>
                                 <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
                             </div>
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">{{ $page.props.translations['Confirm Order'] }}</button>
+                           
+                                
+                            
+
+
+
+
+
+                            <!-- <button class="w-100 btn border-secondary py-3 bg-white text-primary" :disabled="form.processing">{{ tabLabel }}
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </button> -->
+                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }}</button>
                         </div>
                     </div>
                     <div class="col-8"></div>
                 </div>
+                </form>
             </div>
         </div>
         <!-- Cart Page End -->

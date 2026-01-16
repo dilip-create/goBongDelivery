@@ -24,6 +24,8 @@ class CustomAuth
         
         if(
             ($path == 'CustomerAccount' && !Session::get('customerAuth'))
+           || ($path == 'cart' && !Session::get('customerAuth'))
+           || ($path == 'shipping/addressDetails' && !Session::get('customerAuth'))
         //  || (strpos($path, 'dashboard') !== false && !Session::has('customerAuth'))
         )
         {
