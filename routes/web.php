@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\FoodListingController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\CheckoutController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -42,13 +43,13 @@ Route::middleware('guest')->group(function (){
     Route::get('/cart', [CartController::class, 'getCartList'])->name('cart');
     Route::delete('/cart/{id}', [CartController::class, 'destroy']);
 
-    // Route::get('/shipping/addressDetails', [AuthController::class, 'getAddressList'])->name('shipping.addressDetails.list');
-    // Route::post('/shipping/addressDetails', [AuthController::class, 'customerLogin'])->name('saveShippingAddress');
-
     Route::get('/shipping/addressDetails', [AuthController::class, 'getAddressList'])->name('shipping.address.list');
-
     Route::post('/shipping/addressDetails/save', [AuthController::class, 'saveAddress'])->name('shipping.address.save');
     Route::delete('/shipping/addressDetails/{address}', [AuthController::class, 'deleteAddress'])->name('shipping.address.delete');
+
+     Route::post('/checkout/save', [CheckoutController::class, 'submitOrder'])->name('save.checkout');
+   
+
 
 
 

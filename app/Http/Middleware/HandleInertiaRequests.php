@@ -53,7 +53,7 @@ class HandleInertiaRequests extends Middleware
                     return __('message');
                 },
                  // 🧮 Add global cart count
-                'cartCount' => fn() => Cart::where('customer_id', $customerId)->sum('f_qty') ?? 0,
+                'cartCount' => fn() => Cart::where('customer_id', $customerId)->where('order_status', '0')->where('food_cart_status', '1')->sum('f_qty') ?? 0,
         ]);
           
     }
