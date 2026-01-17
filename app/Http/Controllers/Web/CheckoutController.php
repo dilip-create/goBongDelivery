@@ -18,14 +18,9 @@ class CheckoutController extends Controller
 {
     public function submitOrder(Request $request)
     {
-        // dd("ssssss");
+        // dd($request->all());
         $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
-
-        $cartItems = Cart::where('customer_id', $customerId)
-            ->where('order_status', 0)
-            ->where('food_cart_status', 1)
-            ->get();
-
+        $cartItems = Cart::where('customer_id', $customerId)->where('order_status', 0)->where('food_cart_status', 1)->get();
         if ($cartItems->isEmpty()) {
             return redirect()->route('/');
         }
@@ -34,65 +29,40 @@ class CheckoutController extends Controller
         $address = DeliveryAddress::where('cust_id', $customerId)->where('status', 1)->first();
         $customer = Customer::find($customerId);
         $stor = Stor::find($cartItems->first()->stor_id);
-
-        $distance = $this->distanceInKm(
-            $stor->stor_lat,
-            $stor->stor_long,
-            $customer->lat,
-            $customer->long
-        );
+        date_default_timezone_set('Asia/Phnom_Penh');
+        $order_date=date("Y-m-d h:i:s");
 
         foreach ($cartItems as $cart) {
             $food = StorFood::find($cart->stor_food_id);
 
-            $quantity = $cart->f_qty;
-            $costPrice = $food->cost_price * $quantity;
-            $subTotal = $food->selling_price * $quantity;
-
-            /** Delivery calculation **/
-            if ($stor->cuisine === 'Laundry') {
-
-                $DeliveryChargeTbl = DeliveryCharge::where('delivery_type', 'Laundry')->where('active_plan', 1)->first();
-                $delivery = $this->laundryDeliveryCharge($distance);
-                $shippingCharge = 0;
-                $riderCharge = $delivery['rider_charge'];
-            } else {
-                $DeliveryChargeTbl = DeliveryCharge::where('delivery_type', 'food')->where('active_plan', 1)->first();
-                $shippingCharge = $this->calculateShippingCharge(2.0);
-                $riderCharge = $this->calculateRiderCharge($distance);
-            }
-
-            /** Own charge **/
-            $ownChargeStor = $subTotal - $costPrice;
-            $ownChargeRider = $shippingCharge / 2;
-
-            $totalPayAmount = $subTotal + $shippingCharge;
-
             StorOrder::create([
                 'stor_id' => $stor->id,
                 'storLoginId' => $stor->storLoginId,
-                'stor_food_id' => $food->id,
-                'cart_id' => $cart->id,
                 'cust_id' => $customerId,
                 'address_id' => $address->id,
                 'order_key' => $orderKey,
-                'quantity' => $quantity,
-                'subTotal' => $subTotal,
-                'new_customer_discount' => $DeliveryChargeTbl->new_customer_discount ?? 0,
-                'discount_offer' => $DeliveryChargeTbl->discount_offer ?? 0,
-                'cost_price' => $costPrice,
-                'distance_between_shop_customer' => $distance,
-                'shipping_charge' => $shippingCharge,
-                'rider_charge' => $riderCharge,
-                'own_charge' => $ownChargeStor + $ownChargeRider,
-                'totalPayAmount' => $totalPayAmount,
-                'currency' => $food->currency_id ?? 'THB',
-                'currency_symbol' => '฿',
-                'order_status' => 'pending',
+                'stor_food_id' => $food->id,
+                'cart_id' => $cart->id,
+                'total_cost_price' => $request->total_cost_price,
+                'subTotal' => $request->sub_total,
+                'distance_between_shop_customer' => $request->distance,
+                'minimum_order_diffrence' => $request->minimum_order_diffrence,
+                'shipping_charge' => $request->shippingCharge,
+                'rider_charge' => $request->shippingCharge/2 ?? 0,
+                'owncharge_form_riderside' => $request->shippingCharge/2 ?? 0,
+                'owncharge_form_storside' => $request->final_amount  -$request->total_cost_price -$request->shippingCharge,
+                'new_customer_discount' => $request->new_customer_discount ?? 0,
+                'discount_offer' => $request->discount_offer ?? 0,
+                'totalPayAmount' => $request->final_amount,
+                'currency_id' => $food->currency_id,
+                'payment_type' => 'online',
+                'order_date' => $order_date,
                 'special_instructions' => $request->special_instructions,
-                'latitude' => $customer->lat,
-                'longitude' => $customer->long,
+                'latitude' => $address->lat,
+                'longitude' => $address->long,
             ]);
+
+
 
             $cart->update(['order_status' => 1, 'food_cart_status' => 0,]);
         }
@@ -114,39 +84,10 @@ class CheckoutController extends Controller
     }
 
 
-    // Distance Calculation (Haversine – backup for Google API)
-    private function distanceInKm($lat1, $lon1, $lat2, $lon2)
-    {
-        // $earthRadius = 6371;
-
-        // $dLat = deg2rad($lat2 - $lat1);
-        // $dLon = deg2rad($lon2 - $lon1);
-
-        // $a = sin($dLat / 2) ** 2 +
-        //     cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
-        //     sin($dLon / 2) ** 2;
-
-        // $c = 2 * asin(sqrt($a));
-
-        // return round($earthRadius * $c, 3);
-        return 2.0;
-    }
+   
 
 
-    // Delivery Charge Rules (Normal Orders)
-    private function calculateShippingCharge($distance)
-    {
-
-        if ($distance <= 0.5) {
-            return 0;
-        }
-
-        if ($distance <= 2) {
-            return 20;
-        }
-
-        return round($distance * 10); // 2.1km → 21, 2.5km → 25
-    }
+   
 
     // Rider Charge Calculation
     private function calculateRiderCharge($distance)
