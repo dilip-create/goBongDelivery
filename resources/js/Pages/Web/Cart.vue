@@ -1,5 +1,5 @@
 <script setup>
-    // import TextInput from '../Components/TextInput.vue'
+    import TextInput from '../Components/TextInput.vue'
     import Textarea from '../Components/Textarea.vue'
     import { ref } from 'vue'
     import { router, usePage, useForm  } from '@inertiajs/vue3'
@@ -12,7 +12,7 @@
     shipAddress: Array,
     storData: Array,
     foodLists: Array,
-    summary: Array,
+    summary: Object,
     })
    
 
@@ -105,6 +105,15 @@
 
 
     const form = useForm({
+        total_cost_price: props.summary.total_cost_price ?? 0,
+        sub_total: props.summary.sub_total ?? 0,
+        distance: props.summary.distance ?? 0,
+        shippingCharge: props.summary.shippingCharge ?? 0,
+        minimum_order_diffrence: props.summary.minimum_order_diffrence ?? 0,
+        new_customer_discount: props.summary.new_customer_discount ?? 0,
+        discount_offer: props.summary.discount_offer ?? 0,
+        final_amount: props.summary.final_amount ?? 0,
+        // discount_offer: props.summary.discount_offer ?? 0,
         special_instructions: '',
     })
 
@@ -257,7 +266,7 @@
                             </div>
                     </div>
                     <div class="col-md-7"><br/>
-                        
+
                         <Textarea :labelname="$page.props.translations['Special Instructions']" v-model="form.special_instructions" :message="form.errors.special_instructions" :rows="3" :cols="10" :placeholder="$page.props.translations['House number, group, building / village name, alley, road']" />
                         
                     </div>
@@ -272,14 +281,20 @@
                                     <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.sub_total ?? '' }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
-                                    <div class="">
-                                        <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.shipping_cost ?? '' }}</p>
-                                    </div>
+                                        <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
+                                        <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.shippingCharge ?? '' }}</p>
                                 </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="mb-0">{{ $page.props.translations['New customer discount'] }}:</h6>
-                                    <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.new_customer_discount ?? '' }}</p>
+                                <div v-if="summary.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
+                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
+                                        <p class="mb-0 text-danger">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.minimum_order_diffrence ?? '' }}</p>
+                                </div>
+                                <div v-if="summary.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
+                                    <h6 class="mb-0 text-primary">{{ $page.props.translations['New customer discount'] }}:</h6>
+                                    <p class="mb-0 text-primary">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} -{{ summary.new_customer_discount ?? '' }}</p>
+                                </div>
+                                <div v-if="summary.discount_offer > 0" class="d-flex justify-content-between mb-2">
+                                    <h6 class="mb-0 text-primary">{{ $page.props.translations['Discount'] }}:</h6>
+                                    <p class="mb-0 text-primary">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} -{{ summary.discount_offer ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="py-3 mb-2 border-top border-bottom d-flex justify-content-between">
@@ -287,16 +302,6 @@
                                 <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
                             </div>
                            
-                                
-                            
-
-
-
-
-
-                            <!-- <button class="w-100 btn border-secondary py-3 bg-white text-primary" :disabled="form.processing">{{ tabLabel }}
-                                                    <i class="fa fa-arrow-right"></i>
-                                                </button> -->
                             <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }}</button>
                         </div>
                     </div>

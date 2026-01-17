@@ -669,7 +669,7 @@ return [
     "Choose a payment method" => "Choose a payment method",
     "Special Instructions" => "Special Instructions",
     "attach slip" => "attach slip",
-    "Categories" => "Categories",
+    "Minimun order diffrence" => "Minimun order diffrence",
     "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",
