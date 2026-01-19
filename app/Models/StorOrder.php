@@ -11,5 +11,17 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class StorOrder extends Model
 {
     use SoftDeletes;
-     protected $guarded = ['id'];
+    protected $guarded = ['id'];
+
+    public function stor_food_records()
+    {
+        return $this->belongsTo(StorFood::class, 'stor_food_id');
+    }
+
+    public function cartdetails()
+    {
+        return $this->belongsTo(Cart::class, 'cart_id');
+    }
+    
+
 }

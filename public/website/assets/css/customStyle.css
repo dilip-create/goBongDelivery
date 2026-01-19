@@ -37,6 +37,9 @@ p {
 a.activecatColor {
     color: var(--bs-secondary);
 }
+.p{
+    font-size: 12px;
+}
 
 /* Mobile (Android / small screens) */
 @media only screen and (max-width: 767px) {

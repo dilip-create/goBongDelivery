@@ -657,6 +657,15 @@ return [
     "House number, group, building / village name, alley, road" => "เลขที่บ้าน, กลุ่มบ้าน, อาคาร/ชื่อหมู่บ้าน, ซอย, ถนน",
     "Confirm" => "ยืนยัน",
     "Update Address" => "อัปเดตที่อยู่",
+    "Choose a payment method" => "เลือกวิธีการชำระเงิน",
+    "Special Instructions" => "คำแนะนำพิเศษ",
+    "attach slip" => "แนบสลิป",
+    "Minimum order difference" => "ความแตกต่างในการสั่งซื้อขั้นต่ำ",
+    "Food recommendations ... such as extra spicy" => "คำแนะนำเกี่ยวกับอาหาร ... เช่น อาหารรสเผ็ดจัด",
+    "Price summary" => "สรุปราคา",
+    "Total net (including tax)" => "ยอดสุทธิรวม (รวมภาษีแล้ว)",
+    "Make payment" => "ชำระเงิน",
+    "Copied" => "คัดลอกแล้ว",
     
     
     

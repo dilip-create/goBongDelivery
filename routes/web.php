@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\FoodListingController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\CheckoutController;
+use App\Http\Controllers\Web\PaymentController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -48,6 +49,8 @@ Route::middleware('guest')->group(function (){
     Route::delete('/shipping/addressDetails/{address}', [AuthController::class, 'deleteAddress'])->name('shipping.address.delete');
 
      Route::post('/checkout/save', [CheckoutController::class, 'submitOrder'])->name('save.checkout');
+     Route::get('/cart/checkout/payment/{orderKey}', [PaymentController::class, 'index'])->name('checkout.payment.page');
+
    
 
 
