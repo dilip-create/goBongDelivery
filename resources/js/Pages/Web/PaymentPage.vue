@@ -9,10 +9,12 @@
     }
 
     const props = defineProps({
+    OrderData: Array,
     shipAddress: Array,
     storData: Array,
     foodLists: Array,
-    summary: Object,
+    currencyData: Array,
+    
     })
    
 
@@ -105,15 +107,15 @@
 
 
     const form = useForm({
-        total_cost_price: props.summary.total_cost_price ?? 0,
-        sub_total: props.summary.sub_total ?? 0,
-        distance: props.summary.distance ?? 0,
-        shippingCharge: props.summary.shippingCharge ?? 0,
-        minimum_order_diffrence: props.summary.minimum_order_diffrence ?? 0,
-        new_customer_discount: props.summary.new_customer_discount ?? 0,
-        discount_offer: props.summary.discount_offer ?? 0,
-        final_amount: props.summary.final_amount ?? 0,
-        // discount_offer: props.summary.discount_offer ?? 0,
+        // total_cost_price: props.OrderData.total_cost_price ?? 0,
+        // sub_total: props.OrderData.sub_total ?? 0,
+        // distance: props.OrderData.distance ?? 0,
+        // shippingCharge: props.OrderData.shippingCharge ?? 0,
+        // minimum_order_diffrence: props.OrderData.minimum_order_diffrence ?? 0,
+        // new_customer_discount: props.OrderData.new_customer_discount ?? 0,
+        // discount_offer: props.OrderData.discount_offer ?? 0,
+        // final_amount: props.OrderData.final_amount ?? 0,
+        // discount_offer: props.OrderData.discount_offer ?? 0,
         special_instructions: '',
     })
 
@@ -128,6 +130,26 @@
             },
         })
     }
+
+
+
+const copied = ref(false)
+
+const copyAccountNumber = async () => {
+    const text = 'Kbank 2133898681'
+
+    try {
+        await navigator.clipboard.writeText(text)
+        copied.value = true
+
+        setTimeout(() => {
+            copied.value = false
+        }, 1500)
+    } catch (e) {
+        console.error('Copy failed', e)
+    }
+}
+
 
 
     const capitalizeFirst = (text) => {
@@ -150,26 +172,25 @@
                         <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
                         <h5 class="mb-0 text-white fw-semibold">
-                            {{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }} <br/> {{ $page.props.translations['Order summary'] ?? '' }}
+                            {{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }} <br/> {{ $page.props.translations['Make payment'] ?? '' }}
                         </h5>
-                        <small class="text-white-50">
-                            {{ $page.props.translations['Distance'] ?? 'Distance' }} : {{ storData.distance_from_office ? storData.distance_from_office+' '+$page.props.translations.km : '' }}
-                        </small>
                     </div>
                 </div>
 
                 <div class="row align-items-center py-2">
-                    <!-- Left: Heading -->
-                    <div class="col-7 text-start">
-                        <h6 class="mb-0">{{ $page.props.translations['Choose a shipping address'] }}</h6><br/>
-                        <div class="map-box">
-                                <iframe class="rounded w-100" 
-                                style="height: 200px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd" 
-                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="d-flex justify-content-center">
+                            <img :src="`${$page.props.appUrl}/website/assets/logo/gobong-qr.jpg`" alt="QR" height="450" width="300" class="bg-primary rounded"/>
                         </div>
+                        <div class="d-flex justify-content-center align-items-center gap-2 mt-3 cursor-pointer" @click="copyAccountNumber">
+                            <span class="fw-bold">Kbank 2133898681</span>
+                           <i :class="copied ? 'fa fa-check text-success' : 'fa fa-copy'"></i>
+                        </div>
+                        <small v-if="copied" class="text-success d-block text-center mt-1">
+                            {{ $page.props.translations['Copied'] }}!
+                        </small>
                     </div>
-                    <!-- Right: Button -->
-                    <div class="col-5 text-end">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
                          <Link :href="route('shipping.address.list')"><button class="btn btn-outline-dark px-4">{{ $page.props.translations['CHANGE SHIPPING ADDRESS'] }}</button></Link>
                         <div class="address-box">
                                 <!-- <h4>Poipet Banteay Meanchey Province</h4>
@@ -198,9 +219,7 @@
                         <h6 class="mb-0">{{ $page.props.translations['List'] }}</h6><br/>
                     </div>
                     <!-- Right: Button -->
-                    <div class="col-5 text-end">
-                     <Link :href="`/menus/${base64Encode(storData.id)}`"><button class="btn btn-outline-dark">{{ $page.props.translations['ADD A LIST'] }}</button></Link>
-                    </div>
+                    <div class="col-5 text-end"></div>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -215,22 +234,17 @@
                             <tr v-for="records in props.foodLists" :key="records.id">
 
                                 <td scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <img v-if="records.food_img" :src="`/storage/${records.food_img}`" class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt=""> 
-                                        &nbsp;<i class="fa fa-times"></i><b>{{ records.f_qty }}</b>
+                                    <div class="d-flex align-items-center" @click="openFoodDetails(records.stor_food_records)">
+                                        <img  v-if="records.stor_food_records?.food_img" :src="`/storage/${records.stor_food_records.food_img}`" 
+                                        class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt=""> 
+                                        &nbsp;<i class="fa fa-times"></i><b>{{ records.cartdetails?.f_qty }}</b>
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">{{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }}</p>
-                                    <button @click="openFoodDetails(records)" class="btn btn-md rounded-circle bg-light border">
-                                        <i class="fa fa-edit text-danger"></i>
-                                    </button>
-                                    <button @click="deleteInCartFun(records.cart_id)" class="btn btn-md rounded-circle bg-light border">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
+                                    <p class="mb-0 mt-4">{{ capitalizeFirst(records.stor_food_records.translationforvuepage?.food_translation_name || records.stor_food_records.food_name) }}</p>
                                 </td>
-                                <td><br/><br/>
-                                    <h6>{{ records.get_currencies?.currency_symbol ?? '฿' }} {{ records.f_qty * records.selling_price ?? '' }}</h6>
+                                <td><br/>
+                                    <h6>{{ records.stor_food_records.get_currencies?.currency_symbol ?? '' }} {{ records.cartdetails.f_qty * records.stor_food_records.selling_price ?? '' }}</h6>
                                 </td>
             
                             </tr>
@@ -238,75 +252,66 @@
                         </tbody>
                     </table>
                 </div>
-               <div class="row align-items-center">
-                    <div class="col-7 text-start">
-                        <h6 class="mb-0">{{ $page.props.translations['Is there a discount coupon'] }} ?</h6><br/>
-                    </div>
-                    <div class="col-5 text-end">
-                        <button class="btn btn-primary px-4 text-white">{{ $page.props.translations['USE COUPONS'] }}</button>
-                    </div>
-                </div>
                 <form @submit.prevent="submit">
-                <div class="row align-items-center mt-4">
-                    <div class="col-md-5">
-                            <h6>{{ $page.props.translations['Choose a payment method'] }}</h6>
-                            <div class="row">
-                                <!-- Payment Card -->
-                                <div class="col-12">
-                                    <div class="card shadow-sm border-0 rounded-3 p-3">
-                                        <div class="d-flex align-items-center">
-                                            <input class="form-check-input me-3" type="radio" checked name="payment_method" value="promptpay" v-model="form.payment_method"/>
-                                            <img :src="`${$page.props.appUrl}/website/assets/img/promptpay.png`" alt="PromptPay" style="width:40px;height:40px" class="me-3"/>
-                                            <div>
-                                                <div class="fw-semibold"><b>PromptPay ({{ $page.props.translations['attach slip'] }})</b></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="col-md-7"><br/>
-
-                        <Textarea :labelname="$page.props.translations['Special Instructions']" v-model="form.special_instructions" :message="form.errors.special_instructions" :rows="3" :cols="10" :placeholder="$page.props.translations['Food recommendations ... such as extra spicy']" />
-                        
-                    </div>
-                </div>
                 <div class="row g-4 justify-content-end">
+                    <div class="col-8"></div>
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                         <div class="bg-light rounded">
                             <div class="p-4">
-                                <!-- <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1> -->
+                                <h6 class="display-6 mb-4"> <span class="fw-normal">{{ $page.props.translations['Price summary'] }}</span></h6>
                                 <div class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 me-4">{{ $page.props.translations['Total'] }}:</h6>
-                                    <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.sub_total ?? '' }}</p>
+                                    <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.subTotal ?? '' }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                         <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
-                                        <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.shippingCharge ?? '' }}</p>
+                                        <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.shipping_charge ?? '' }}</p>
                                 </div>
-                                <div v-if="summary.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderData.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
                                         <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
-                                        <p class="mb-0 text-danger">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.minimum_order_diffrence ?? '' }}</p>
+                                        <p class="mb-0 text-danger">{{ currencyData.currency_symbol ?? '฿' }} {{ OrderData.minimum_order_diffrence ?? '' }}</p>
                                 </div>
-                                <div v-if="summary.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderData.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 text-primary">{{ $page.props.translations['New customer discount'] }}:</h6>
-                                    <p class="mb-0 text-primary">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} -{{ summary.new_customer_discount ?? '' }}</p>
+                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '฿' }} -{{ OrderData.new_customer_discount ?? '' }}</p>
                                 </div>
-                                <div v-if="summary.discount_offer > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderData.discount_offer > 0" class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 text-primary">{{ $page.props.translations['Discount'] }}:</h6>
-                                    <p class="mb-0 text-primary">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} -{{ summary.discount_offer ?? '' }}</p>
+                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '' }} -{{ OrderData.discount_offer ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="py-3 mb-2 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4">{{ $page.props.translations['Total'] }}</h5>
-                                <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
+                                <h6>{{ currencyData.currency_symbol ?? '' }} {{ OrderData.totalPayAmount ?? '' }}</h6>
+                            </div>
+
+                            <div class="row justify-content-between">
+                                <!-- Left: Heading -->
+                                <div class="col-8 text-start">
+                                   <button class="btn btn-primary text-white mb-4 ms-4 w-100" :disabled="form.processing">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <p class="btn-text">{{ $page.props.translations['Total net (including tax)'] }}</p>
+                                            <p class="fw-bold">
+                                                {{ currencyData.currency_symbol ?? '' }}
+                                                {{ OrderData.totalPayAmount ?? '' }}
+                                            </p>
+                                        </div>
+                                    </button>
+
+                                </div>
+                                <!-- Right: Button -->
+                                <div class="col-4 text-start">
+                                    <button class="btn btn-danger text-white ms-4" :disabled="form.processing"><p class="btn-text">{{ $page.props.translations['Cancel'] }}</p></button>
+                                </div>
                             </div>
                            
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }}</button>
+                           
+                            
                         </div>
                     </div>
-                    <div class="col-8"></div>
+                    
                 </div>
+                
                 </form>
             </div>
         </div>
@@ -321,18 +326,19 @@
                 <img :src="`/storage/${selectedFood.food_img}`" class="img-fluid rounded mb-3 cart-popup-img"/>
             </div>
             <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
+            <p>{{ selectedFood.translationforvuepage?.food_desc || selectedFood.food_desc }}</p>
             <h6>{{ selectedFood.get_currencies?.currency_symbol ?? '฿' }}{{ selectedFood.selling_price }}</h6>
 
-            <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
-            <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" />
+            <!-- <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
+            <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" /> -->
 
-            <div class="d-flex align-items-center justify-content-center my-3">
+            <!-- <div class="d-flex align-items-center justify-content-center my-3">
             <button @click="decreaseQty" class="btn btn-primary btn-sm">-</button>
             <span class="mx-3">{{ quantity }}</span>
             <button @click="increaseQty" class="btn btn-primary btn-sm">+</button>
-            </div>
+            </div> -->
 
-            <button @click="addToCart" class="btn btn-primary w-100">{{ $page.props.translations['Increase'] }}</button>
+            <!-- <button @click="addToCart" class="btn btn-primary w-100">{{ $page.props.translations['Increase'] }}</button> -->
         </div>
     </div>
     <!-- Edit Popup END-->

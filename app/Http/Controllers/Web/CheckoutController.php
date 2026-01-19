@@ -19,7 +19,7 @@ class CheckoutController extends Controller
     public function submitOrder(Request $request)
     {
         // dd($request->all());
-        $customerId = session()->has('customerAuth') ? session('customerAuth')->id : session('guest_id');
+        $customerId = $request->session()->get('customerAuth')->id;
         $cartItems = Cart::where('customer_id', $customerId)->where('order_status', 0)->where('food_cart_status', 1)->get();
         if ($cartItems->isEmpty()) {
             return redirect()->route('/');
@@ -62,12 +62,10 @@ class CheckoutController extends Controller
                 'longitude' => $address->long,
             ]);
 
-
-
             $cart->update(['order_status' => 1, 'food_cart_status' => 0,]);
         }
 
-        return redirect()->route('payment.page', ['order_key' => $orderKey]);
+        return redirect()->route('checkout.payment.page', ['orderKey' => $orderKey]);
     }
     
     // Order Key Generator (BNG-0001)
@@ -81,31 +79,6 @@ class CheckoutController extends Controller
 
         $number = (int) str_replace('BNG-', '', $lastOrder->order_key);
         return 'BNG-' . str_pad($number + 1, 4, '0', STR_PAD_LEFT);
-    }
-
-
-   
-
-
-   
-
-    // Rider Charge Calculation
-    private function calculateRiderCharge($distance)
-    {
-        return round($distance * 5, 2); // 1km = 5 bhat
-    }
-
-
-    // Laundry Delivery Logic (IMPORTANT)
-    private function laundryDeliveryCharge($distance)
-    {
-        // Laundry:
-        // customer pays 0
-        // rider gets 20 bhat per km
-        return [
-            'shipping_charge' => 0,
-            'rider_charge' => round($distance * 20, 2),
-        ];
     }
 
     

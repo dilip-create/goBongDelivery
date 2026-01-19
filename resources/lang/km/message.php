@@ -657,6 +657,15 @@ return [
     "House number, group, building / village name, alley, road" => "ផ្ទះលេខ ក្រុម អាគារ/ឈ្មោះភូមិ ផ្លូវលំ",
     "Confirm" => "បញ្ជាក់",
     "Update Address" => "ធ្វើបច្ចុប្បន្នភាពអាសយដ្ឋាន",
+    "Choose a payment method" => "ជ្រើសរើសវិធីបង់ប្រាក់",
+    "Special Instructions" => "ការណែនាំពិសេស",
+    "attach slip" => "ភ្ជាប់ស្លាយ",
+    "Minimum order difference" => "ភាពខុសគ្នានៃការបញ្ជាទិញអប្បបរមា",
+    "Food recommendations ... such as extra spicy" => "ការណែនាំអំពីអាហារ ... ដូចជាហឹរបន្ថែម",
+    "Price summary" => "សង្ខេបតម្លៃ",
+    "Total net (including tax)" => "សរុបសុទ្ធ (រួមទាំងពន្ធ)",
+    "Make payment" => "ធ្វើការទូទាត់",
+    "Copied" => "ចម្លង",
 
 
 
