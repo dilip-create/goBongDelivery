@@ -1,6 +1,6 @@
 <script setup>
-    import TextInput from '../Components/TextInput.vue'
-    import Textarea from '../Components/Textarea.vue'
+    // import TextInput from '../Components/TextInput.vue'
+   
     import { ref } from 'vue'
     import { router, usePage, useForm  } from '@inertiajs/vue3'
     const page = usePage()
@@ -14,12 +14,11 @@
     storData: Array,
     foodLists: Array,
     currencyData: Array,
-    
     })
    
 
    
-    // Onclick Edit popup cart code START 
+    // Onclick show popup food code START 
     import axios from "axios";
 
     const showPopup = ref(false);
@@ -45,34 +44,41 @@
     const closePopup = () => {
     showPopup.value = false;
     };
+    // Onclick show popup food code END
 
-    const increaseQty = () => {
-    quantity.value++;
-    };
 
-    const decreaseQty = () => {
-    if (quantity.value > 1) quantity.value--;
-    };
+const preview = ref(null)
+const hasImage = ref(false)
+const isSubmitted = ref(false)
 
-    const addToCart = async () => {
-    const payload = {
-        stor_id: selectedFood.value.stor_id,
-        food_id: selectedFood.value.id,
-        quantity: quantity.value,
-        suggestion: suggestion.value,
-    };
+const form = useForm({
+    order_key: props.OrderData.order_key,
+    avatar: null,
+})
 
-    const { data } = await axios.post("/cart/add", payload);
-    if (data.success) {
-        cartQuantities.value[selectedFood.value.id] = quantity.value;
+function onFileChange(e) {
+    const file = e.target.files[0]
+    if (!file) return
 
-        // 🔁 Refresh only cartCount from backend
-        // router.reload({ only: ["cartCount"] });
-        router.reload();
-        closePopup();
+    form.avatar = file
+    preview.value = URL.createObjectURL(file)
+    hasImage.value = true
+}
+
+const submit = () => {
+        form.post(route('save.paymentslip'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                isSubmitted.value = true;
+            },
+        })
     }
-    };
-    // Onclick Edit popup cart code END
+
+
+
+
+
+
 
 
     // Onclick Delete Item code START
@@ -106,58 +112,31 @@
     // Onclick Delete Item code START
 
 
-    const form = useForm({
-        // total_cost_price: props.OrderData.total_cost_price ?? 0,
-        // sub_total: props.OrderData.sub_total ?? 0,
-        // distance: props.OrderData.distance ?? 0,
-        // shippingCharge: props.OrderData.shippingCharge ?? 0,
-        // minimum_order_diffrence: props.OrderData.minimum_order_diffrence ?? 0,
-        // new_customer_discount: props.OrderData.new_customer_discount ?? 0,
-        // discount_offer: props.OrderData.discount_offer ?? 0,
-        // final_amount: props.OrderData.final_amount ?? 0,
-        // discount_offer: props.OrderData.discount_offer ?? 0,
-        special_instructions: '',
-    })
+    
 
-    /** SUBMIT (CREATE + UPDATE) */
-    const submit = () => {
-        form.post(route('save.checkout'), {
-            preserveScroll: true,
-            onSuccess: () => {
-                form.reset()
-                // isEditMode.value = false
-                // activeTab.value = 'all'
-            },
-        })
+
+    // For copy ACC number functionality code START
+    const copied = ref(false)
+    const copyAccountNumber = async () => {
+        const text = 'Kbank 2133898681'
+
+        try {
+            await navigator.clipboard.writeText(text)
+            copied.value = true
+
+            setTimeout(() => {
+                copied.value = false
+            }, 1500)
+        } catch (e) {
+            console.error('Copy failed', e)
+        }
     }
-
-
-
-const copied = ref(false)
-
-const copyAccountNumber = async () => {
-    const text = 'Kbank 2133898681'
-
-    try {
-        await navigator.clipboard.writeText(text)
-        copied.value = true
-
-        setTimeout(() => {
-            copied.value = false
-        }, 1500)
-    } catch (e) {
-        console.error('Copy failed', e)
-    }
-}
-
+    // For copy ACC number functionality code END
 
 
     const capitalizeFirst = (text) => {
     if (!text) return ''
         return text.charAt(0).toUpperCase() + text.slice(1)
-    }
-    function base64Encode(value) {
-        return window.btoa(String(value));
     }
 </script>
 
@@ -171,13 +150,25 @@ const copyAccountNumber = async () => {
                     <!-- Back button -->
                         <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
-                        <h5 class="mb-0 text-white fw-semibold">
-                            {{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }} <br/> {{ $page.props.translations['Make payment'] ?? '' }}
-                        </h5>
+                        <h5 v-if="isSubmitted" class="mb-0 text-white fw-semibold">{{ $page.props.translations['Processing'] ?? '' }}...</h5>
+                        <h5 v-else class="mb-0 text-white fw-semibold">{{ $page.props.translations['Make payment'] ?? '' }}</h5>
                     </div>
                 </div>
 
-                <div class="row align-items-center py-2">
+                <!-- UPLOAD + CONFIRM SECTION -->
+                <!-- SUCCESS ALERT -->
+                                <div v-if="isSubmitted" class="alert alert-success mb-4 text-center">
+                                    <strong>Confirmation successful!</strong>
+                                    <br />
+                                    The system is now processing your request.
+                                </div>
+
+                                <!-- PROCESSING VIEW -->
+                                <div v-if="isSubmitted" class="text-center">
+                                    <img :src="`${$page.props.appUrl}/website/assets/logo/payment-processing.jpg`" class="img-fluid mb-3" style="max-width:300px;">
+                                </div>
+                <div v-else class="row align-items-center py-2">
+       
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <div class="d-flex justify-content-center">
                             <img :src="`${$page.props.appUrl}/website/assets/logo/gobong-qr.jpg`" alt="QR" height="450" width="300" class="bg-primary rounded"/>
@@ -191,19 +182,39 @@ const copyAccountNumber = async () => {
                         </small>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                         <Link :href="route('shipping.address.list')"><button class="btn btn-outline-dark px-4">{{ $page.props.translations['CHANGE SHIPPING ADDRESS'] }}</button></Link>
-                        <div class="address-box">
-                                <!-- <h4>Poipet Banteay Meanchey Province</h4>
-                                <h6 >Beer City Poipet Zone 3 </h6>  -->
-                                <div class="d-flex p-4 rounded mb-4">
-                                    <i class="fas fa-map-marker-alt fa-2x text-danger"></i>&nbsp;
-                                    <div>
-                                        <h4>Poipet Banteay Meanchey Province</h4>
-                                        <p class="mb-2"> {{ capitalizeFirst(shipAddress.address) ?? '' }}, {{ capitalizeFirst(shipAddress.landmark) ?? '' }}</p>
+                
+                                    <!-- IMAGE PREVIEW -->
+                                    <div v-if="hasImage" class="mb-3 text-center">
+                                        <img :src="preview" class="img-fluid rounded shadow" style="max-height:350px;">
                                     </div>
-                                </div>
-                                
-                        </div>
+
+                                    <form @submit.prevent="submit">
+                                        <!-- UPLOAD BUTTON -->
+                                        <div class="mb-4">
+                                            <label class="w-100">
+                                                <div class="btn btn-primary w-100 py-3">
+                                                    Attach the item confirmation slip
+                                                </div>
+                                                <input
+                                                    type="file"
+                                                    class="d-none"
+                                                    accept="image/*"
+                                                    @change="onFileChange"
+                                                />
+                                            </label>
+                                            <span class="text-danger">{{ form.errors.avatar }}</span>
+                                        </div>
+
+                                        <!-- CONFIRM BUTTON -->
+                                        <button
+                                            v-if="hasImage"
+                                            class="btn btn-primary w-100 py-3"
+                                            :disabled="form.processing"
+                                        >
+                                            {{ form.processing ? 'Submitting...' : 'Confirm' }}
+                                        </button>
+                                    </form>
+                        
                     </div>
                 </div>
             </div>
@@ -215,47 +226,109 @@ const copyAccountNumber = async () => {
             <div class="container bg-light p-2 rounded">
                 <div class="row align-items-center">
                     <!-- Left: Heading -->
-                    <div class="col-7 text-start">
-                        <h6 class="mb-0">{{ $page.props.translations['List'] }}</h6><br/>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6"><br/>
+                        <h6 class="mb-0">{{ $page.props.translations['Order Details'] }}</h6>
+                         <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>Food orders from:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6>{{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }}</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>Order ID:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6>{{ capitalizeFirst(OrderData.order_key ?? '') }}</h6>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>{{ $page.props.translations['Distance'] }}:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6>{{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }}</h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>{{ $page.props.translations['Delivery address'] }}:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6><p class="mb-2">{{ capitalizeFirst(shipAddress.address) ?? '' }}, {{ capitalizeFirst(shipAddress.landmark) ?? '' }} Poipet Banteay Meanchey Province</p></h6>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
                     <!-- Right: Button -->
-                    <div class="col-5 text-end"></div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="records in props.foodLists" :key="records.id">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <h6 class="mb-0">{{ $page.props.translations['List'] }}</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="records in props.foodLists" :key="records.id">
 
-                                <td scope="row">
-                                    <div class="d-flex align-items-center" @click="openFoodDetails(records.stor_food_records)">
-                                        <img  v-if="records.stor_food_records?.food_img" :src="`/storage/${records.stor_food_records.food_img}`" 
-                                        class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt=""> 
-                                        &nbsp;<i class="fa fa-times"></i><b>{{ records.cartdetails?.f_qty }}</b>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4">{{ capitalizeFirst(records.stor_food_records.translationforvuepage?.food_translation_name || records.stor_food_records.food_name) }}</p>
-                                </td>
-                                <td><br/>
-                                    <h6>{{ records.stor_food_records.get_currencies?.currency_symbol ?? '' }} {{ records.cartdetails.f_qty * records.stor_food_records.selling_price ?? '' }}</h6>
-                                </td>
-            
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                                            <td scope="row">
+                                                <div class="d-flex align-items-center" @click="openFoodDetails(records.stor_food_records)">
+                                                    <img  v-if="records.stor_food_records?.food_img" :src="`/storage/${records.stor_food_records.food_img}`" 
+                                                    class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt=""> 
+                                                    &nbsp;<i class="fa fa-times"></i><b>{{ records.cartdetails?.f_qty }}</b>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="mb-0 mt-4">{{ capitalizeFirst(records.stor_food_records.translationforvuepage?.food_translation_name || records.stor_food_records.food_name) }}</p>
+                                            </td>
+                                            <td><br/>
+                                                <h6>{{ records.stor_food_records.get_currencies?.currency_symbol ?? '' }} {{ records.cartdetails.f_qty * records.stor_food_records.selling_price ?? '' }}</h6>
+                                            </td>
+                        
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
                 </div>
-                <form @submit.prevent="submit">
+                
+                
                 <div class="row g-4 justify-content-end">
-                    <div class="col-8"></div>
-                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                    <div class="col-6"></div>
+                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-6">
                         <div class="bg-light rounded">
                             <div class="p-4">
                                 <h6 class="display-6 mb-4"> <span class="fw-normal">{{ $page.props.translations['Price summary'] }}</span></h6>
@@ -285,25 +358,28 @@ const copyAccountNumber = async () => {
                                 <h6>{{ currencyData.currency_symbol ?? '' }} {{ OrderData.totalPayAmount ?? '' }}</h6>
                             </div>
 
-                            <div class="row justify-content-between">
-                                <!-- Left: Heading -->
-                                <div class="col-8 text-start">
-                                   <button class="btn btn-primary text-white mb-4 ms-4 w-100" :disabled="form.processing">
+                            <div class="row align-items-stretch">
+                                <div class="col-8">
+                                    <button class="btn btn-primary px-2 py-2 text-white mb-4 ms-4 w-100">
                                         <div class="d-flex justify-content-between align-items-center w-100">
-                                            <p class="btn-text">{{ $page.props.translations['Total net (including tax)'] }}</p>
-                                            <p class="fw-bold">
+                                            <span class="btn-text">
+                                                {{ $page.props.translations['Total net (including tax)'] }}
+                                            </span>
+                                            <span class="fw-bold">
                                                 {{ currencyData.currency_symbol ?? '' }}
                                                 {{ OrderData.totalPayAmount ?? '' }}
-                                            </p>
+                                            </span>
                                         </div>
                                     </button>
 
                                 </div>
-                                <!-- Right: Button -->
-                                <div class="col-4 text-start">
-                                    <button class="btn btn-danger text-white ms-4" :disabled="form.processing"><p class="btn-text">{{ $page.props.translations['Cancel'] }}</p></button>
+                                <div class="col-4 d-flex">
+                                    <button class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100">
+                                        {{ $page.props.translations['Cancel'] }}
+                                    </button>
                                 </div>
                             </div>
+
                            
                            
                             
@@ -312,7 +388,6 @@ const copyAccountNumber = async () => {
                     
                 </div>
                 
-                </form>
             </div>
         </div>
         <!-- Cart Page End -->

@@ -666,6 +666,8 @@ return [
     "Total net (including tax)" => "ยอดสุทธิรวม (รวมภาษีแล้ว)",
     "Make payment" => "ชำระเงิน",
     "Copied" => "คัดลอกแล้ว",
+    "Order Details" => "รายละเอียดการสั่งซื้อ",
+    "Processing" => "กำลังประมวลผล",
     
     
     

@@ -13,12 +13,14 @@ use App\Models\DeliveryAddress;
 use App\Models\Currency;
 use App\Models\StorOrder;
 use Session;
+use Storage;
 
 class PaymentController extends Controller
 {
 
-    public function index($orderKey, Request $request)
+    public function paymentpage($orderKey, Request $request)
     {
+        $orderKey= base64_decode($orderKey);
         $customerId = $request->session()->get('customerAuth')->id;
         $OrderData = StorOrder::select('*')->where([
             'cust_id'=> $customerId,
@@ -57,6 +59,33 @@ class PaymentController extends Controller
         ]);
 
     }
+
+    public function savePaymentSlip(Request $request)
+    {
+        // $customerId = $request->session()->get('customerAuth')->id;
+
+       
+
+        // $path = $request->file('avatar')
+        //         ->store('paymentSlip', 'public');
+
+        // StorOrder::where('order_key', $request->order_key)->update([
+        //     'order_status'    => 'success',
+        //     'payment_status' => 'processing',
+        //     'attach_slip'     => $path,
+        // ]);
+
+    //    // 🔥 This works ONLY if paymentpage() is Inertia
+    // return redirect()
+    //     ->route('checkout.payment.page', [
+    //         'orderKey' => base64_encode($request->order_key),
+    //     ])
+    //     ->setStatusCode(303);
+
+
+    }
+
+
 
 
 }
