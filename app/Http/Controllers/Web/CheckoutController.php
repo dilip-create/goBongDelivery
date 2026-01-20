@@ -65,7 +65,7 @@ class CheckoutController extends Controller
             $cart->update(['order_status' => 1, 'food_cart_status' => 0,]);
         }
 
-        return redirect()->route('checkout.payment.page', ['orderKey' => $orderKey]);
+        return redirect()->route('checkout.payment.page', ['orderKey' => base64_encode($orderKey)]);
     }
     
     // Order Key Generator (BNG-0001)

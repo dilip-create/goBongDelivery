@@ -285,7 +285,7 @@
                                         <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.shippingCharge ?? '' }}</p>
                                 </div>
                                 <div v-if="summary.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
-                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
+                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimum order difference'] }}</h6>
                                         <p class="mb-0 text-danger">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.minimum_order_diffrence ?? '' }}</p>
                                 </div>
                                 <div v-if="summary.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
@@ -302,7 +302,7 @@
                                 <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
                             </div>
                            
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }}</button>
+                            <button class="btn border-secondary px-4 py-3 text-primary text-uppercase mb-4 ms-4 w-100" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }} <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                     <div class="col-8"></div>

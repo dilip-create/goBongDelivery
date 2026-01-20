@@ -40,6 +40,9 @@ a.activecatColor {
 .p{
     font-size: 12px;
 }
+/* .btn-text{
+    font-size: 12px;
+} */
 
 /* Mobile (Android / small screens) */
 @media only screen and (max-width: 767px) {

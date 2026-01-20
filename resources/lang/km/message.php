@@ -666,6 +666,8 @@ return [
     "Total net (including tax)" => "សរុបសុទ្ធ (រួមទាំងពន្ធ)",
     "Make payment" => "ធ្វើការទូទាត់",
     "Copied" => "ចម្លង",
+    "Order Details" => "ព័ត៌មានលម្អិតនៃការបញ្ជាទិញ",
+    "Processing" => "ដំណើរការ",
 
 
 

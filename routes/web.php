@@ -48,10 +48,13 @@ Route::middleware('guest')->group(function (){
     Route::post('/shipping/addressDetails/save', [AuthController::class, 'saveAddress'])->name('shipping.address.save');
     Route::delete('/shipping/addressDetails/{address}', [AuthController::class, 'deleteAddress'])->name('shipping.address.delete');
 
-     Route::post('/checkout/save', [CheckoutController::class, 'submitOrder'])->name('save.checkout');
-     Route::get('/cart/checkout/payment/{orderKey}', [PaymentController::class, 'index'])->name('checkout.payment.page');
+    Route::post('/checkout/save', [CheckoutController::class, 'submitOrder'])->name('save.checkout');
+    Route::get('/cart/checkout/payment/{orderKey}', [PaymentController::class, 'paymentpage'])->name('checkout.payment.page');
+    Route::post('/save/paymentslip', [PaymentController::class, 'savePaymentSlip'])->name('save.paymentslip');
 
-   
+    
+
+ 
 
 
 
