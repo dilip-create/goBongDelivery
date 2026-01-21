@@ -62,25 +62,21 @@ class PaymentController extends Controller
 
     public function savePaymentSlip(Request $request)
     {
-        // $customerId = $request->session()->get('customerAuth')->id;
+        $customerId = $request->session()->get('customerAuth')->id;
 
-       
+        $path = $request->file('avatar')
+                ->store('paymentSlip', 'public');
 
-        // $path = $request->file('avatar')
-        //         ->store('paymentSlip', 'public');
+        StorOrder::where('order_key', $request->order_key)->update([
+            'order_status'    => 'success',
+            'payment_status' => 'processing',
+            'attach_slip'     => $path,
+        ]);
 
-        // StorOrder::where('order_key', $request->order_key)->update([
-        //     'order_status'    => 'success',
-        //     'payment_status' => 'processing',
-        //     'attach_slip'     => $path,
-        // ]);
-
-    //    // 🔥 This works ONLY if paymentpage() is Inertia
-    // return redirect()
-    //     ->route('checkout.payment.page', [
-    //         'orderKey' => base64_encode($request->order_key),
-    //     ])
-    //     ->setStatusCode(303);
+        return response()->json([
+            'success' => true,
+            'path' => $path,
+        ]);
 
 
     }

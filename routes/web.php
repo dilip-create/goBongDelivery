@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\PaymentController;
+use App\Http\Controllers\Web\OrderController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -51,6 +52,10 @@ Route::middleware('guest')->group(function (){
     Route::post('/checkout/save', [CheckoutController::class, 'submitOrder'])->name('save.checkout');
     Route::get('/cart/checkout/payment/{orderKey}', [PaymentController::class, 'paymentpage'])->name('checkout.payment.page');
     Route::post('/save/paymentslip', [PaymentController::class, 'savePaymentSlip'])->name('save.paymentslip');
+
+    Route::get('/myOrder/orderDetails/{orderKey}', [PaymentController::class, 'paymentpage'])->name('myOrder.orderDetails');
+    Route::post('/order/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+
 
     
 
