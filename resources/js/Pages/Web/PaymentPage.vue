@@ -25,7 +25,6 @@
     const selectedFood = ref({});
     const suggestion = ref("");
     const quantity = ref(1);
-    const cartQuantities = ref({});
 
     const openFoodDetails = async (food) => {
     selectedFood.value = food;
@@ -47,73 +46,58 @@
     // Onclick show popup food code END
 
 
-const preview = ref(null)
-const hasImage = ref(false)
-const isSubmitted = ref(false)
 
-const form = useForm({
-    order_key: props.OrderData.order_key,
-    avatar: null,
-})
 
-function onFileChange(e) {
-    const file = e.target.files[0]
-    if (!file) return
+   // submit file upload form with showing processing images code START
+    const preview = ref(null)
+    const file = ref(null)
+    const hasImage = ref(false)
 
-    form.avatar = file
-    preview.value = URL.createObjectURL(file)
-    hasImage.value = true
-}
+    const loading = ref(false)
+    const processing = ref(false)
+    const success = ref(false)
+    const error = ref(null)
 
-const submit = () => {
-        form.post(route('save.paymentslip'), {
-            preserveScroll: true,
-            onSuccess: () => {
-                isSubmitted.value = true;
-            },
-        })
+    function onFileChange(e) {
+        const selected = e.target.files[0]
+        if (!selected) return
+
+        file.value = selected
+        preview.value = URL.createObjectURL(selected)
+        hasImage.value = true
+        error.value = null
     }
 
-
-
-
-
-
-
-
-    // Onclick Delete Item code START
-        import Swal from 'sweetalert2';
-        const deleteInCartFun = async (cartId) => {
-        
-            Swal.fire({
-                title: t('Are you sure?'),
-                text: t('This item will be deleted'),
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: t('Yes, delete it')
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    axios.delete(`/cart/${cartId}`)
-                        .then(() => {
-                            Swal.fire(
-                                t('Deleted!'),
-                                t('Item deleted'),
-                                'success'
-                            )
-                            // refresh the page without reload reload whole page
-                            router.reload();
-                            
-                        })
-                }
-            })
+    async function submit() {
+        if (!file.value) {
+            error.value = 'Please select an image'
+            return
         }
-    // Onclick Delete Item code START
 
+        loading.value = true
 
-    
-
+        const formData = new FormData()
+        formData.append('avatar', file.value)
+        formData.append('order_key', props.OrderData.order_key)
+        const encodedOrderKey = base64Encode(props.OrderData.order_key)
+        try {
+            await axios.post('/save/paymentslip', formData)
+            success.value = true
+            processing.value = true
+            setTimeout(() => {
+                window.location.href = route(
+                    'myOrder.orderDetails',
+                    { orderKey: encodedOrderKey }
+                )
+            }, 60000)
+        } catch (e) {
+            error.value =
+                e.response?.data?.message || 'Something went wrong'
+        } finally {
+            loading.value = false
+        }
+    }
+    // submit file upload form with showing processing images code START
 
     // For copy ACC number functionality code START
     const copied = ref(false)
@@ -133,10 +117,73 @@ const submit = () => {
     }
     // For copy ACC number functionality code END
 
+    // Onclick Cancel order Item code START
+        import Swal from 'sweetalert2';
+        const deleteInCartFun = async (cartId) => {
+        
+            Swal.fire({
+                title: t('Are you sure?'),
+                text: t('This order will be Cancel'),
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: t('Yes, cancel it!')
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.update(`/cancelOrder/${cartId}`)
+                        .then(() => {
+                            Swal.fire(
+                                t('Cancelled!'),
+                                t('Order Cancelled'),
+                                'success'
+                            )
+                            // refresh the page without reload reload whole page
+                            router.reload();
+                            
+                        })
+                }
+            })
+        }
+    // Onclick Cancel order Item code START
+    const showCancelPopup = ref(false)
+    const cancelReason = ref('')
+
+    const openCancelPopup = () => {
+        showCancelPopup.value = true
+    }
+
+    const closeCancelPopup = () => {
+        showCancelPopup.value = false
+        cancelReason.value = ''
+    }
+
+    const submitCancel = () => {
+        if (!cancelReason.value) {
+            alert(t('Please enter cancel reason'))
+            return
+        }
+
+        router.post('/order/cancel', {
+            order_key: props.OrderData.order_key,
+            cancel_reason: cancelReason.value,
+        }, {
+            onSuccess: () => {
+                closeCancelPopup()
+                alert(t('Your order has been cancelled'))
+            }
+        })
+    }
+    // Onclick Cancel order Item code END
+
+
 
     const capitalizeFirst = (text) => {
     if (!text) return ''
         return text.charAt(0).toUpperCase() + text.slice(1)
+    }
+    function base64Encode(value) {
+        return window.btoa(String(value));
     }
 </script>
 
@@ -150,23 +197,23 @@ const submit = () => {
                     <!-- Back button -->
                         <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
-                        <h5 v-if="isSubmitted" class="mb-0 text-white fw-semibold">{{ $page.props.translations['Processing'] ?? '' }}...</h5>
+                        <h5 v-if="success" class="mb-0 text-white fw-semibold">{{ $page.props.translations['Processing'] ?? '' }}...</h5>
                         <h5 v-else class="mb-0 text-white fw-semibold">{{ $page.props.translations['Make payment'] ?? '' }}</h5>
                     </div>
                 </div>
 
                 <!-- UPLOAD + CONFIRM SECTION -->
                 <!-- SUCCESS ALERT -->
-                                <div v-if="isSubmitted" class="alert alert-success mb-4 text-center">
-                                    <strong>Confirmation successful!</strong>
-                                    <br />
-                                    The system is now processing your request.
-                                </div>
+                <div v-if="success" class="alert alert-success mb-4 text-center">
+                    <strong>{{ $page.props.translations['Confirmation successful'] ?? '' }}!</strong>
+                    <br />
+                    {{ $page.props.translations['The system is now processing your request'] ?? '' }}.
+                </div>
 
-                                <!-- PROCESSING VIEW -->
-                                <div v-if="isSubmitted" class="text-center">
-                                    <img :src="`${$page.props.appUrl}/website/assets/logo/payment-processing.jpg`" class="img-fluid mb-3" style="max-width:300px;">
-                                </div>
+                <!-- PROCESSING VIEW -->
+                <div v-if="processing" class="text-center">
+                    <img :src="`${$page.props.appUrl}/website/assets/logo/payment-processing.jpg`" class="img-fluid mb-3" style="max-width:300px;">
+                </div>
                 <div v-else class="row align-items-center py-2">
        
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -182,38 +229,30 @@ const submit = () => {
                         </small>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                
-                                    <!-- IMAGE PREVIEW -->
-                                    <div v-if="hasImage" class="mb-3 text-center">
-                                        <img :src="preview" class="img-fluid rounded shadow" style="max-height:350px;">
-                                    </div>
 
-                                    <form @submit.prevent="submit">
-                                        <!-- UPLOAD BUTTON -->
+                                    <!-- IMAGE PREVIEW -->
+                                    <div v-if="hasImage && !processing" class="mb-3 text-center">
+                                        <img :src="preview" class="img-fluid rounded shadow" style="max-height:350px;"/>
+                                    </div>
+                                    <!-- UPLOAD + CONFIRM -->
+                                    <form v-if="!processing" @submit.prevent="submit">
+                                        <!-- Upload button -->
                                         <div class="mb-4">
                                             <label class="w-100">
                                                 <div class="btn btn-primary w-100 py-3">
-                                                    Attach the item confirmation slip
+                                                   {{ $page.props.translations['Attach the item confirmation slip'] }}
                                                 </div>
-                                                <input
-                                                    type="file"
-                                                    class="d-none"
-                                                    accept="image/*"
-                                                    @change="onFileChange"
-                                                />
+                                                <input type="file" class="d-none" accept="image/*" @change="onFileChange"/>
                                             </label>
-                                            <span class="text-danger">{{ form.errors.avatar }}</span>
+                                            <span class="text-danger">{{ error }}</span>
                                         </div>
-
-                                        <!-- CONFIRM BUTTON -->
-                                        <button
-                                            v-if="hasImage"
-                                            class="btn btn-primary w-100 py-3"
-                                            :disabled="form.processing"
-                                        >
-                                            {{ form.processing ? 'Submitting...' : 'Confirm' }}
+                                        <!-- Confirm button -->
+                                        <button v-if="hasImage" class="btn btn-primary w-100 py-3" :disabled="loading">
+                                            {{ loading ? 'Submitting...' : 'Confirm' }}
                                         </button>
                                     </form>
+
+
                         
                     </div>
                 </div>
@@ -241,7 +280,7 @@ const submit = () => {
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <b>Food orders from:</b>
+                                                    <b>{{ $page.props.translations['Food orders from'] }}:</b>
                                                 </div>
                                             </td>
                                             <td></td>
@@ -252,12 +291,34 @@ const submit = () => {
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <b>Order ID:</b>
+                                                    <b>{{ $page.props.translations['Order ID'] }}:</b>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td>
                                                 <h6>{{ capitalizeFirst(OrderData.order_key ?? '') }}</h6>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="success">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>{{ $page.props.translations['Order Status'] }}:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6><span class="text text-success">Success</span></h6>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="success">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>{{ $page.props.translations['Payment Status'] }}:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6><span class="text text-primary">Processing...</span></h6>
                                             </td>
                                         </tr>
                                         
@@ -373,10 +434,23 @@ const submit = () => {
                                     </button>
 
                                 </div>
-                                <div class="col-4 d-flex">
-                                    <button class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100">
-                                        {{ $page.props.translations['Cancel'] }}
-                                    </button>
+                                <div class="col-4 d-flex">                           
+                                            <button class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
+                                                {{ $page.props.translations['Cancel'] }}
+                                            </button>
+                                            <!-- Cancel Popup -->
+                                            <div v-if="showCancelPopup" class="popup-overlay d-flex align-items-center justify-content-center">
+                                                <div class="popup-content bg-white rounded p-4 position-relative" style="width: 400px;">
+                                                    <button class="btn-close position-absolute top-0 end-0 m-2" @click="closeCancelPopup"></button>
+
+                                                    <h5 class="mb-3">{{ $page.props.translations['Cancel Order'] }}</h5>
+
+                                                    <textarea v-model="cancelReason" class="form-control mb-3" rows="4" :placeholder="$page.props.translations['Enter Cancellation reason']"></textarea>
+
+                                                    <button class="btn btn-danger w-100" @click="submitCancel">{{ $page.props.translations['Submit'] }}</button>
+                                                </div>
+                                            </div>
+
                                 </div>
                             </div>
 

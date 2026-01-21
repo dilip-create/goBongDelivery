@@ -34,6 +34,13 @@ p {
   z-index: 2;
   border-radius: 8px;
 }
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
 a.activecatColor {
     color: var(--bs-secondary);
 }
