@@ -17,9 +17,9 @@ use App\Http\Controllers\Web\OrderController;
 // });
 
 // http://127.0.0.1:8000/livewire
-Route::get('/livewire', HomePage::class)->name('home');
+    Route::get('/livewire', HomePage::class)->name('home');
 
-Route::get('lang', [LanguageController::class, 'change'])->name("change.lang");
+    Route::get('lang', [LanguageController::class, 'change'])->name("change.lang");
 
 //For Inertia START
 
@@ -36,9 +36,6 @@ Route::middleware('guest')->group(function (){
 });
 
     Route::get('/customerlogout', [AuthController::class, 'logout'])->name('customerlogout');
-
-   
-
     Route::get('/CustomerAccount', [AuthController::class, 'getCustomerAccount'])->name('CustomerAccount');
     Route::post('/account/update', [AuthController::class, 'updateAccount'])->name('account.update');
 
@@ -53,8 +50,11 @@ Route::middleware('guest')->group(function (){
     Route::get('/cart/checkout/payment/{orderKey}', [PaymentController::class, 'paymentpage'])->name('checkout.payment.page');
     Route::post('/save/paymentslip', [PaymentController::class, 'savePaymentSlip'])->name('save.paymentslip');
 
-    Route::get('/myOrder/orderDetails/{orderKey}', [PaymentController::class, 'paymentpage'])->name('myOrder.orderDetails');
     Route::post('/order/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+    Route::get('/myOrder/orderDetails/{orderKey}', [OrderController::class, 'orderDetailsPagefun'])->name('myOrder.orderDetails');
+
+    Route::get('/myOrder/status/{orderKey}', [OrderController::class, 'orderStatus']);
+
 
 
     

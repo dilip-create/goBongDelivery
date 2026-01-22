@@ -1,5 +1,4 @@
 <script setup>
-    import TextInput from '../Components/TextInput.vue'
     import Textarea from '../Components/Textarea.vue'
     import { ref } from 'vue'
     import { router, usePage, useForm  } from '@inertiajs/vue3'
@@ -104,6 +103,11 @@
     // Onclick Delete Item code START
 
 
+    //On submit form create checkout section order START
+    const showProcessing = ref(false)
+    const progress = ref(0)
+    let interval = null
+
     const form = useForm({
         total_cost_price: props.summary.total_cost_price ?? 0,
         sub_total: props.summary.sub_total ?? 0,
@@ -113,21 +117,47 @@
         new_customer_discount: props.summary.new_customer_discount ?? 0,
         discount_offer: props.summary.discount_offer ?? 0,
         final_amount: props.summary.final_amount ?? 0,
-        // discount_offer: props.summary.discount_offer ?? 0,
         special_instructions: '',
     })
 
-    /** SUBMIT (CREATE + UPDATE) */
     const submit = () => {
+        showProcessing.value = true
+        progress.value = 0
+
+        interval = setInterval(() => {
+            progress.value += 2
+
+            if (progress.value >= 100) {
+                clearInterval(interval)
+                sendOrder()
+            }
+        }, 60) // ~3 seconds total
+    }
+
+    const sendOrder = () => {
         form.post(route('save.checkout'), {
             preserveScroll: true,
             onSuccess: () => {
                 form.reset()
-                // isEditMode.value = false
-                // activeTab.value = 'all'
+            },
+            onFinish: () => {
+                showProcessing.value = false
             },
         })
     }
+
+
+    // const submit = () => {
+    //     form.post(route('save.checkout'), {
+    //         preserveScroll: true,
+    //         onSuccess: () => {
+    //             form.reset()
+    //             // isEditMode.value = false
+    //             // activeTab.value = 'all'
+    //         },
+    //     })
+    // }
+    //On submit form create checkout section order END
 
 
     const capitalizeFirst = (text) => {
@@ -139,11 +169,12 @@
     }
 </script>
 
+
 <template>
     <Head :title="`- ${$page.props.translations['Cart']}`" />
          
         <!-- Fruits Shop Start--><br/><br/><br/><br/>
-        <div class="container-fluid fruite py-5">
+        <div v-if="!showProcessing" class="container-fluid fruite py-5">
             <div class="container bg-light p-2 rounded py-1">
                 <div class="order-header d-flex align-items-center">
                     <!-- Back button -->
@@ -190,7 +221,7 @@
         <!-- Fruits Shop End-->
 
         <!-- Cart Page Start -->
-        <div class="container-fluid">
+        <div v-if="!showProcessing" class="container-fluid">
             <div class="container bg-light p-2 rounded">
                 <div class="row align-items-center">
                     <!-- Left: Heading -->
@@ -272,7 +303,8 @@
                     </div>
                 </div>
                 <div class="row g-4 justify-content-end">
-                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                    <div class="col-6"></div>
+                    <div class="col-sm-8 col-md-7 col-lg-6 col-xl-6">
                         <div class="bg-light rounded">
                             <div class="p-4">
                                 <!-- <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1> -->
@@ -302,10 +334,10 @@
                                 <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
                             </div>
                            
-                            <button class="btn border-secondary px-4 py-3 text-primary text-uppercase mb-4 ms-4 w-100" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }} <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn border-secondary px-4 py-3 text-primary text-uppercase w-100" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }} <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
-                    <div class="col-8"></div>
+                    
                 </div>
                 </form>
             </div>
@@ -336,6 +368,18 @@
         </div>
     </div>
     <!-- Edit Popup END-->
+
+    <div v-if="showProcessing" class="processing-wrapper">
+        <div class="text-center">
+            <img :src="`${$page.props.appUrl}/website/assets/logo/rider.jpg`" class="img-fluid mb-4"/>
+            <div class="progress mb-3" style="height: 8px;">
+                <div class="progress-bar bg-primary" role="progressbar" :style="{ width: progress + '%' }"></div>
+            </div>
+            <p class="fw-semibold">{{ $page.props.translations['Sending your items for order'] }} {{ progress }} %</p>
+            <!-- <button class="btn btn-danger w-100 mt-4" disabled>{{ $page.props.translations['Cancel'] }}</button> -->
+        </div>
+    </div>
+
       
 </template>
 

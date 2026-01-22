@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('order_key')->nullable();
             $table->string('stor_food_id')->nullable();
             $table->string('cart_id')->nullable();
+            $table->string('f_qty')->nullable();
             $table->string('total_cost_price')->nullable();
             $table->string('subTotal')->nullable();
             $table->string('distance_between_shop_customer')->nullable();

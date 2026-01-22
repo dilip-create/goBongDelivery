@@ -113,10 +113,10 @@ onMounted(() => {
                                     <img :src="`${appUrl}/website/assets/img/banners/step1.jpg`" class="img-fluid w-100 step-img rounded" alt="Service not available">
                                 </div> -->
                                 <div class="carousel-item active rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step2.png`" class="img-fluid w-100 step-img  rounded" alt="lets go">
+                                    <img :src="`${appUrl}/website/assets/img/banners/lets-go.png`" class="img-fluid w-100 step-img  rounded" alt="lets go">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step6.png`" class="img-fluid w-100 step-img  rounded" alt="Wait a moment">
+                                    <img :src="`${appUrl}/website/assets/img/banners/arrived-store.png`" class="img-fluid w-100 step-img  rounded" alt="Wait a moment">
                                 </div>
                                 <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/step5.png`" class="img-fluid w-100 step-img  rounded" alt="I got the item...I am on the way">
@@ -131,7 +131,7 @@ onMounted(() => {
                                     <img :src="`${appUrl}/website/assets/img/banners/step7.png`" class="img-fluid w-100 step-img  rounded" alt="Understand">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step3.png`" class="img-fluid w-100 step-img  rounded" alt="OK">
+                                    <img :src="`${appUrl}/website/assets/img/banners/ok.png`" class="img-fluid w-100 step-img  rounded" alt="OK">
                                 </div>
                                  <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/step4.png`" class="img-fluid w-100 step-img  rounded" alt="Thank you"> 

@@ -224,3 +224,11 @@ a.activecatColor {
     width:100%
 }
 /* //CSS for add to cart popup END */
+
+.processing-wrapper {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
