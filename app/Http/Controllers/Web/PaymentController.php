@@ -27,10 +27,9 @@ class PaymentController extends Controller
             'order_key'=> $orderKey,
             'order_status'=> 'pending',
             'payment_status'=> 'pending' ])->first();
-
        
         if(empty($OrderData)){
-            return redirect()->route('/');
+            return redirect()->route('customerLogin');
         }
         $shipAddress = DeliveryAddress::where('id', $OrderData->address_id)->where('status', '1')->first();
         $storData = Stor::where('id', $OrderData->stor_id)->with('translationforvuepage')->first();
@@ -46,7 +45,6 @@ class PaymentController extends Controller
                             ->where('order_status', 'pending')
                             ->where('payment_status', 'pending')
                             ->get();
-
         // dd($foodLists);
 
         return Inertia::render('Web/PaymentPage', [

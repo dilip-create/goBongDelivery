@@ -43,6 +43,7 @@ class CheckoutController extends Controller
                 'order_key' => $orderKey,
                 'stor_food_id' => $food->id,
                 'cart_id' => $cart->id,
+                'f_qty' => $cart->f_qty,
                 'total_cost_price' => $request->total_cost_price,
                 'subTotal' => $request->sub_total,
                 'distance_between_shop_customer' => $request->distance,

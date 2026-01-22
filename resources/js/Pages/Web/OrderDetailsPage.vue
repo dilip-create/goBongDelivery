@@ -1,7 +1,7 @@
 <script setup>
     // import TextInput from '../Components/TextInput.vue'
    
-    import { ref } from 'vue'
+    import { ref, onMounted, onUnmounted } from 'vue'
     import { router, usePage, useForm  } from '@inertiajs/vue3'
     const page = usePage()
     const t = (key, fallback = key) => {
@@ -15,6 +15,97 @@
     foodLists: Array,
     currencyData: Array,
     })
+
+
+    // Status configuration (VERY IMPORTANT)
+    const statusText = ref('')
+    const statusImage = ref('')
+    const deliveryTime = ref('')
+    const polling = ref(null)
+
+    const STATUS_MAP = {
+        pending: {
+            text: 'Waiting for customer confirmation of the order.',
+            image: 'logo/payment-processing.jpg'
+        },
+        assigntoRider: {
+            text: 'The rider is assigned to deliver goods.',
+            image: 'img/banners/ok.png'
+        },
+        acceptedbyRider: {   
+            text: 'The rider is accepted the order.',
+            image: 'img/banners/ok.png'
+        },
+        riderGoingToStor: {
+            text: 'The rider is on his way to the store.',
+            image: 'img/banners/lets-go.png'
+        },
+        arrivedatstor: {
+            text: 'The rider has arrived at the store.',
+            image: 'img/banners/arrived-store.png'
+        },
+        onthewayToDeliver: {
+            text: 'The rider is on his way to deliver goods.',
+            image: 'delivery-on-way.jpg'
+        },
+        delivered: {
+            text: 'The customer has received the product.',
+            image: 'delivered.jpg'
+        },
+        cancelled: {
+            text: 'Order has been cancelled.',
+            image: 'cancelled.jpg'
+        }
+    }
+    const fetchOrderStatus = async () => {
+        try {
+            const res = await axios.get(
+                `/myOrder/status/${base64Encode(props.OrderData.order_key)}`
+            )
+
+            const data = res.data
+
+            // ❌ STOP conditions
+            if (
+                data.order_status === 'cancelled' ||
+                data.is_today === false
+            ) {
+                stopPolling()
+                statusText.value = 'Order tracking stopped.'
+                return
+            }
+
+            // ✅ Update UI
+            const statusConfig = STATUS_MAP[data.assign_status] || STATUS_MAP.pending
+
+            statusText.value = statusConfig.text
+            statusImage.value = `${page.props.appUrl}/website/assets/${statusConfig.image}`
+
+            // ⏱ Delivery time (distance × 20 min)
+            deliveryTime.value = Math.ceil(data.distance * 10) + ' mins'
+
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const startPolling = () => {
+        fetchOrderStatus() // immediate
+        polling.value = setInterval(fetchOrderStatus, 30000) // 30 sec
+    }
+
+    const stopPolling = () => {
+        if (polling.value) {
+            clearInterval(polling.value)
+            polling.value = null
+        }
+    }
+
+    onMounted(() => startPolling())
+    onUnmounted(() => stopPolling())
+
+
+
    
 
    
@@ -44,79 +135,6 @@
     showPopup.value = false;
     };
     // Onclick show popup food code END
-
-
-
-
-   // submit file upload form with showing processing images code START
-    const preview = ref(null)
-    const file = ref(null)
-    const hasImage = ref(false)
-
-    const loading = ref(false)
-    const processing = ref(false)
-    const success = ref(false)
-    const error = ref(null)
-
-    function onFileChange(e) {
-        const selected = e.target.files[0]
-        if (!selected) return
-
-        file.value = selected
-        preview.value = URL.createObjectURL(selected)
-        hasImage.value = true
-        error.value = null
-    }
-
-    async function submit() {
-        if (!file.value) {
-            error.value = 'Please select an image'
-            return
-        }
-
-        loading.value = true
-
-        const formData = new FormData()
-        formData.append('avatar', file.value)
-        formData.append('order_key', props.OrderData.order_key)
-        const encodedOrderKey = base64Encode(props.OrderData.order_key)
-        try {
-            await axios.post('/save/paymentslip', formData)
-            success.value = true
-            processing.value = true
-            setTimeout(() => {
-                window.location.href = route(
-                    'myOrder.orderDetails',
-                    { orderKey: encodedOrderKey }
-                )
-            }, 60000)
-        } catch (e) {
-            error.value =
-                e.response?.data?.message || 'Something went wrong'
-        } finally {
-            loading.value = false
-        }
-    }
-    // submit file upload form with showing processing images code START
-
-    // For copy ACC number functionality code START
-    const copied = ref(false)
-    const copyAccountNumber = async () => {
-        const text = 'Kbank 2133898681'
-
-        try {
-            await navigator.clipboard.writeText(text)
-            copied.value = true
-
-            setTimeout(() => {
-                copied.value = false
-            }, 1500)
-        } catch (e) {
-            console.error('Copy failed', e)
-        }
-    }
-    // For copy ACC number functionality code END
-
     
     // Onclick Cancel order Item code START
     const showCancelPopup = ref(false)
@@ -161,7 +179,7 @@
 </script>
 
 <template>
-    <Head :title="`- ${$page.props.translations['Cart']}`" />
+    <Head :title="`- ${$page.props.translations['My orders']}`" />
          
         <!-- Fruits Shop Start--><br/><br/><br/><br/>
         <div class="container-fluid fruite py-5">
@@ -170,65 +188,32 @@
                     <!-- Back button -->
                         <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
-                        <h5 v-if="success" class="mb-0 text-white fw-semibold">{{ $page.props.translations['Processing'] ?? '' }}...</h5>
-                        <h5 v-else class="mb-0 text-white fw-semibold">{{ $page.props.translations['Make payment'] ?? '' }}</h5>
+                        <h5 v-if="deliveryTime" class="mb-0 text-white fw-semibold">Estimated delivery time: <strong>{{ deliveryTime }}</strong></h5>
+                       
                     </div>
                 </div>
 
-                <!-- UPLOAD + CONFIRM SECTION -->
+               
+
+               
+
                 <!-- SUCCESS ALERT -->
-                <div v-if="success" class="alert alert-success mb-4 text-center">
-                    <strong>{{ $page.props.translations['Confirmation successful'] ?? '' }}!</strong>
-                    <br />
-                    {{ $page.props.translations['The system is now processing your request'] ?? '' }}.
+                <div class="alert alert-success mb-4 text-center">
+                    <strong>{{ $page.props.translations['Confirmation successful'] ?? '' }}</strong><br />
+                    {{ statusText }}
                 </div>
 
                 <!-- PROCESSING VIEW -->
-                <div v-if="processing" class="text-center">
-                    <img :src="`${$page.props.appUrl}/website/assets/logo/payment-processing.jpg`" class="img-fluid mb-3" style="max-width:300px;">
+                <div class="text-center">
+                    <img
+                        :src="statusImage"
+                        class="img-fluid mb-3"
+                        style="max-width:300px;"
+                    />
+                    
                 </div>
-                <div v-else class="row align-items-center py-2">
-       
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <div class="d-flex justify-content-center">
-                            <img :src="`${$page.props.appUrl}/website/assets/logo/gobong-qr.jpg`" alt="QR" height="450" width="300" class="bg-primary rounded"/>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center gap-2 mt-3 cursor-pointer" @click="copyAccountNumber">
-                            <span class="fw-bold">Kbank 2133898681</span>
-                           <i :class="copied ? 'fa fa-check text-success' : 'fa fa-copy'"></i>
-                        </div>
-                        <small v-if="copied" class="text-success d-block text-center mt-1">
-                            {{ $page.props.translations['Copied'] }}!
-                        </small>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
 
-                                    <!-- IMAGE PREVIEW -->
-                                    <div v-if="hasImage && !processing" class="mb-3 text-center">
-                                        <img :src="preview" class="img-fluid rounded shadow" style="max-height:350px;"/>
-                                    </div>
-                                    <!-- UPLOAD + CONFIRM -->
-                                    <form v-if="!processing" @submit.prevent="submit">
-                                        <!-- Upload button -->
-                                        <div class="mb-4">
-                                            <label class="w-100">
-                                                <div class="btn btn-primary w-100 py-3">
-                                                   {{ $page.props.translations['Attach the item confirmation slip'] }}
-                                                </div>
-                                                <input type="file" class="d-none" accept="image/*" @change="onFileChange"/>
-                                            </label>
-                                            <span class="text-danger">{{ error }}</span>
-                                        </div>
-                                        <!-- Confirm button -->
-                                        <button v-if="hasImage" class="btn btn-primary w-100 py-3" :disabled="loading">
-                                            {{ loading ? 'Submitting...' : 'Confirm' }}
-                                        </button>
-                                    </form>
-
-
-                        
-                    </div>
-                </div>
+                
             </div>
         </div>
         <!-- Fruits Shop End-->
@@ -272,7 +257,7 @@
                                                 <h6># {{ capitalizeFirst(OrderData.order_key ?? '') }}</h6>
                                             </td>
                                         </tr>
-                                        <tr v-if="success">
+                                        <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <b>{{ $page.props.translations['Order Status'] }}:</b>
@@ -280,10 +265,10 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6><span class="text text-primary">Success</span></h6>
+                                                <h6><span class="text text-primary">{{ capitalizeFirst(OrderData.order_status ?? '') }}</span></h6>
                                             </td>
                                         </tr>
-                                        <tr v-if="success">
+                                        <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <b>{{ $page.props.translations['Payment Status'] }}:</b>
@@ -291,7 +276,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6>Awaiting verification</h6>
+                                                <h6>{{ capitalizeFirst(OrderData.payment_status ?? '') }}</h6>
                                             </td>
                                         </tr>
                                         
@@ -341,14 +326,14 @@
                                                 <div class="d-flex align-items-center" @click="openFoodDetails(records.stor_food_records)">
                                                     <img  v-if="records.stor_food_records?.food_img" :src="`/storage/${records.stor_food_records.food_img}`" 
                                                     class="img-fluid rounded-circle" style="width: 80px; height: 80px;" alt=""> 
-                                                    &nbsp;<i class="fa fa-times"></i><b>{{ records.cartdetails?.f_qty }}</b>
+                                                    &nbsp;<i class="fa fa-times"></i><b>{{ records.f_qty }}</b>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="mb-0 mt-4">{{ capitalizeFirst(records.stor_food_records.translationforvuepage?.food_translation_name || records.stor_food_records.food_name) }}</p>
+                                                <p class="mb-0 mt-4">{{ capitalizeFirst(records.stor_food_records.translationforvuepage?.food_translation_name ?? '') }}</p>
                                             </td>
                                             <td><br/>
-                                                <h6>{{ records.stor_food_records.get_currencies?.currency_symbol ?? '' }} {{ records.cartdetails.f_qty * records.stor_food_records.selling_price ?? '' }}</h6>
+                                                <h6>{{ records.stor_food_records.get_currencies?.currency_symbol ?? '' }} {{ records.f_qty * records.stor_food_records.selling_price ?? '' }}</h6>
                                             </td>
                         
                                         </tr>
