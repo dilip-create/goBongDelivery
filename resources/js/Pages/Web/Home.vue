@@ -122,13 +122,13 @@ onMounted(() => {
                                     <img :src="`${appUrl}/website/assets/img/banners/step5.png`" class="img-fluid w-100 step-img  rounded" alt="I got the item...I am on the way">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step8.png`" class="img-fluid w-100 step-img  rounded" alt="Rider have arrived">
+                                    <img :src="`${appUrl}/website/assets/img/banners/arrivedatLocation.png`" class="img-fluid w-100 step-img  rounded" alt="Rider have arrived">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step9.png`" class="img-fluid w-100 step-img  rounded" alt="Where do I send thing?">
+                                    <img :src="`${appUrl}/website/assets/img/banners/delivered.png`" class="img-fluid w-100 step-img  rounded" alt="Where do I send thing?">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/step7.png`" class="img-fluid w-100 step-img  rounded" alt="Understand">
+                                    <img :src="`${appUrl}/website/assets/img/banners/understand.png`" class="img-fluid w-100 step-img  rounded" alt="Understand">
                                 </div>
                                 <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/ok.png`" class="img-fluid w-100 step-img  rounded" alt="OK">
