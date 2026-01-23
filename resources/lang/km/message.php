@@ -671,7 +671,7 @@ return [
     "Confirmation successful" => "ការបញ្ជាក់បានជោគជ័យ",
     "The system is now processing your request" => "ឥឡូវនេះប្រព័ន្ធកំពុងដំណើរការសំណើរបស់អ្នក។",
     "Attach the item confirmation slip" => "ភ្ជាប់លិខិតបញ្ជាក់ធាតុ",
-    "Food orders from" => "ការបញ្ជាទិញអាហារពី",
+    "Orders from" => "ការបញ្ជាទិញអាហារពី",
     "Order ID" => "លេខសម្គាល់ការបញ្ជាទិញ",
     "Order Cancelled" => "ការបញ្ជាទិញត្រូវបានលុបចោល",
     "Your order has been cancelled" => "ការបញ្ជាទិញរបស់អ្នកត្រូវបានលុបចោល",

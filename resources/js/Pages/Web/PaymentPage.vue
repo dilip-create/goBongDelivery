@@ -161,7 +161,7 @@
 </script>
 
 <template>
-    <Head :title="`- ${$page.props.translations['Cart']}`" />
+    <Head :title="`- ${$page.props.translations['Make payment']}`" />
          
         <!-- Fruits Shop Start--><br/><br/><br/><br/>
         <div class="container-fluid fruite py-5">
@@ -253,7 +253,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <b>{{ $page.props.translations['Food orders from'] }}:</b>
+                                                    <b>{{ $page.props.translations['Orders from'] }}:</b>
                                                 </div>
                                             </td>
                                             <td></td>

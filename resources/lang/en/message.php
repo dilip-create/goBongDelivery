@@ -680,7 +680,7 @@ return [
     "Confirmation successful" => "Confirmation successful",
     "The system is now processing your request" => "The system is now processing your request",
     "Attach the item confirmation slip" => "Attach the item confirmation slip",
-    "Food orders from" => "Food orders from",
+    "Orders from" => "Orders from",
     "Order ID" => "Order ID",
     "Order Cancelled" => "Order Cancelled",
     "Your order has been cancelled" => "Your order has been cancelled",

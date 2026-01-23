@@ -61,9 +61,9 @@ class OrderController extends Controller
                             ->where('order_key', $orderKey)
                             ->get();
         // dd($foodLists);
-
+        //  dd($OrderData);
         return Inertia::render('Web/OrderDetailsPage', [
-            'OrderData' => $OrderData,
+            'OrderRecords' => $OrderData,
             'shipAddress' => $shipAddress,
             'storData' => $storData,
             'foodLists' => $foodLists,
@@ -86,7 +86,7 @@ class OrderController extends Controller
                 'cancel_reason' => $request->cancel_reason,
             ]);
 
-        return redirect()->route('CustomerAccount', ['orderKey' => base64_encode($request->order_key)]);
+        return redirect()->route('myOrder.orderDetails', ['orderKey' => base64_encode($request->order_key)]);
     }
 
     

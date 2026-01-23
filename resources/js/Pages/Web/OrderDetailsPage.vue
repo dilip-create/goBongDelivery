@@ -9,7 +9,8 @@
     }
 
     const props = defineProps({
-    OrderData: Array,
+    OrderRecords: Array,
+    // OrderRecords: Array,
     shipAddress: Array,
     storData: Array,
     foodLists: Array,
@@ -20,8 +21,12 @@
     // Status configuration (VERY IMPORTANT)
     const statusText = ref('')
     const statusImage = ref('')
-    const deliveryTime = ref('')
     const polling = ref(null)
+    // const deliveryTime = ref('')
+    const deliverySeconds = ref(0)
+    const deliveryTimer = ref(null)
+    const STATIC_STATUSES = ['pending', 'assigntoRider']
+    const stopAfterThisPoll = ref(false)
 
     const STATUS_MAP = {
         pending: {
@@ -30,7 +35,7 @@
         },
         assigntoRider: {
             text: 'The rider is assigned to deliver goods.',
-            image: 'img/banners/ok.png'
+            image: 'img/banners/understand.png'
         },
         acceptedbyRider: {   
             text: 'The rider is accepted the order.',
@@ -46,11 +51,15 @@
         },
         onthewayToDeliver: {
             text: 'The rider is on his way to deliver goods.',
-            image: 'delivery-on-way.jpg'
+            image: 'img/banners/step5.png'         //I got the item...I am on the way
+        },
+        arrivedatLocation: {
+            text: 'The rider has arrived at location',
+            image: 'img/banners/arrivedatLocation.png'         //Rider have arrived 
         },
         delivered: {
             text: 'The customer has received the product.',
-            image: 'delivered.jpg'
+            image: 'img/banners/delivered.png'         //
         },
         cancelled: {
             text: 'Order has been cancelled.',
@@ -60,29 +69,48 @@
     const fetchOrderStatus = async () => {
         try {
             const res = await axios.get(
-                `/myOrder/status/${base64Encode(props.OrderData.order_key)}`
+                `/myOrder/status/${base64Encode(props.OrderRecords.order_key)}`
             )
-
+            
             const data = res.data
-
+           
             // ❌ STOP conditions
-            if (
-                data.order_status === 'cancelled' ||
-                data.is_today === false
-            ) {
+            if (data.is_today === false ) {
+                
                 stopPolling()
-                statusText.value = 'Order tracking stopped.'
+                stopDeliveryCountdown()
                 return
             }
 
+            if(data.assign_status == 'delivered' || data.order_status == 'cancelled'){
+                    //  statusText.value = 'The customer has received the product'
+                     stopDeliveryCountdown()
+                     stopAfterThisPoll.value = true
+            }
+
+            if (stopAfterThisPoll.value) {
+                stopPolling()
+            }
+           
+            router.reload(props.OrderRecords);
+
             // ✅ Update UI
             const statusConfig = STATUS_MAP[data.assign_status] || STATUS_MAP.pending
-
             statusText.value = statusConfig.text
             statusImage.value = `${page.props.appUrl}/website/assets/${statusConfig.image}`
 
-            // ⏱ Delivery time (distance × 20 min)
-            deliveryTime.value = Math.ceil(data.distance * 10) + ' mins'
+             // ⏱ Initialize delivery time ONLY ONCE
+             // ⏱ STATIC vs DECREASING LOGIC
+        if (STATIC_STATUSES.includes(data.assign_status)) {
+            // Show time but don't decrease
+            deliverySeconds.value = Math.ceil(data.distance * 10 * 60)
+            stopDeliveryCountdown()
+        } else {
+            // Start countdown
+            deliverySeconds.value = Math.ceil(data.distance * 10 * 60)
+            startDeliveryCountdown()
+        }
+
 
         } catch (err) {
             console.error(err)
@@ -91,9 +119,8 @@
 
     const startPolling = () => {
         fetchOrderStatus() // immediate
-        polling.value = setInterval(fetchOrderStatus, 30000) // 30 sec
+        polling.value = setInterval(fetchOrderStatus, 10000) // 10 sec
     }
-
     const stopPolling = () => {
         if (polling.value) {
             clearInterval(polling.value)
@@ -101,8 +128,37 @@
         }
     }
 
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60)
+        const s = seconds % 60
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    }
+
+    const startDeliveryCountdown = () => {
+        if (deliveryTimer.value) return
+
+        deliveryTimer.value = setInterval(() => {
+            if (deliverySeconds.value > 0) {
+                deliverySeconds.value--
+            } else {
+                stopDeliveryCountdown()
+            }
+        }, 1000)
+    }
+
+    const stopDeliveryCountdown = () => {
+        if (deliveryTimer.value) {
+            clearInterval(deliveryTimer.value)
+            deliveryTimer.value = null
+        }
+    }
+
     onMounted(() => startPolling())
-    onUnmounted(() => stopPolling())
+    onUnmounted(() => {
+        stopPolling()
+        stopDeliveryCountdown()
+    })
+
 
 
 
@@ -156,7 +212,7 @@
         }
 
         router.post('/order/cancel', {
-            order_key: props.OrderData.order_key,
+            order_key: props.OrderRecords.order_key,
             cancel_reason: cancelReason.value,
         }, {
             onSuccess: () => {
@@ -182,37 +238,23 @@
     <Head :title="`- ${$page.props.translations['My orders']}`" />
          
         <!-- Fruits Shop Start--><br/><br/><br/><br/>
-        <div class="container-fluid fruite py-5">
+        <div  class="container-fluid fruite py-5">
             <div class="container bg-light p-2 rounded py-1">
+
                 <div class="order-header d-flex align-items-center">
-                    <!-- Back button -->
-                        <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
+                    <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
-                        <h5 v-if="deliveryTime" class="mb-0 text-white fw-semibold">Estimated delivery time: <strong>{{ deliveryTime }}</strong></h5>
-                       
+                        <h5 class="mb-0 text-white fw-semibold"><strong>{{ $page.props.translations['My orders'] }}</strong></h5>
+                        <h5 v-if="deliverySeconds > 0" class="mb-0 text-white fw-semibold">Estimated delivery time: <strong>{{ formatTime(deliverySeconds) }}</strong></h5>
+                        
                     </div>
                 </div>
-
-               
-
-               
-
                 <!-- SUCCESS ALERT -->
-                <div class="alert alert-success mb-4 text-center">
-                    <strong>{{ $page.props.translations['Confirmation successful'] ?? '' }}</strong><br />
-                    {{ statusText }}
-                </div>
-
+                <div v-if="OrderRecords.order_status != 'cancelled'" class="alert alert-success mb-4 text-center"><strong>{{ statusText }}</strong></div>
                 <!-- PROCESSING VIEW -->
-                <div class="text-center">
-                    <img
-                        :src="statusImage"
-                        class="img-fluid mb-3"
-                        style="max-width:300px;"
-                    />
-                    
+                <div v-if="OrderRecords.order_status != 'cancelled'" class="text-center">
+                    <img :src="statusImage" class="img-fluid mb-3 rounded" style="max-width:300px;" />
                 </div>
-
                 
             </div>
         </div>
@@ -238,7 +280,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <b>{{ $page.props.translations['Food orders from'] }}:</b>
+                                                    <b>{{ $page.props.translations['Orders from'] }}:</b>
                                                 </div>
                                             </td>
                                             <td></td>
@@ -254,7 +296,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6># {{ capitalizeFirst(OrderData.order_key ?? '') }}</h6>
+                                                <h6># {{ capitalizeFirst(OrderRecords.order_key ?? '') }}</h6>
                                             </td>
                                         </tr>
                                         <tr>
@@ -265,7 +307,8 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6><span class="text text-primary">{{ capitalizeFirst(OrderData.order_status ?? '') }}</span></h6>
+                                                <h6><span :class="['text', OrderRecords.order_status == 'cancelled' ? 'text-danger' : 'text-primary']">{{ capitalizeFirst(OrderRecords.order_status ?? '') }}</span></h6>
+                                                <p v-if="OrderRecords.order_status == 'cancelled'" class="mb-2">{{ capitalizeFirst(OrderRecords?.cancel_reason) ?? '' }}</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -276,7 +319,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6>{{ capitalizeFirst(OrderData.payment_status ?? '') }}</h6>
+                                                <h6><span :class="['text', OrderRecords.payment_status == 'success' ? 'text-primary' : '']">{{ capitalizeFirst(OrderRecords.payment_status) }}</span></h6>
                                             </td>
                                         </tr>
                                         
@@ -288,7 +331,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6>{{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }}</h6>
+                                                <h6>{{ OrderRecords.distance_between_shop_customer ?? '' }} km</h6>
                                             </td>
                                         </tr>
                                         <tr>
@@ -300,6 +343,17 @@
                                             <td></td>
                                             <td>
                                                 <h6><p class="mb-2">{{ capitalizeFirst(shipAddress.address) ?? '' }}, {{ capitalizeFirst(shipAddress.landmark) ?? '' }} Poipet Banteay Meanchey Province</p></h6>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="OrderRecords.special_instructions">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <b>{{ $page.props.translations['Special Instructions'] }}:</b>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <h6><p class="mb-2">{{ capitalizeFirst(OrderRecords.special_instructions) ?? '' }}</p></h6>
                                             </td>
                                         </tr>
                                         
@@ -353,28 +407,28 @@
                                 <h6 class="display-6 mb-4"> <span class="fw-normal">{{ $page.props.translations['Price summary'] }}</span></h6>
                                 <div class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 me-4">{{ $page.props.translations['Total'] }}:</h6>
-                                    <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.subTotal ?? '' }}</p>
+                                    <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderRecords.subTotal ?? '' }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                         <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
-                                        <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.shipping_charge ?? '' }}</p>
+                                        <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderRecords.shipping_charge ?? '' }}</p>
                                 </div>
-                                <div v-if="OrderData.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderRecords.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
                                         <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
-                                        <p class="mb-0 text-danger">{{ currencyData.currency_symbol ?? '฿' }} {{ OrderData.minimum_order_diffrence ?? '' }}</p>
+                                        <p class="mb-0 text-danger">{{ currencyData.currency_symbol ?? '฿' }} {{ OrderRecords.minimum_order_diffrence ?? '' }}</p>
                                 </div>
-                                <div v-if="OrderData.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderRecords.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 text-primary">{{ $page.props.translations['New customer discount'] }}:</h6>
-                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '฿' }} -{{ OrderData.new_customer_discount ?? '' }}</p>
+                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '฿' }} -{{ OrderRecords.new_customer_discount ?? '' }}</p>
                                 </div>
-                                <div v-if="OrderData.discount_offer > 0" class="d-flex justify-content-between mb-2">
+                                <div v-if="OrderRecords.discount_offer > 0" class="d-flex justify-content-between mb-2">
                                     <h6 class="mb-0 text-primary">{{ $page.props.translations['Discount'] }}:</h6>
-                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '' }} -{{ OrderData.discount_offer ?? '' }}</p>
+                                    <p class="mb-0 text-primary">{{ currencyData.currency_symbol ?? '' }} -{{ OrderRecords.discount_offer ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="py-3 mb-2 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4">{{ $page.props.translations['Total'] }}</h5>
-                                <h6>{{ currencyData.currency_symbol ?? '' }} {{ OrderData.totalPayAmount ?? '' }}</h6>
+                                <h6>{{ currencyData.currency_symbol ?? '' }} {{ OrderRecords.totalPayAmount ?? '' }}</h6>
                             </div>
 
                             <div class="row align-items-stretch">
@@ -386,14 +440,14 @@
                                             </span>
                                             <span class="fw-bold">
                                                 {{ currencyData.currency_symbol ?? '' }}
-                                                {{ OrderData.totalPayAmount ?? '' }}
+                                                {{ OrderRecords.totalPayAmount ?? '' }}
                                             </span>
                                         </div>
                                     </button>
 
                                 </div>
                                 <div class="col-4 d-flex">                           
-                                            <button class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
+                                            <button v-if="OrderRecords.order_status != 'cancelled'" class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
                                                 {{ $page.props.translations['Cancel'] }}
                                             </button>
                                             <!-- Cancel Popup -->

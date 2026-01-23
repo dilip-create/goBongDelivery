@@ -27,6 +27,8 @@ class CustomAuth
            || ($path == 'cart' && !Session::get('customerAuth'))
            || ($path == 'shipping/addressDetails' && !Session::get('customerAuth'))
          || (strpos($path, 'cart/checkout/payment') !== false && !Session::has('customerAuth'))
+         || (strpos($path, 'myOrder/orderDetails') !== false && !Session::has('customerAuth'))
+         
         )
         {
             return redirect('/customerLogin');

@@ -671,7 +671,7 @@ return [
     "Confirmation successful" => "การยืนยันสำเร็จ",
     "The system is now processing your request" => "ขณะนี้ระบบกำลังประมวลผลคำขอของคุณ",
     "Attach the item confirmation slip" => "แนบสลิปยืนยันรายการสินค้า",
-    "Food orders from" => "สั่งอาหารจาก",
+    "Orders from" => "สั่งอาหารจาก",
     "Order ID" => "รหัสคำสั่งซื้อ",
     "Order Cancelled" => "คำสั่งซื้อถูกยกเลิก",
     "Your order has been cancelled" => "คำสั่งซื้อของคุณถูกยกเลิกแล้ว",
