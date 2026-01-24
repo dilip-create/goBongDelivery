@@ -375,7 +375,7 @@
                                         <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.shipping_charge ?? '' }}</p>
                                 </div>
                                 <div v-if="OrderData.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
-                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
+                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimum order difference'] }}</h6>
                                         <p class="mb-0 text-danger">{{ currencyData.currency_symbol ?? '฿' }} {{ OrderData.minimum_order_diffrence ?? '' }}</p>
                                 </div>
                                 <div v-if="OrderData.new_customer_discount > 0" class="d-flex justify-content-between mb-2">

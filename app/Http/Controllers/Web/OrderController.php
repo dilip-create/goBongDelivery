@@ -21,19 +21,42 @@ class OrderController extends Controller
 
     public function orderStatus($orderKey)
     {
-        $decodedKey = base64_decode($orderKey);
+        // ✅ Set timezone
+        date_default_timezone_set('Asia/Phnom_Penh');
 
-        $order = StorOrder::where('order_key', $decodedKey)->firstOrFail();
+        $order = StorOrder::where('order_key', base64_decode($orderKey))->firstOrFail();
 
-        $isToday = Carbon::parse($order->order_date)->isToday();
+        // Example: minutes delivery
+        $estimatedMinutes = $order->distance_between_shop_customer*10;
+
+        // Delivery started time (store once in DB)
+        if (!$order->delivery_started_at && $order->assign_status === 'onthewayToDeliver') {
+            $order->delivery_started_at = now();
+            $order->save();
+        }
+
+        $remainingSeconds = null;
+
+        if ($order->delivery_started_at) {
+            $startedAt = Carbon::parse($order->delivery_started_at, 'Asia/Phnom_Penh');
+            $now = Carbon::now('Asia/Phnom_Penh');
+
+            $totalSeconds = (int) ($estimatedMinutes * 60);
+            $passedSeconds = (int) $startedAt->diffInSeconds($now);
+
+            $remainingSeconds = max($totalSeconds - $passedSeconds, 0);
+        }
 
         return response()->json([
-            'order_status'   => $order->order_status,
+            'assign_status' => $order->assign_status,
             'payment_status' => $order->payment_status,
-            'assign_status'  => $order->assign_status,
+            'order_status' => $order->order_status,
+            'is_today' => Carbon::parse($order->order_date, 'Asia/Phnom_Penh')->isToday(),
+            'remaining_seconds' => $remainingSeconds,
+            'timezone' => 'Asia/Phnom_Penh',
             'distance'       => (float) $order->distance_between_shop_customer,
             'order_date'     => $order->order_date,
-            'is_today'       => $isToday,
+            
         ]);
     }
 
@@ -83,6 +106,7 @@ class OrderController extends Controller
         StorOrder::where('order_key', $request->order_key)
             ->update([
                 'order_status' => 'cancelled',
+                'assign_status' => 'cancelled',
                 'cancel_reason' => $request->cancel_reason,
             ]);
 

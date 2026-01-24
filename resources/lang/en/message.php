@@ -686,7 +686,7 @@ return [
     "Your order has been cancelled" => "Your order has been cancelled",
     "Please enter cancel reason" => "Please enter cancel reason",
     "Sending your items for order" => "Sending your items for order",
-    "Categories" => "Categories",
+    "The customer has received the product" => "The customer has received the product",
     "Categories" => "Categories",
     "Categories" => "Categories",
 

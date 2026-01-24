@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stor_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('stor_id')->nullable();
+             $table->string('stor_id')->nullable();
             $table->string('storLoginId')->nullable();
             $table->string('cust_id')->nullable();
             $table->string('address_id')->nullable();
@@ -45,6 +45,7 @@ return new class extends Migration
             $table->string('rider_id')->nullable();
             $table->longText('special_instructions')->nullable();
             $table->enum('assign_status', ['pending', 'assigntoRider', 'acceptedbyRider', 'riderGoingToStor', 'arrivedatstor', 'onthewayToDeliver', 'arrivedatLocation', 'delivered', 'cancelled'])->default('pending');
+            $table->timestamp('delivery_started_at')->nullable();
             $table->longText('cancel_reason')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
