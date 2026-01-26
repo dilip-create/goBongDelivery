@@ -22,6 +22,11 @@ class StorOrder extends Model
     {
         return $this->belongsTo(Cart::class, 'cart_id');
     }
+
+    public function getstor()
+    {
+        return $this->belongsTo(Stor::class, 'stor_id');
+    }
     
 
 }

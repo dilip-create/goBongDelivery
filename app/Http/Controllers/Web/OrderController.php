@@ -19,6 +19,22 @@ use Carbon\Carbon;
 class OrderController extends Controller
 {
 
+    public function orderlist(Request $request)
+    {
+        $customerId = $request->session()->get('customerAuth')->id ?? 0;
+        if (!$customerId) {
+            return redirect()->route('customerLogin');
+        }
+        $OrderData = StorOrder::with([
+                                'getstor.translationforvuepage',
+                                'stor_food_records.translationforvuepage',
+                            ])->where('cust_id', $customerId)->distinct('order_key')->orderBy('id', 'desc')->get();
+        // dd($OrderData);
+        return Inertia::render('Web/MyOrders', [
+            'orderLists' => $OrderData,
+        ]);
+    }
+
     public function orderStatus($orderKey)
     {
         // ✅ Set timezone
