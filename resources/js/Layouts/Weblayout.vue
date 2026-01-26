@@ -36,7 +36,7 @@ const  props  = usePage()
                        
                         <Link :href="route('/')" :class="{'active' : $page.component === 'Web/Home'}" class="nav-item nav-link">{{ $page.props.translations.Home  }}</Link>
                         <Link v-if="$page.props.auth.customer" :href="route('CustomerAccount')" :class="{'active' : $page.component === 'Web/Auth/CustomerAccount'}" class="nav-item nav-link">{{ $page.props.translations.Account  }}</Link>
-                        <Link v-if="$page.props.auth.customer" :href="route('/')" :class="{'active' : $page.component === 'Web/Home'}" class="nav-item nav-link">{{ $page.props.translations['My orders'] }}</Link>
+                        <Link v-if="$page.props.auth.customer" :href="route('orderlist')" :class="{'active' : $page.component === 'Web/Myorders'}" class="nav-item nav-link">{{ $page.props.translations['My orders'] }}</Link>
                         <Link v-else :href="route('customerLogin')" :class="{'active' : $page.component === 'Web/Auth/customerLogin'}" class="nav-item nav-link">{{ $page.props.translations.Login  }}</Link>
                     
                         <div class="nav-item dropdown">

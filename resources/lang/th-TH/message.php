@@ -676,6 +676,7 @@ return [
     "Order Cancelled" => "คำสั่งซื้อถูกยกเลิก",
     "Your order has been cancelled" => "คำสั่งซื้อของคุณถูกยกเลิกแล้ว",
     "Please enter cancel reason" => "กรุณากรอกเหตุผลการยกเลิก",
+    "The customer has received the product" => "ลูกค้าได้รับสินค้าแล้ว",
     
     
     

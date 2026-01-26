@@ -52,8 +52,8 @@ Route::middleware('guest')->group(function (){
 
     Route::post('/order/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::get('/myOrder/orderDetails/{orderKey}', [OrderController::class, 'orderDetailsPagefun'])->name('myOrder.orderDetails');
-
     Route::get('/myOrder/status/{orderKey}', [OrderController::class, 'orderStatus']);
+    Route::get('/myOrder', [OrderController::class, 'orderlist'])->name('orderlist');
 
 
 

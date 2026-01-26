@@ -2,6 +2,7 @@
     // import TextInput from '../Components/TextInput.vue'
    
     import { ref, onMounted, onUnmounted } from 'vue'
+    import axios from "axios";
     import { router, usePage, useForm  } from '@inertiajs/vue3'
     const page = usePage()
     const t = (key, fallback = key) => {
@@ -10,7 +11,6 @@
 
     const props = defineProps({
     OrderRecords: Array,
-    // OrderRecords: Array,
     shipAddress: Array,
     storData: Array,
     foodLists: Array,
@@ -18,146 +18,161 @@
     })
 
 
-    // Status configuration (VERY IMPORTANT)
-    const statusText = ref('')
-    const statusImage = ref('')
-    const polling = ref(null)
-    // const deliveryTime = ref('')
-    const deliverySeconds = ref(0)
-    const deliveryTimer = ref(null)
-    const STATIC_STATUSES = ['pending', 'assigntoRider']
-    const stopAfterThisPoll = ref(false)
+    //Delivery Tracking functionality code START
 
-    const STATUS_MAP = {
-        pending: {
-            text: 'Waiting for customer confirmation of the order.',
-            image: 'logo/payment-processing.jpg'
-        },
-        assigntoRider: {
-            text: 'The rider is assigned to deliver goods.',
-            image: 'img/banners/understand.png'
-        },
-        acceptedbyRider: {   
-            text: 'The rider is accepted the order.',
-            image: 'img/banners/ok.png'
-        },
-        riderGoingToStor: {
-            text: 'The rider is on his way to the store.',
-            image: 'img/banners/lets-go.png'
-        },
-        arrivedatstor: {
-            text: 'The rider has arrived at the store.',
-            image: 'img/banners/arrived-store.png'
-        },
-        onthewayToDeliver: {
-            text: 'The rider is on his way to deliver goods.',
-            image: 'img/banners/step5.png'         //I got the item...I am on the way
-        },
-        arrivedatLocation: {
-            text: 'The rider has arrived at location',
-            image: 'img/banners/arrivedatLocation.png'         //Rider have arrived 
-        },
-        delivered: {
-            text: 'The customer has received the product.',
-            image: 'img/banners/delivered.png'         //
-        },
-        cancelled: {
-            text: 'Order has been cancelled.',
-            image: 'cancelled.jpg'
+        const statusText = ref('')
+        const statusImage = ref('')
+        const polling = ref(null)
+
+        const deliverySeconds = ref(0)
+        const deliveryTimer = ref(null)
+        const timerInitialized = ref(false)
+        const stopAfterThisPoll = ref(false)
+
+        const STATUS_MAP = {
+            pending: {
+                    text: 'Waiting for customer confirmation of the order.',
+                    image: 'logo/payment-processing.jpg'
+                },
+                assigntoRider: {
+                    text: 'The rider is assigned to deliver goods.',
+                    image: 'img/banners/understand.png'
+                },
+                acceptedbyRider: {   
+                    text: 'The rider is accepted the order.',
+                    image: 'img/banners/ok.png'
+                },
+                riderGoingToStor: {
+                    text: 'The rider is on his way to the store.',
+                    image: 'img/banners/lets-go.png'
+                },
+                arrivedatstor: {
+                    text: 'The rider has arrived at the store.',
+                    image: 'img/banners/arrived-store.png'
+                },
+                onthewayToDeliver: {
+                    text: 'The rider is on his way to deliver goods.',
+                    image: 'img/banners/step5.png'         //I got the item...I am on the way
+                },
+                arrivedatLocation: {
+                    text: 'The rider has arrived at location',
+                    image: 'img/banners/arrivedatLocation.png'         //Rider have arrived 
+                },
+                delivered: {
+                    text: t('The customer has received the product'),
+                    image: 'img/banners/delivered.jpg'         //
+                },
+                cancelled: {
+                    text: 'Order has been cancelled.',
+                    image: 'img/banners/cancelled.jpg'
+                }
         }
-    }
-    const fetchOrderStatus = async () => {
-        try {
-            const res = await axios.get(
-                `/myOrder/status/${base64Encode(props.OrderRecords.order_key)}`
-            )
+
+        const fetchOrderStatus = async () => {
+            try {
+                const res = await axios.get(
+                    `/myOrder/status/${base64Encode(props.OrderRecords.order_key)}`
+                )
+
+                const data = res.data
+                router.reload(props.OrderRecords);
+                    // ❌ STOP conditions
+                    if (data.is_today === false ) {
+                        stopPolling()
+                        stopDeliveryCountdown()
+                        return
+                    }
+                    /* ================STOP POLLING IF FLAG IS SET================ */
+                    if (stopAfterThisPoll.value == true) {
+                        stopPolling()
+                        return
+                    }
+                /* ===============FINAL STATES → STOP EVERYTHING================== */
+                if (data.assign_status == 'delivered' || data.order_status == 'cancelled') {
+
+                    stopDeliveryCountdown()
+                    deliverySeconds.value = 0       // 👈 clear UI
+                    stopAfterThisPoll.value = true  // 👈 stop polling AFTER this call
+
+                    const statusConfig = STATUS_MAP[data.assign_status]
+                    statusText.value = statusConfig.text
+                    statusImage.value = `${page.props.appUrl}/website/assets/${statusConfig.image}`
+
+                    return // ❌ VERY IMPORTANT — EXIT HERE
+                }
+
             
-            const data = res.data
-           
-            // ❌ STOP conditions
-            if (data.is_today === false ) {
-                
-                stopPolling()
-                stopDeliveryCountdown()
-                return
+                /* ===============INITIALIZE COUNTDOWN ONLY ONCE=================== */
+                if (!timerInitialized.value && Number.isFinite(data.remaining_seconds)) {
+                    deliverySeconds.value = Math.floor(data.remaining_seconds)
+                    timerInitialized.value = true
+                    startDeliveryCountdown()
+                }
+
+                const statusConfig = STATUS_MAP[data.assign_status] || STATUS_MAP.pending
+                statusText.value = statusConfig.text
+                statusImage.value = `${page.props.appUrl}/website/assets/${statusConfig.image}`
+
+            } catch (e) {
+                console.error(e)
+            }
+        }
+
+
+
+        const startPolling = () => {
+            fetchOrderStatus()
+            polling.value = setInterval(fetchOrderStatus, 10000)
+        }
+
+        const stopPolling = () => {
+            if (polling.value) {
+                clearInterval(polling.value)
+                polling.value = null
+            }
+        }
+
+        // ⏱ Countdown (REAL TIME)
+        const startDeliveryCountdown = () => {
+            if (deliveryTimer.value) return
+
+            deliveryTimer.value = setInterval(() => {
+                if (deliverySeconds.value > 0) {
+                    deliverySeconds.value--
+                } else {
+                    stopDeliveryCountdown()
+                }
+            }, 1000)
+        }
+
+        const stopDeliveryCountdown = () => {
+            if (deliveryTimer.value) {
+                clearInterval(deliveryTimer.value)
+                deliveryTimer.value = null
+            }
+        }
+
+        // ⏰ MM:SS formatter
+        const formatTime = (seconds) => {
+            seconds = parseInt(seconds, 10)
+
+            if (isNaN(seconds) || seconds <= 0) {
+                return '00:00'
             }
 
-            if(data.assign_status == 'delivered' || data.order_status == 'cancelled'){
-                    //  statusText.value = 'The customer has received the product'
-                     stopDeliveryCountdown()
-                     stopAfterThisPoll.value = true
-            }
+            const m = Math.floor(seconds / 60)
+            const s = seconds % 60
 
-            if (stopAfterThisPoll.value) {
-                stopPolling()
-            }
-           
-            router.reload(props.OrderRecords);
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+        }
 
-            // ✅ Update UI
-            const statusConfig = STATUS_MAP[data.assign_status] || STATUS_MAP.pending
-            statusText.value = statusConfig.text
-            statusImage.value = `${page.props.appUrl}/website/assets/${statusConfig.image}`
 
-             // ⏱ Initialize delivery time ONLY ONCE
-             // ⏱ STATIC vs DECREASING LOGIC
-        if (STATIC_STATUSES.includes(data.assign_status)) {
-            // Show time but don't decrease
-            deliverySeconds.value = Math.ceil(data.distance * 10 * 60)
+        onMounted(startPolling)
+        onUnmounted(() => {
+            stopPolling()
             stopDeliveryCountdown()
-        } else {
-            // Start countdown
-            deliverySeconds.value = Math.ceil(data.distance * 10 * 60)
-            startDeliveryCountdown()
-        }
-
-
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    const startPolling = () => {
-        fetchOrderStatus() // immediate
-        polling.value = setInterval(fetchOrderStatus, 10000) // 10 sec
-    }
-    const stopPolling = () => {
-        if (polling.value) {
-            clearInterval(polling.value)
-            polling.value = null
-        }
-    }
-
-    const formatTime = (seconds) => {
-        const m = Math.floor(seconds / 60)
-        const s = seconds % 60
-        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-    }
-
-    const startDeliveryCountdown = () => {
-        if (deliveryTimer.value) return
-
-        deliveryTimer.value = setInterval(() => {
-            if (deliverySeconds.value > 0) {
-                deliverySeconds.value--
-            } else {
-                stopDeliveryCountdown()
-            }
-        }, 1000)
-    }
-
-    const stopDeliveryCountdown = () => {
-        if (deliveryTimer.value) {
-            clearInterval(deliveryTimer.value)
-            deliveryTimer.value = null
-        }
-    }
-
-    onMounted(() => startPolling())
-    onUnmounted(() => {
-        stopPolling()
-        stopDeliveryCountdown()
-    })
+        })
+    //Delivery Tracking functionality code END
 
 
 
@@ -166,8 +181,7 @@
 
    
     // Onclick show popup food code START 
-    import axios from "axios";
-
+    
     const showPopup = ref(false);
     const selectedFood = ref({});
     const suggestion = ref("");
@@ -241,20 +255,38 @@
         <div  class="container-fluid fruite py-5">
             <div class="container bg-light p-2 rounded py-1">
 
-                <div class="order-header d-flex align-items-center">
-                    <Link :href="route('/')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
-                    <div class="text-center flex-grow-1">
-                        <h5 class="mb-0 text-white fw-semibold"><strong>{{ $page.props.translations['My orders'] }}</strong></h5>
-                        <h5 v-if="deliverySeconds > 0" class="mb-0 text-white fw-semibold">Estimated delivery time: <strong>{{ formatTime(deliverySeconds) }}</strong></h5>
-                        
+                    <div class="order-header d-flex align-items-center">
+                        <Link :href="route('/')">
+                            <button class="btn back-btn me-3">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                        </Link>
+
+                        <div class="text-center flex-grow-1">
+                            <h5 class="mb-0 text-white fw-semibold">
+                                <strong>{{ $page.props.translations['My orders'] }}</strong>
+                            </h5>
+                            <h5 v-if="deliverySeconds > 0 && OrderRecords.order_status !== 'cancelled' && OrderRecords.order_status !== 'delivered'" class="mb-0 text-white fw-semibold">
+                                Estimated delivery time:
+                                <strong>{{ formatTime(deliverySeconds) }}</strong>
+                            </h5>
+
+
+                        </div>
                     </div>
-                </div>
-                <!-- SUCCESS ALERT -->
-                <div v-if="OrderRecords.order_status != 'cancelled'" class="alert alert-success mb-4 text-center"><strong>{{ statusText }}</strong></div>
-                <!-- PROCESSING VIEW -->
-                <div v-if="OrderRecords.order_status != 'cancelled'" class="text-center">
-                    <img :src="statusImage" class="img-fluid mb-3 rounded" style="max-width:300px;" />
-                </div>
+
+                    <div class="alert alert-success mb-4 text-center">
+                        <strong>{{ statusText }}</strong>
+                    </div>
+
+                    <div class="text-center">
+                        <img
+                            :src="statusImage"
+                            class="img-fluid mb-3 rounded"
+                            style="max-width:300px;"
+                        />
+                    </div>
+
                 
             </div>
         </div>
@@ -414,7 +446,7 @@
                                         <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderRecords.shipping_charge ?? '' }}</p>
                                 </div>
                                 <div v-if="OrderRecords.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
-                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimun order diffrence'] }}</h6>
+                                        <h6 class="mb-0 me-4 text-danger">{{ $page.props.translations['Minimum order difference'] }}</h6>
                                         <p class="mb-0 text-danger">{{ currencyData.currency_symbol ?? '฿' }} {{ OrderRecords.minimum_order_diffrence ?? '' }}</p>
                                 </div>
                                 <div v-if="OrderRecords.new_customer_discount > 0" class="d-flex justify-content-between mb-2">
@@ -447,7 +479,9 @@
 
                                 </div>
                                 <div class="col-4 d-flex">                           
-                                            <button v-if="OrderRecords.order_status != 'cancelled'" class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
+                                            <button v-if="OrderRecords.order_status != 'cancelled'  && OrderRecords.order_status != 'delivered' 
+                                            && OrderRecords.assign_status != 'onthewayToDeliver' && OrderRecords.assign_status != 'arrivedatLocation'" 
+                                            class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
                                                 {{ $page.props.translations['Cancel'] }}
                                             </button>
                                             <!-- Cancel Popup -->
