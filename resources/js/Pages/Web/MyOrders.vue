@@ -15,6 +15,11 @@ const appUrl = usePage().props.appUrl;
     router.get(`/myOrder/orderDetails/${order_key}`)
     }
     //Onclick redirect page code END
+
+    const capitalizeFirst = (text) => {
+    if (!text) return ''
+        return text.charAt(0).toUpperCase() + text.slice(1)
+    }
 </script>
 <style>
 .order-card {
@@ -59,10 +64,7 @@ const appUrl = usePage().props.appUrl;
                     <!-- Back button -->
                     <Link :href="route('cart')"><button class="btn back-btn me-3"><i class="fas fa-arrow-left"></i></button></Link>
                     <div class="text-center flex-grow-1">
-                        <h5 class="mb-0 text-white fw-semibold">
-                             {{ $page.props.translations['My order'] }}
-                        </h5>
-                       
+                        <h5 class="mb-0 text-white fw-semibold">{{ $page.props.translations['My order'] }}</h5>
                     </div>
                 </div><br/>
                 <div class="tab-class text-center">
@@ -75,12 +77,12 @@ const appUrl = usePage().props.appUrl;
                                     
                                         <div v-for="records in props.orderLists" :key="records.id" class="order-card p-4 rounded mb-4 bg-white" @click="openMenu(records.order_key)">
                                             <div class="order-row">
-                                                <span>Order ID</span>
+                                                <span>{{ $page.props.translations['Order ID'] }}</span>
                                                 <span>{{ records.order_key }}</span>
                                             </div>
 
                                             <div class="order-row">
-                                                <span>Store name</span>
+                                                <span>{{ $page.props.translations['Store name'] }}</span>
                                                 <span>{{ records.getstor.translationforvuepage.stor_name }}</span>
                                             </div>
 
@@ -90,12 +92,12 @@ const appUrl = usePage().props.appUrl;
                                             </div>
 
                                             <div class="order-row">
-                                                <span>Date</span>
+                                                <span>{{ $page.props.translations['Date'] }}</span>
                                                 <span>{{ records.order_date }}</span>
                                             </div>
 
-                                            <div class="order-row">
-                                                <span>Status</span>
+                                            <div v-if="records.payment_status !== 'awaiting verification'" class="order-row">
+                                                <span>{{ $page.props.translations['Status'] }}</span>
                                                 <span
                                                     class="badge"
                                                     :class="{
@@ -104,7 +106,20 @@ const appUrl = usePage().props.appUrl;
                                                         'bg-warning text-dark': records.order_status === 'success'
                                                     }"
                                                 >
-                                                    {{ records.order_status }}
+                                                    {{ capitalizeFirst(records.order_status ?? '') }}
+                                                </span>
+                                            </div>
+                                            <div v-if="records.order_status === 'success'" class="order-row">
+                                                <span>{{ $page.props.translations['Payment Status'] }}</span>
+                                                <span
+                                                    class="badge"
+                                                    :class="{
+                                                        'bg-success': records.payment_status === 'success',
+                                                        'bg-danger': records.payment_status === 'pending',
+                                                        'bg-warning text-dark': records.payment_status === 'awaiting verification'
+                                                    }"
+                                                >
+                                                    {{ capitalizeFirst(records.payment_status ?? '') }}
                                                 </span>
                                             </div>
                                         </div>

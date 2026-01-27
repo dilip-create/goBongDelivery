@@ -676,6 +676,21 @@ return [
     "Order Cancelled" => "ការបញ្ជាទិញត្រូវបានលុបចោល",
     "Your order has been cancelled" => "ការបញ្ជាទិញរបស់អ្នកត្រូវបានលុបចោល",
     "Please enter cancel reason" => "សូមបញ្ចូលហេតុផលបោះបង់",
+    "Sending your items for order" => "ផ្ញើទំនិញរបស់អ្នកសម្រាប់ការបញ្ជាទិញ",
+    "The customer has received the product" => "អតិថិជនបានទទួលផលិតផលហើយ។",
+    "Store name" => "ឈ្មោះហាង",
+    "Order Management" => "ការគ្រប់គ្រងការបញ្ជាទិញ",
+    "Store Orders" => "ការបញ្ជាទិញតាមហាង",
+    "Customer name" => "ឈ្មោះអតិថិជន",
+    "Estimated delivery time" => "ពេលវេលាចែកចាយប៉ាន់ស្មាន",
+    "Amount/Distance" => "ចំនួន/ចម្ងាយ",
+    "Rider name" => "ឈ្មោះអ្នកជិះ",
+    "Order History" => "ប្រវត្តិនៃការបញ្ជាទិញ",
+    "Awaiting verification" => "កំពុងរង់ចាំការផ្ទៀងផ្ទាត់",
+    "RiderGoingToStore" => "RiderGoingToStore",
+    "ArrivedatStore" => "មកដល់ហាង",
+    "OnthewayToDeliver" => "OnthewayToDeliver",
+    "ArrivedatLocation" => "មកដល់ទីតាំង",
 
 
 

@@ -256,7 +256,7 @@
             <div class="container bg-light p-2 rounded py-1">
 
                     <div class="order-header d-flex align-items-center">
-                        <Link :href="route('/')">
+                        <Link :href="route('orderlist')">
                             <button class="btn back-btn me-3">
                                 <i class="fas fa-arrow-left"></i>
                             </button>
@@ -267,7 +267,7 @@
                                 <strong>{{ $page.props.translations['My orders'] }}</strong>
                             </h5>
                             <h5 v-if="deliverySeconds > 0 && OrderRecords.order_status !== 'cancelled' && OrderRecords.order_status !== 'delivered'" class="mb-0 text-white fw-semibold">
-                                Estimated delivery time:
+                                {{ $page.props.translations['Estimated delivery time'] }}:
                                 <strong>{{ formatTime(deliverySeconds) }}</strong>
                             </h5>
 
