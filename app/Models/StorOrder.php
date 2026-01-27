@@ -27,6 +27,21 @@ class StorOrder extends Model
     {
         return $this->belongsTo(Stor::class, 'stor_id');
     }
+
+    public function getShopName()
+    {
+        return $this->belongsTo(User::class, 'storLoginId');
+    }
+
+    public function getCustomerdata()
+    {
+        return $this->belongsTo(Customer::class, 'cust_id');
+    }
+
+    public function getCurrencydata()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
     
 
 }

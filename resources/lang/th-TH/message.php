@@ -677,6 +677,21 @@ return [
     "Your order has been cancelled" => "คำสั่งซื้อของคุณถูกยกเลิกแล้ว",
     "Please enter cancel reason" => "กรุณากรอกเหตุผลการยกเลิก",
     "The customer has received the product" => "ลูกค้าได้รับสินค้าแล้ว",
+    "Sending your items for order" => "กำลังจัดส่งสินค้าของคุณเพื่อทำการสั่งซื้อ",
+    "The customer has received the product" => "ลูกค้าได้รับสินค้าแล้ว",
+    "Store name" => "ชื่อร้าน",
+    "Order Management" => "การจัดการคำสั่งซื้อ",
+    "Store Orders" => "คำสั่งซื้อของร้านค้า",
+    "Customer name" => "ชื่อลูกค้า",
+    "Estimated delivery time" => "ระยะเวลาจัดส่งโดยประมาณ",
+    "Amount/Distance" => "จำนวนเงิน/ระยะทาง",
+    "Rider name" => "ชื่อไรเดอร์",
+    "Order History" => "ประวัติการสั่งซื้อ",
+    "Awaiting verification" => "รอการตรวจสอบ",
+    "RiderGoingToStore" => "ผู้ขับขี่ไปร้านค้า",
+    "ArrivedatStore" => "ถึงแล้วร้าน",
+    "OnthewayToDeliver" => "กำลังเดินทางไปส่ง",
+    "ArrivedatLocation" => "วันที่มาถึง ณ สถานที่",
     
     
     
