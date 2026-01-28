@@ -692,6 +692,11 @@ return [
     "ArrivedatStore" => "ถึงแล้วร้าน",
     "OnthewayToDeliver" => "กำลังเดินทางไปส่ง",
     "ArrivedatLocation" => "วันที่มาถึง ณ สถานที่",
+    "Food" => "อาหาร",
+    "Transport" => "ขนส่ง",
+    "Express" => "ด่วน",
+    "Mart" => "มาร์ท",
+    "View All" => "ดูทั้งหมด",
     
     
     

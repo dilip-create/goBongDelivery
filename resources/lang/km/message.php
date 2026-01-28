@@ -691,6 +691,11 @@ return [
     "ArrivedatStore" => "មកដល់ហាង",
     "OnthewayToDeliver" => "OnthewayToDeliver",
     "ArrivedatLocation" => "មកដល់ទីតាំង",
+    "Food" => "អាហារ",
+    "Transport" => "ការដឹកជញ្ជូន",
+    "Express" => "ប្រេស",
+    "Mart" => "ម៉ាត",
+    "View All" => "មើលទាំងអស់។",
 
 
 

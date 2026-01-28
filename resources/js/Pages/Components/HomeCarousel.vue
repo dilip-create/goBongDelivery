@@ -1,6 +1,6 @@
 <template>
      <div class="container-fluid vesitable">
-            <div class="container py-5">
+            <div class="container">
                 <h2>📌{{ $page.props.translations['Recommended shops'] }}</h2>
                 <div class=" justify-content-center">
                     
@@ -35,8 +35,8 @@
                           </div>
                         </div>
                         <!-- nav -->
-                        <button class="nav prev" @click="prev">‹</button>
-                        <button class="nav next" @click="next">›</button>
+                        <!-- <button class="nav prev" @click="prev">‹</button>
+                        <button class="nav next" @click="next">›</button> -->
                       </div> 
                 </div>
             </div>
