@@ -1,6 +1,7 @@
 <script setup>
     // import your components
     import Carousel from '../Components/HomeCarousel.vue'
+    import SmallBanner from '../Components/SmallBanner.vue'
     //For base URL code START
     import { router, usePage } from '@inertiajs/vue3'
     const appUrl = usePage().props.appUrl;
@@ -72,6 +73,34 @@ onMounted(() => {
         return text.charAt(0).toUpperCase() + text.slice(1)
     }
 </script>
+<style>
+.service-card {
+    position: relative;
+}
+
+.service-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff9800;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    z-index: 2;
+}
+
+.service-img {
+    height: 172px;
+    object-fit: cover;
+}
+
+
+
+
+
+</style>
 
 
 <template>
@@ -95,7 +124,124 @@ onMounted(() => {
             </div>
 
         <!-- POPUP END -->
-        <div class="container-fluid hero-header"> 
+          <!--New Featurs Start -->
+        <div class="container-fluid service hero-header">
+            <div class="container py-3">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="service-card bg-secondary rounded border border-secondary">
+                                <span class="service-badge">Promo</span>
+                                <img :src="`${appUrl}/website/assets/img/adition/food.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">{{ $page.props.translations['Food'] }}</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/transport.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">{{ $page.props.translations['Transport'] }}</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/express.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">{{ $page.props.translations['Express'] }}</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="service-card bg-secondary rounded border border-secondary">
+                                <span class="service-badge">Deal</span>
+                                <img :src="`${appUrl}/website/assets/img/adition/mart.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">{{ $page.props.translations['Mart'] }}</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/gonow.png`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">GoNow</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/nham24.png`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">Nham24</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/tuktuk.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">Tuk Tuk</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="#">
+                            <div class="bg-secondary rounded border border-secondary">
+                                <img :src="`${appUrl}/website/assets/img/adition/viewall.png`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
+                                <div class="px-4 rounded-bottom">
+                                    <div class="service-content bg-primary text-center p-2 rounded">
+                                        <h5 class="text-white">{{ $page.props.translations['View All'] }}</h5>
+                                        <!-- <h3 class="mb-0">20% OFF</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+
+
+                </div>
+            </div>
+        </div>
+        <!--New Featurs End -->
+        <div class="container-fluid"> 
             <div class="container py-2">
                 <div class="row g-5 align-items-center">
                     <div class="col-md-12 col-lg-7">
@@ -125,7 +271,7 @@ onMounted(() => {
                                     <img :src="`${appUrl}/website/assets/img/banners/arrivedatLocation.png`" class="img-fluid w-100 step-img  rounded" alt="Rider have arrived">
                                 </div>
                                 <div class="carousel-item rounded">
-                                    <img :src="`${appUrl}/website/assets/img/banners/delivered.png`" class="img-fluid w-100 step-img  rounded" alt="Where do I send thing?">
+                                    <img :src="`${appUrl}/website/assets/img/banners/delivered.jpg`" class="img-fluid w-100 step-img  rounded" alt="Where do I send thing?">
                                 </div>
                                 <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/understand.png`" class="img-fluid w-100 step-img  rounded" alt="Understand">
@@ -137,14 +283,14 @@ onMounted(() => {
                                     <img :src="`${appUrl}/website/assets/img/banners/step4.png`" class="img-fluid w-100 step-img  rounded" alt="Thank you"> 
                                 </div>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -152,8 +298,11 @@ onMounted(() => {
         </div>
         <!-- Hero End -->
         <!-- Carousel slider START -->
-         <Carousel :recommendedstors="recommendedstors" />
+        <SmallBanner />
          <!-- Carousel slider END -->
+        <!-- Carousel slider START -->
+         <Carousel :recommendedstors="recommendedstors" />
+        <!-- Carousel slider END -->
        <!-- Fruits Shop Start-->
         <div class="container-fluid fruite">
             <div class="container">

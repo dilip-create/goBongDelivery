@@ -696,7 +696,11 @@ return [
     "ArrivedatStore" => "ArrivedatStore",
     "OnthewayToDeliver" => "OnthewayToDeliver",
     "ArrivedatLocation" => "ArrivedatLocation",
-    "Categories" => "Categories",
+    "Food" => "Food",
+    "Transport" => "Transport",
+    "Express" => "Express",
+    "Mart" => "Mart",
+    "View All" => "View All",
     "Categories" => "Categories",
     "Categories" => "Categories",
 
