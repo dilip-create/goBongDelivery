@@ -31,31 +31,31 @@
 
         const STATUS_MAP = {
             pending: {
-                    text: 'Waiting for customer confirmation of the order.',
+                    text: t('Waiting for customer confirmation of the order'),
                     image: 'logo/payment-processing.jpg'
                 },
                 assigntoRider: {
-                    text: 'The rider is assigned to deliver goods.',
+                    text: t('The rider is assigned to deliver goods'),
                     image: 'img/banners/understand.png'
                 },
                 acceptedbyRider: {   
-                    text: 'The rider is accepted the order.',
+                    text: t('The rider is accepted the order'),
                     image: 'img/banners/ok.png'
                 },
                 riderGoingToStor: {
-                    text: 'The rider is on his way to the store.',
+                    text: t('The rider is on his way to the store'),
                     image: 'img/banners/lets-go.png'
                 },
                 arrivedatstor: {
-                    text: 'The rider has arrived at the store.',
+                    text: t('The rider has arrived at the store'),
                     image: 'img/banners/arrived-store.png'
                 },
                 onthewayToDeliver: {
-                    text: 'The rider is on his way to deliver goods.',
+                    text: t('The rider is on his way to deliver goods'),
                     image: 'img/banners/step5.png'         //I got the item...I am on the way
                 },
                 arrivedatLocation: {
-                    text: 'The rider has arrived at location',
+                    text: t('The rider has arrived at location'),
                     image: 'img/banners/arrivedatLocation.png'         //Rider have arrived 
                 },
                 delivered: {
@@ -63,7 +63,7 @@
                     image: 'img/banners/delivered.jpg'         //
                 },
                 cancelled: {
-                    text: 'Order has been cancelled.',
+                    text: t('Order has been cancelled'),
                     image: 'img/banners/cancelled.jpg'
                 }
         }
@@ -276,7 +276,7 @@
                     </div>
 
                     <div class="alert alert-success mb-4 text-center">
-                        <strong>{{ statusText }}</strong>
+                        <strong>{{ statusText }}.</strong>
                     </div>
 
                     <div class="text-center">

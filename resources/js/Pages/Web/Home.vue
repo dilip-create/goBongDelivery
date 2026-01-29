@@ -2,6 +2,7 @@
     // import your components
     import Carousel from '../Components/HomeCarousel.vue'
     import SmallBanner from '../Components/SmallBanner.vue'
+    import HomeCategoryCarousel from '../Components/HomeCategoryCarousel.vue'
     //For base URL code START
     import { router, usePage } from '@inertiajs/vue3'
     const appUrl = usePage().props.appUrl;
@@ -299,6 +300,7 @@ onMounted(() => {
         <!-- Hero End -->
         <!-- Carousel slider START -->
         <SmallBanner />
+        <HomeCategoryCarousel />
          <!-- Carousel slider END -->
         <!-- Carousel slider START -->
          <Carousel :recommendedstors="recommendedstors" />

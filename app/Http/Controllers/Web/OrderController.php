@@ -40,7 +40,7 @@ class OrderController extends Controller
         // ✅ Set timezone
         date_default_timezone_set('Asia/Phnom_Penh');
 
-        $order = StorOrder::where('order_key', base64_decode($orderKey))->firstOrFail();
+        $order = StorOrder::where('order_key', base64_decode($orderKey))->orderBy('id', 'desc')->first();
 
         // Example: minutes delivery
         $estimatedMinutes = $order->distance_between_shop_customer*10;
