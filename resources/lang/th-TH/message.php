@@ -697,6 +697,20 @@ return [
     "Express" => "ด่วน",
     "Mart" => "มาร์ท",
     "View All" => "ดูทั้งหมด",
+    "New&Pro" => "นิวแอนด์โปร",
+    "Topped-chicken" => "ไก่ราดหน้า",
+    "Fast Food" => "อาหารจานด่วน",
+    "Water & snacks" => "น้ำและของว่าง",
+    "Isaan pork thai" => "หมูอีสานไทย",
+    "Waiting for customer confirmation of the order" => "รอการยืนยันคำสั่งซื้อจากลูกค้า",
+    "The rider is assigned to deliver goods" => "พนักงานส่งของได้รับมอบหมายให้ส่งสินค้า",
+    "The rider is accepted the order" => "ผู้ขับขี่รับคำสั่งซื้อแล้ว",
+    "The rider is on his way to the store" => "ผู้ขับขี่กำลังมุ่งหน้าไปที่ร้านค้า",
+    "The rider has arrived at the store" => "ผู้ขับขี่มาถึงร้านแล้ว",
+    "The rider is on his way to deliver goods" => "ผู้ขับขี่กำลังเดินทางไปส่งสินค้า",
+    "The rider has arrived at location" => "ผู้ขับขี่ได้มาถึงสถานที่แล้ว",
+    "Order has been cancelled" => "คำสั่งซื้อถูกยกเลิกแล้ว",
+    "Noodle" => "ก๋วยเตี๋ยว",
     
     
     

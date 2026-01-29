@@ -696,6 +696,20 @@ return [
     "Express" => "ប្រេស",
     "Mart" => "ម៉ាត",
     "View All" => "មើលទាំងអស់។",
+    "New&Pro" => "ថ្មី&ប្រូ",
+    "Topped-chicken" => "មាន់ជល់",
+    "Fast Food" => "អាហាររហ័ស",
+    "Water & snacks" => "ទឹក និងអាហារសម្រន់",
+    "Isaan pork thai" => "សាច់ជ្រូកថៃ",
+    "Waiting for customer confirmation of the order" => "រង់ចាំការបញ្ជាក់របស់អតិថិជនអំពីការបញ្ជាទិញ",
+    "The rider is assigned to deliver goods" => "អ្នកជិះត្រូវបានចាត់តាំងឱ្យដឹកជញ្ជូនទំនិញ",
+    "The rider is accepted the order" => "អ្នកជិះត្រូវបានទទួលយកការបញ្ជាទិញ",
+    "The rider is on his way to the store" => "អ្នកជិះកំពុងធ្វើដំណើរទៅហាង",
+    "The rider has arrived at the store" => "អ្នកជិះបានមកដល់ហាងហើយ។",
+    "The rider is on his way to deliver goods" => "អ្នកជិះកំពុងធ្វើដំណើរដើម្បីដឹកជញ្ជូនទំនិញ",
+    "The rider has arrived at location" => "អ្នកជិះបានមកដល់ទីតាំងហើយ។",
+    "Order has been cancelled" => "ការបញ្ជាទិញត្រូវបានលុបចោល",
+    "Noodle" => "គុយទាវ",
 
 
 
