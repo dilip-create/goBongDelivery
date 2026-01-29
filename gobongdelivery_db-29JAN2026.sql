@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2026 at 12:29 PM
+-- Generation Time: Jan 29, 2026 at 11:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,16 +38,18 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('1b6453892473a467d07372d45eb05abc2031647a', 'i:1;', 1761556694),
-('1b6453892473a467d07372d45eb05abc2031647a:timer', 'i:1761556694;', 1761556694),
-('356a192b7913b04c54574d18c28d46e6395428ab', 'i:1;', 1762242353),
-('356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1762242353;', 1762242353),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'i:1;', 1761292391),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0:timer', 'i:1761292391;', 1761292391),
-('livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1763353318),
-('livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1763353318;', 1763353318),
-('livewire-rate-limiter:eab216f95727913eee52b11b4b863b41a4bf4332', 'i:1;', 1767681339),
-('livewire-rate-limiter:eab216f95727913eee52b11b4b863b41a4bf4332:timer', 'i:1767681339;', 1767681339);
+('1b6453892473a467d07372d45eb05abc2031647a', 'i:2;', 1768985884),
+('1b6453892473a467d07372d45eb05abc2031647a:timer', 'i:1768985884;', 1768985884),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'i:1;', 1768983554),
+('356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1768983554;', 1768983554),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', 'i:1;', 1768995083),
+('77de68daecd823babbb58edb1c8e14d7106e83bb:timer', 'i:1768995083;', 1768995083),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'i:1;', 1768984376),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0:timer', 'i:1768984376;', 1768984376),
+('livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1769569864),
+('livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1769569864;', 1769569864),
+('livewire-rate-limiter:eab216f95727913eee52b11b4b863b41a4bf4332', 'i:1;', 1769237262),
+('livewire-rate-limiter:eab216f95727913eee52b11b4b863b41a4bf4332:timer', 'i:1769237262;', 1769237262);
 
 -- --------------------------------------------------------
 
@@ -85,12 +87,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `customer_id`, `stor_id`, `stor_food_id`, `f_qty`, `suggetion`, `order_status`, `food_cart_status`, `created_at`, `updated_at`) VALUES
-(25, 930754, 3, 16, 2, NULL, 0, 1, '2025-11-26 04:16:32', '2025-11-26 04:16:32'),
-(26, 232101, 3, 17, 2, NULL, 0, 1, '2025-12-02 21:00:37', '2025-12-02 21:00:37'),
-(27, 132933, 1, 5, 2, NULL, 0, 1, '2025-12-26 00:10:55', '2025-12-26 00:11:17'),
-(28, 189684, 1, 6, 1, NULL, 0, 1, '2025-12-26 02:35:07', '2025-12-26 02:35:07'),
-(29, 258222, 3, 16, 2, NULL, 0, 1, '2026-01-01 20:26:32', '2026-01-01 20:26:32'),
-(32, 635783, 1, 4, 3, NULL, 0, 1, '2026-01-05 02:59:16', '2026-01-05 02:59:16');
+(199, 2, 2, 32, 1, NULL, 1, 0, '2026-01-29 03:35:53', '2026-01-29 10:36:09'),
+(200, 2, 2, 31, 1, NULL, 1, 0, '2026-01-29 03:35:56', '2026-01-29 10:36:09');
 
 -- --------------------------------------------------------
 
@@ -286,9 +284,68 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `mobile_country_code`, `phoneNumber`, `picture`, `lat`, `long`, `email`, `password`, `status`, `created_at`, `updated_at`) VALUES
-(2, 'sk yafav dk', NULL, '1111111111', 'customers/hj29DFzlEXV7weoBo1FSu12SpmcPU66GPOmbQR04.jpg', NULL, NULL, NULL, NULL, 1, '2025-11-16 21:22:04', '2025-11-21 01:32:19'),
+(2, 'sk yafav dk', NULL, '1111111111', 'customers/fgwmCUmNskQynGYIHXeYjFM1RFL3aoTHkM1dHd1s.jpg', NULL, NULL, NULL, NULL, 1, '2025-11-16 21:22:04', '2026-01-21 04:13:48'),
 (3, 'dk', NULL, '1111111112', 'customers/ylsO8vHhMOQWOw9sJNJgGZiYCwsnDVwnxfmlzcUX.jpg', NULL, NULL, NULL, NULL, 1, '2025-11-16 23:40:00', '2025-11-21 01:33:44'),
 (4, NULL, NULL, '2222222222', NULL, NULL, NULL, NULL, NULL, 1, '2025-11-17 20:49:01', '2025-11-17 20:49:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_addresses`
+--
+
+CREATE TABLE `delivery_addresses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `cust_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `landmark` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `lat` varchar(255) DEFAULT NULL,
+  `long` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `delivery_addresses`
+--
+
+INSERT INTO `delivery_addresses` (`id`, `cust_id`, `name`, `mobile`, `address`, `city`, `landmark`, `location`, `lat`, `long`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Jack', '+855 69861400', 'building U', 'Poipet Banteay Meanchey Province', 'Akia thmey beer city zone 3', NULL, '-435734587375843', '-3456347534', 1, '2026-01-15 04:24:57', '2026-01-16 20:35:49'),
+(4, 2, NULL, NULL, 'ddddddddddd', NULL, '34325345', NULL, NULL, NULL, 0, '2026-01-15 03:43:48', '2026-01-16 20:35:49'),
+(5, 2, NULL, NULL, 'phnom penh', NULL, 'TK Avenue  25th floor house no 812', NULL, NULL, NULL, 0, '2026-01-15 21:08:45', '2026-01-16 20:35:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_charges`
+--
+
+CREATE TABLE `delivery_charges` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `delivery_type` varchar(255) DEFAULT NULL,
+  `distance_in_km` varchar(255) DEFAULT NULL,
+  `new_customer_discount` varchar(255) DEFAULT NULL,
+  `discount_offer` varchar(255) DEFAULT NULL,
+  `shipping_charge` varchar(255) DEFAULT NULL,
+  `rider_charge` varchar(255) DEFAULT NULL,
+  `own_charge` varchar(255) DEFAULT NULL,
+  `active_plan` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `delivery_charges`
+--
+
+INSERT INTO `delivery_charges` (`id`, `delivery_type`, `distance_in_km`, `new_customer_discount`, `discount_offer`, `shipping_charge`, `rider_charge`, `own_charge`, `active_plan`, `created_at`, `updated_at`) VALUES
+(1, 'food', '1', '20', '0', '10', '5', '5', 1, '2026-01-16 07:46:49', '2026-01-16 07:46:49'),
+(2, 'Laundry', '1', '20', '0', '20', '20', '0', 1, '2026-01-16 07:46:49', '2026-01-16 07:46:49');
 
 -- --------------------------------------------------------
 
@@ -363,9 +420,9 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `name`, `code`, `order`, `status`, `icon`, `created_at`, `updated_at`) VALUES
-(1, 'English', 'en', 0, 1, 'images/flages/01K603A06R0WV80SFSHYF9ZY5V.png', NULL, '2025-10-01 01:27:21'),
-(2, 'Thai', 'th-TH', 1, 1, 'images/flages/01K603FZ90MNNP03SKPQKXVCVQ.png', NULL, '2025-09-25 02:32:57'),
-(3, 'Khmer', 'km', 2, 1, 'images/flages/01K603H0NDWJEKNQP4M1QKBYBX.png', NULL, '2025-09-25 02:33:31');
+(1, 'English', 'en', 0, 1, 'images/flages/01KFFSNG8C5SZANPZAEY0RZPXV.png', NULL, '2026-01-21 01:10:19'),
+(2, 'Thai', 'th-TH', 1, 1, 'images/flages/01KFFSPD4KKA72WS0H7KQQWNV6.png', NULL, '2026-01-21 01:10:49'),
+(3, 'Khmer', 'km', 2, 1, 'images/flages/01KFFSQG6QZQTS8ZQCFY6855N2.png', NULL, '2026-01-21 01:11:25');
 
 -- --------------------------------------------------------
 
@@ -410,7 +467,16 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2025_11_06_065500_create_carts_table', 21),
 (25, '2025_11_07_072916_create_carts_table', 22),
 (26, '2025_11_14_031346_create_customers_table', 23),
-(27, '2025_11_25_082001_create_carts_table', 24);
+(27, '2025_11_25_082001_create_carts_table', 24),
+(28, '2026_01_12_042105_create_delivery_addresses_table', 25),
+(29, '2026_01_16_070115_create_restaurant_orders_table', 26),
+(30, '2026_01_16_073411_create_delivery_charges_table', 27),
+(31, '2026_01_16_080929_create_stor_orders_table', 28),
+(32, '2026_01_16_083226_create_stor_orders_table', 29),
+(33, '2026_01_17_072135_create_stor_orders_table', 30),
+(34, '2026_01_17_075904_create_stor_orders_table', 31),
+(35, '2026_01_22_063318_create_stor_orders_table', 32),
+(36, '2026_01_24_050737_create_stor_orders_table', 33);
 
 -- --------------------------------------------------------
 
@@ -444,8 +510,8 @@ CREATE TABLE `popups` (
 --
 
 INSERT INTO `popups` (`id`, `popup_img`, `ordering`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'images/popup/01K96TNXW7JMDZ7HFJZMP50HF3.jpg', '1', '1', '2025-11-04 00:00:41', '2025-11-04 00:45:50'),
-(2, 'images/popup/01K96X6YH0CY5MZGM1BXVA3X2W.jpg', '2', '1', '2025-11-04 00:44:56', '2025-11-04 00:44:56');
+(1, 'images/popup/01KFFSTQJTH5ZHRN4ZCSBX6JAR.jpg', '1', '1', '2025-11-04 00:00:41', '2026-01-21 01:13:11'),
+(2, 'images/popup/01KFFSZ0CQNEHWAE4S1NAP5H67.png', '2', '1', '2025-11-04 00:44:56', '2026-01-21 01:15:31');
 
 -- --------------------------------------------------------
 
@@ -467,8 +533,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('3ioPCrHQZ16OInYLzguVcD61XAphkvIZAcZm7sjt', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZm9RRG5Ma3hid1lXRGRZbGtSenpaOExKTTkyY05FbmlSeGtpUEF4QyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjg6Imd1ZXN0X2lkIjtpOjYzNTc4Mzt9', 1767607156),
-('lRF1q1IAoxRihTRTPbeRwfui9PdKjOUMCo2sSHeP', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYXAxcExmVXVnTlpockRNOGg4VnJYaHpWaWFueDFWWERsTzVYSTd6VyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wLW1hbmFnZXIvc3Rvci1mb29kcyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMiRGWWlGUmRydWY1RkU5RXBYS25RNC9lUzJRUS80M3lQRlg3ZWNXV05MUmpheDBQUXNlb0JTcSI7fQ==', 1767681312);
+('JoEebgxtRaoQV1MpeHQFr5EenPAVVLa4UMZ0rVDl', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', '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', 1769683458);
 
 -- --------------------------------------------------------
 
@@ -502,11 +567,11 @@ CREATE TABLE `stors` (
 --
 
 INSERT INTO `stors` (`id`, `storLoginId`, `area`, `stor_photo`, `stor_type`, `cuisine`, `stor_mobile`, `commission_type`, `shop_commission`, `opentime`, `closetime`, `stor_lat`, `stor_long`, `distance_from_office`, `openStatus`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '2', 'Go Bong Delivery', 'images/restaurant/01K62KA6JZZXHY652ZZQGF4R6C.jpg', 'Shop', 'Drink', '7234567890', 'Add food costs to the cost price', '20', '07:00:00', '23:59:59', 'rtyrtyrty', 'gjhfghjfh', '0.11', '1', NULL, '2025-09-26 01:47:53', '2025-10-23 23:37:55'),
-(2, '3', 'Go Bong Delivery', 'images/restaurant/01K62MR09W5J93FK4P3FZWAW44.png', 'Shop', 'Ice Cream', '11111111', 'Set the shop GP deduction method', '20', '07:00:00', '23:59:58', '53454356435455', '45345345345', '0.09', '1', NULL, '2025-09-26 02:12:54', '2025-09-29 04:08:22'),
-(3, '4', 'Go Bong Delivery', 'images/restaurant/01K62N8YG3GJSH9EHZ2AVC83YD.gif', 'Restaurant', 'Thai food', '0866666666', 'Set the shop GP deduction method', '20', '07:00:00', '23:59:58', '53454356435455', '45345345345', '0.09', '1', NULL, '2025-09-26 02:22:10', '2025-10-02 02:02:00'),
-(4, '5', 'Go Bong Delivery', 'images/restaurant/01K62P0JPHAMFSZJ2ZA7CR5ACQ.png', 'Laundry', 'Clothes', '22228888', 'Set the shop GP deduction method', '20', '07:00:00', '21:00:00', '13.645502', '102.56653', '1.5', '1', NULL, '2025-09-26 02:35:04', '2025-10-02 01:13:53'),
-(5, '18', 'Go Bong Delivery', 'images/restaurant/01K8JH1ZNH646MDBSYD22EYHVV.png', 'Shop', 'Thai food', '44444444', 'Set the shop GP deduction method', '10', '05:59:59', '23:26:22', '13.681143', '102.563499', '2.5', '1', NULL, '2025-10-20 01:27:21', '2025-10-27 02:52:50');
+(1, '2', 'Go Bong Delivery', 'images/restaurant/01KFFT42PGT9Y3WE3V01JXD475.jpg', 'Shop', 'Drink', '7234567890', 'Add food costs to the cost price', '20', '07:00:00', '23:59:59', 'rtyrtyrty', 'gjhfghjfh', '0.11', '1', NULL, '2025-09-26 01:47:53', '2026-01-21 01:18:17'),
+(2, '3', 'Go Bong Delivery', 'images/restaurant/01KFFT3D190HCA4TV7J3RBGDTR.png', 'Shop', 'Ice Cream', '11111111', 'Set the shop GP deduction method', '20', '07:00:00', '23:59:58', '53454356435455', '45345345345', '0.09', '1', NULL, '2025-09-26 02:12:54', '2026-01-21 01:17:55'),
+(3, '4', 'Go Bong Delivery', 'images/restaurant/01KFFT0Y76FVMZA78NF48PBY7D.gif', 'Restaurant', 'Thai food', '0866666666', 'Set the shop GP deduction method', '20', '07:00:00', '23:59:58', '53454356435455', '45345345345', '0.09', '1', NULL, '2025-09-26 02:22:10', '2026-01-21 01:16:34'),
+(4, '5', 'Go Bong Delivery', 'images/restaurant/01KFFT2SYZYQVPB4G4T62VEYX0.png', 'Laundry', 'Clothes', '22228888', 'Set the shop GP deduction method', '20', '07:00:00', '21:00:00', '13.645502', '102.56653', '1.5', '1', NULL, '2025-09-26 02:35:04', '2026-01-21 01:17:35'),
+(5, '18', 'Go Bong Delivery', 'images/restaurant/01KFFT22VP0X8XPTHNA7GAX5YS.png', 'Shop', 'Thai food', '44444444', 'Set the shop GP deduction method', '10', '05:59:59', '23:26:22', '13.681143', '102.563499', '2.5', '1', NULL, '2025-10-20 01:27:21', '2026-01-21 01:17:12');
 
 -- --------------------------------------------------------
 
@@ -537,36 +602,38 @@ CREATE TABLE `stor_foods` (
 --
 
 INSERT INTO `stor_foods` (`id`, `storLoginId`, `stor_id`, `category_id`, `food_name`, `food_img`, `cost_price`, `selling_price`, `currency_id`, `ordering`, `trending_status`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, '2', '1', '21', 'Taiwanese milk tea', 'images/restaurant/food/01K85TAVCBQC9GZP5S6AJVZVF4.jpg', '28', '35', '3', NULL, '0', '1', NULL, '2025-10-22 04:19:42', '2025-10-22 21:14:35'),
-(2, '2', '1', '21', 'Cocoa milk tea', 'images/restaurant/food/01K8AEV0J80HWAHEDVTTBVG1AH.jpg', '28', '35', '3', '1', '1', '1', NULL, '2025-10-23 23:35:01', '2025-10-23 23:38:16'),
-(3, '2', '1', '21', 'Matcha green tea', 'images/restaurant/food/01K8AF9K5KXVQR8VK87M0HB0C9.jpg', '28', '35', '3', '2', '1', '1', NULL, '2025-10-23 23:42:58', '2025-10-23 23:42:58'),
-(4, '2', '1', '19', 'Green Apple Tea', 'images/restaurant/food/01K8AFE8EW2AZVV7TXT9XGZJPW.jpg', '24', '30', '3', '3', '0', '1', NULL, '2025-10-23 23:45:31', '2025-10-23 23:45:31'),
-(5, '2', '1', '19', 'Strawberry tea', 'images/restaurant/food/01K8AFW645KSP5Y1Q1G4VW8B71.jpg', '24', '30', '3', NULL, '0', '1', NULL, '2025-10-23 23:53:08', '2025-10-23 23:53:08'),
-(6, '2', '1', '20', 'Cocoa Shake', 'images/restaurant/food/01K8AG0NCTDCB6GMRQFPSE8DZY.jpg', '44', '55', '3', '3', '0', '1', NULL, '2025-10-23 23:55:34', '2025-10-23 23:55:34'),
-(7, '2', '1', '20', 'Cocoa Mint', 'images/restaurant/food/01K8AG3MWJE0J17Q97F2M6TXBZ.jpg', '40', '50', '3', NULL, '0', '1', NULL, '2025-10-23 23:57:12', '2025-10-23 23:57:12'),
-(8, '2', '1', '22', 'Honeycomb', 'images/restaurant/food/01K8AK3RH15ZHFVQ6SB5XTHK11.jpg', '16', '20', '3', '1', '0', '1', NULL, '2025-10-24 00:49:42', '2025-10-24 00:49:42'),
-(9, '2', '1', '22', 'Fruit jelly', 'images/restaurant/food/01K8AK5FPN70416WSZXSZX1729.jpg', '16', '20', '3', NULL, '0', '1', NULL, '2025-10-24 00:50:38', '2025-10-24 00:50:38'),
-(10, '2', '1', '22', 'pearl', 'images/restaurant/food/01K8AK7D3M6Z62E7GE6FJ7EWA5.jpg', '12', '15', '3', NULL, '0', '1', NULL, '2025-10-24 00:51:41', '2025-10-24 00:51:41'),
-(11, '2', '1', '22', 'whipped cheese', 'images/restaurant/food/01K8AK8HMG2TQSHTKSQFKV1RJ4.jpg', '16', '20', '3', NULL, '0', '1', NULL, '2025-10-24 00:52:18', '2025-10-24 00:52:18'),
-(12, '4', '3', '33', 'Special Food', 'images/restaurant/food/01K8ASA6JBFCVCQ2TBSD1BEW46.jpg', '0', '0', '3', '0', '1', '1', NULL, '2025-10-24 02:38:04', '2025-11-01 03:54:45'),
-(13, '4', '3', '33', 'Fest Beer Combo Set', 'images/restaurant/food/01K8ASF91JTD7673CEPHJ7H0RD.jpg', '719', '899', '3', '1', '1', '1', NULL, '2025-10-24 02:40:50', '2025-11-01 02:25:09'),
-(14, '4', '3', '14', 'Kale with salted fish', 'images/restaurant/food/01K8ASHK27T2Y04X9V8FK7V7V6.jpg', '72', '90', '3', '2', '0', '1', NULL, '2025-10-24 02:42:06', '2025-11-01 03:47:57'),
-(15, '4', '3', '14', 'salted egg', 'images/restaurant/food/01K8ASM3Q3NA7F0Z40JZKNQ4J2.jpg', '10', '15', '3', '3', '0', '1', NULL, '2025-10-24 02:43:29', '2025-11-01 03:48:04'),
-(16, '4', '3', '9', 'Pork noodle soup', 'images/restaurant/food/01K8ASPN0RQSFMN7DZ00ENJGQ9.jpg', '64', '80', '3', '4', '1', '1', NULL, '2025-10-24 02:44:52', '2025-11-01 03:48:13'),
-(17, '4', '3', '9', 'Beef noodle soup', 'images/restaurant/food/01K8ASRA1Q6G62KZT53NYSSDRD.jpg', '96', '120', '3', '5', '0', '1', NULL, '2025-10-24 02:45:46', '2025-11-01 03:48:23'),
-(18, '4', '3', '10', 'Fried pork salad', 'images/restaurant/food/01K8ASVB4BBM1Y3HPH02XEQF3Y.jpg', '104', '130', '3', '6', '0', '1', NULL, '2025-10-24 02:47:26', '2025-11-01 03:48:30'),
-(19, '4', '3', '10', 'Cooked pork salad', 'images/restaurant/food/01K8ASY470BT9AR3CT8RNTDXW9.jpg', '96', '120', '3', '7', '0', '1', NULL, '2025-10-24 02:48:57', '2025-11-01 03:48:37'),
-(20, '4', '3', '10', 'Papaya salad with crab and fermented fish', 'images/restaurant/food/01K8AT0JHFPQWV24K45XHQCY3Q.jpg', '56', '70', '3', '8', '0', '1', NULL, '2025-10-24 02:50:17', '2025-11-01 03:48:45'),
-(21, '4', '3', '11', 'Pork with lemon', 'images/restaurant/food/01K8AT27KHQAF4JT8R3E9G2929.jpg', '88', '110', '3', '9', '0', '1', NULL, '2025-10-24 02:51:11', '2025-11-01 03:49:04'),
-(22, '4', '3', '11', 'Seafood salad', 'images/restaurant/food/01K8AT4DV8KMD5QS1ZN4Y0MW2R.jpg', '104', '130', '3', '10', '0', '1', NULL, '2025-10-24 02:52:23', '2025-11-01 03:49:12'),
-(23, '4', '3', '15', 'Pork Burger', 'images/restaurant/food/01K8AT6B38M3VXYFVN2W8MMJ9X.jpg', '95', '119', '3', '11', '0', '1', NULL, '2025-10-24 02:53:26', '2025-11-01 03:49:19'),
-(24, '4', '3', '17', 'Rad Na noodles', 'images/restaurant/food/01K8AT90ZV6VFCFV5TMTSRR9GQ.jpg', '60', '75', '3', '12', '0', '1', NULL, '2025-10-24 02:54:54', '2025-11-01 03:49:28'),
-(25, '4', '3', '17', 'Duck on rice', 'images/restaurant/food/01K8ATAE44K21FNG1GMMC09W7J.jpg', '60', '75', '3', '13', '0', '1', NULL, '2025-10-24 02:55:40', '2025-11-01 03:49:35'),
-(26, '4', '3', '17', 'Pork leg rice', 'images/restaurant/food/01K8ATCA3VZX5RX56AFFDF0AT8.jpg', '68', '85', '3', '14', '0', '1', NULL, '2025-10-24 02:56:42', '2025-11-01 03:49:42'),
-(27, '4', '3', '12', 'Ice, per bucket', 'images/restaurant/food/01K8ATE30JMN5RJRQ6GCWYFB2Y.jpg', '10', '20', '3', '15', '0', '1', NULL, '2025-10-24 02:57:40', '2025-11-01 03:49:50'),
-(28, '4', '3', '12', 'Stein Lager, German draft beer, 1 liter', 'images/restaurant/food/01K8ATFVJ1Q1CMSBNSSN6CM5K6.png', '111', '139', '3', '16', '0', '1', NULL, '2025-10-24 02:58:38', '2025-11-01 03:49:57'),
-(29, '4', '3', '14', 'Rice porridge', 'images/restaurant/food/01K8ATH14W1F2JPEK651GHJ0ZC.png', '8', '10', '3', '17', '0', '1', NULL, '2025-10-24 02:59:16', '2025-11-01 03:50:04'),
-(30, '4', '3', '13', 'Hawaiian Pizza (Medium) 12\"', 'images/restaurant/food/01K8JFC3X6QT5E2XNXC973CZSF.png', '212', '265', '1', '18', '1', '1', NULL, '2025-10-27 02:18:17', '2025-11-01 03:50:14');
+(1, '2', '1', '21', 'Taiwanese milk tea', 'images/restaurant/food/01KFFTX4WBQ9GFX630E5ZXVC81.jpg', '28', '35', '3', NULL, '0', '1', NULL, '2025-10-22 04:19:42', '2026-01-21 01:31:58'),
+(2, '2', '1', '21', 'Cocoa milk tea', 'images/restaurant/food/01KFFTFM2A8FGEB0JGGK35T7FP.jpg', '28', '35', '3', '1', '1', '1', NULL, '2025-10-23 23:35:01', '2026-01-21 01:24:35'),
+(3, '2', '1', '21', 'Matcha green tea', 'images/restaurant/food/01KFFTGN03HZQ6BXN23EP262J4.jpg', '28', '35', '3', '2', '1', '1', NULL, '2025-10-23 23:42:58', '2026-01-21 01:25:09'),
+(4, '2', '1', '19', 'Green Apple Tea', 'images/restaurant/food/01KFFTHJGGMYY0Y2YZVRCCQ75H.jpg', '24', '30', '3', '3', '0', '1', NULL, '2025-10-23 23:45:31', '2026-01-21 01:25:39'),
+(5, '2', '1', '19', 'Strawberry tea', 'images/restaurant/food/01KFFTJJ8A3NDNWA6EE3655R1V.jpg', '24', '30', '3', NULL, '0', '1', NULL, '2025-10-23 23:53:08', '2026-01-21 01:26:12'),
+(6, '2', '1', '20', 'Purple sweet potato smoothie', 'images/restaurant/food/01KFFTNVEHK1W26BBRZ3WXC58K.jpg', '44', '55', '3', '3', '0', '1', NULL, '2025-10-23 23:55:34', '2026-01-21 01:27:59'),
+(7, '2', '1', '20', 'Cocoa Mint', 'images/restaurant/food/01KFFTQEQ2A569EZ7JV4CDHMBK.jpg', '40', '50', '3', NULL, '0', '1', NULL, '2025-10-23 23:57:12', '2026-01-21 01:28:52'),
+(8, '2', '1', '22', 'Honeycomb', 'images/restaurant/food/01KFFTS1QNKED1627DSWAMAB5C.jpg', '16', '20', '3', '1', '0', '1', NULL, '2025-10-24 00:49:42', '2026-01-21 01:29:44'),
+(9, '2', '1', '22', 'Fruit jelly', 'images/restaurant/food/01KFFTSY4YP8SZQ1PQ4V9SC7AP.jpg', '16', '20', '3', NULL, '0', '1', NULL, '2025-10-24 00:50:38', '2026-01-21 01:30:13'),
+(10, '2', '1', '22', 'pearl', 'images/restaurant/food/01KFFTTWMWWRVE1FF2TWCR9SKT.jpg', '12', '15', '3', NULL, '0', '1', NULL, '2025-10-24 00:51:41', '2026-01-21 01:30:44'),
+(11, '2', '1', '22', 'whipped cheese', 'images/restaurant/food/01KFFTW658F0CEH7KB12EY21N5.jpg', '16', '20', '3', NULL, '0', '1', NULL, '2025-10-24 00:52:18', '2026-01-21 01:31:27'),
+(12, '4', '3', '33', '1 whole grilled chicken', 'images/restaurant/food/01KFFVMGKVJR4KN821YDE13TC7.jpg', '100', '125', '3', '0', '1', '1', NULL, '2025-10-24 02:38:04', '2026-01-21 02:22:48'),
+(13, '4', '3', '33', 'Pork Tonkatsu Curry Rice Set', 'images/restaurant/food/01KFFVJ3QG1NHJAKNGTXNFJGPD.jpg', '719', '899', '3', '1', '1', '1', NULL, '2025-10-24 02:40:50', '2026-01-21 01:43:25'),
+(14, '4', '3', '14', 'Kale with salted fish', 'images/restaurant/food/01KFFVFR6V8J60X3EAA376MPZ0.jpg', '72', '90', '3', '2', '0', '1', NULL, '2025-10-24 02:42:06', '2026-01-21 01:42:08'),
+(15, '4', '3', '14', 'fried egg', 'images/restaurant/food/01KFFVETTQ23RGX1FFEFEC15PQ.jpg', '10', '15', '3', '3', '0', '1', NULL, '2025-10-24 02:43:29', '2026-01-21 01:41:38'),
+(16, '4', '3', '9', 'Pork noodle soup', 'images/restaurant/food/01KFFVCBA6T76H0AM98EX2QPQ6.jpg', '64', '80', '3', '4', '1', '1', NULL, '2025-10-24 02:44:52', '2026-01-21 01:40:16'),
+(17, '4', '3', '9', 'Beef noodle soup', 'images/restaurant/food/01KFFV8C63T1VF889904KYTKRB.jpg', '96', '120', '3', '5', '0', '1', NULL, '2025-10-24 02:45:46', '2026-01-21 01:38:06'),
+(18, '4', '3', '10', 'Fried pork with garlic', 'images/restaurant/food/01KFFVAJSBDJGDXHBDTVCVHTFX.jpg', '104', '130', '3', '6', '0', '1', NULL, '2025-10-24 02:47:26', '2026-01-21 01:39:19'),
+(19, '4', '3', '10', 'sun-dried pork', 'images/restaurant/food/01KFFVQP0Y84FFXE7WKM731BCX.jpg', '96', '120', '3', '7', '0', '1', NULL, '2025-10-24 02:48:57', '2026-01-21 01:46:28'),
+(20, '4', '3', '10', 'Papaya salad with crab and fermented fish', 'images/restaurant/food/01KFFVNB4MXJMXNCW4JWTBXHQQ.jpg', '56', '70', '3', '8', '0', '1', NULL, '2025-10-24 02:50:17', '2026-01-21 01:45:11'),
+(21, '4', '3', '11', 'Pork with lemon', 'images/restaurant/food/01KFFW8QCEG1T2879AEQMV9ZM5.jpg', '88', '110', '3', '9', '0', '1', NULL, '2025-10-24 02:51:11', '2026-01-21 01:55:46'),
+(22, '4', '3', '11', 'Seafood salad', 'images/restaurant/food/01KFFW7NB892QRW803V1JQ20XN.jpg', '104', '130', '3', '10', '0', '1', NULL, '2025-10-24 02:52:23', '2026-01-21 01:55:11'),
+(23, '4', '3', '15', 'Pork Burger', 'images/restaurant/food/01KFFW6QX0HRCGBC20GYN70CW3.jpg', '95', '119', '3', '11', '0', '1', NULL, '2025-10-24 02:53:26', '2026-01-21 01:54:41'),
+(24, '4', '3', '17', 'Rad Na noodles', 'images/restaurant/food/01KFFW5KQJTDT6PWQQ7JYZWFHF.jpg', '60', '75', '3', '12', '0', '1', NULL, '2025-10-24 02:54:54', '2026-01-21 01:54:04'),
+(25, '4', '3', '17', 'Duck on rice', 'images/restaurant/food/01KFFW3ZGZ6X8VS90YV9AWQ6J3.jpg', '60', '75', '3', '13', '0', '1', NULL, '2025-10-24 02:55:40', '2026-01-21 01:53:11'),
+(26, '4', '3', '17', 'Pork leg rice', 'images/restaurant/food/01KFFW0F9H5VFPTARVCCPCHACS.jpg', '68', '85', '3', '14', '0', '1', NULL, '2025-10-24 02:56:42', '2026-01-21 01:51:16'),
+(27, '4', '3', '12', 'Ice, per bucket', 'images/restaurant/food/01KFFWC6KS2Q57QNXR0TPZPQTN.jpg', '10', '20', '3', '15', '0', '1', NULL, '2025-10-24 02:57:40', '2026-01-21 01:57:40'),
+(28, '4', '3', '12', 'Stein Lager, German draft beer, 1 liter', 'images/restaurant/food/01KFFWB5XHJ3ZCWDVW5D67VADC.png', '111', '139', '3', '16', '0', '1', NULL, '2025-10-24 02:58:38', '2026-01-21 01:57:07'),
+(29, '4', '3', '14', 'Rice porridge', 'images/restaurant/food/01KFFVVAKHPT10VE0JVCMY9N9E.png', '8', '10', '3', '17', '0', '1', NULL, '2025-10-24 02:59:16', '2026-01-21 01:48:27'),
+(30, '4', '3', '13', 'Hawaiian Pizza (Medium) 12\"', 'images/restaurant/food/01KFFVTB5ERYP1RBVW23C5V4BS.png', '212', '265', '3', '18', '1', '1', NULL, '2025-10-27 02:18:17', '2026-01-21 01:47:55'),
+(31, '3', '2', '27', 'Wall\'s Tub Vanilla 390g.', 'images/restaurant/food/01KFG521QG8TNXJ3VS16W929PP.jpg', '92', '115', '3', NULL, '0', '1', NULL, '2026-01-21 04:29:25', '2026-01-21 04:29:25'),
+(32, '3', '2', '27', 'Wall\'s 2 in 1 Chocolate Chip 390 grams', 'images/restaurant/food/01KFG543KC9H77552GQDCZ1R6W.jpg', '92', '115', '3', NULL, '1', '1', NULL, '2026-01-21 04:30:32', '2026-01-21 04:30:32');
 
 -- --------------------------------------------------------
 
@@ -607,7 +674,7 @@ INSERT INTO `stor_food_translations` (`id`, `stor_food_id`, `language_id`, `food
 (16, 16, 1, 'Pork noodle soup', NULL, '2025-10-26 21:27:45', '2025-10-26 21:27:45'),
 (17, 16, 2, 'ก๋วยเตี๋ยวหมู', NULL, '2025-10-26 21:28:00', '2025-10-26 21:28:00'),
 (18, 16, 3, 'ស៊ុបគុយទាវសាច់ជ្រូក', NULL, '2025-10-26 21:28:16', '2025-10-26 21:28:16'),
-(19, 17, 1, 'Beef noodle soup', NULL, '2025-10-26 21:28:50', '2025-10-26 21:28:50'),
+(19, 17, 1, 'Beef noodle soup', 'delicious food', '2025-10-26 21:28:50', '2025-10-26 21:28:50'),
 (20, 17, 3, 'ស៊ុបគុយទាវសាច់គោ', NULL, '2025-10-26 21:29:03', '2025-10-26 21:29:03'),
 (21, 17, 2, 'ก๋วยเตี๋ยวเนื้อ', NULL, '2025-10-26 21:29:18', '2025-10-26 21:29:18'),
 (22, 18, 1, 'Fried pork salad', NULL, '2025-10-26 23:27:57', '2025-10-26 23:27:57'),
@@ -683,6 +750,75 @@ INSERT INTO `stor_food_translations` (`id`, `stor_food_id`, `language_id`, `food
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `stor_orders`
+--
+
+CREATE TABLE `stor_orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `stor_id` varchar(255) DEFAULT NULL,
+  `storLoginId` varchar(255) DEFAULT NULL,
+  `cust_id` varchar(255) DEFAULT NULL,
+  `address_id` varchar(255) DEFAULT NULL,
+  `order_key` varchar(255) DEFAULT NULL,
+  `stor_food_id` varchar(255) DEFAULT NULL,
+  `cart_id` varchar(255) DEFAULT NULL,
+  `f_qty` varchar(255) DEFAULT NULL,
+  `total_cost_price` varchar(255) DEFAULT NULL,
+  `subTotal` varchar(255) DEFAULT NULL,
+  `distance_between_shop_customer` varchar(255) DEFAULT NULL,
+  `minimum_order_diffrence` varchar(255) DEFAULT NULL,
+  `shipping_charge` varchar(255) DEFAULT NULL,
+  `rider_charge` varchar(255) DEFAULT NULL,
+  `owncharge_form_riderside` varchar(255) DEFAULT NULL,
+  `owncharge_form_storside` varchar(255) DEFAULT NULL,
+  `new_customer_discount` varchar(255) DEFAULT NULL,
+  `discount_offer` varchar(255) DEFAULT NULL,
+  `totalPayAmount` varchar(255) DEFAULT NULL,
+  `currency_id` varchar(255) DEFAULT NULL,
+  `TransactionId` varchar(255) DEFAULT NULL,
+  `payment_type` varchar(255) DEFAULT NULL,
+  `payment_status` varchar(255) NOT NULL DEFAULT 'pending',
+  `response_all` longtext DEFAULT NULL,
+  `attach_slip` longtext DEFAULT NULL,
+  `payment_time` varchar(255) DEFAULT NULL,
+  `gateway_name` varchar(255) DEFAULT NULL,
+  `order_status` varchar(255) NOT NULL DEFAULT 'pending',
+  `order_date` varchar(255) DEFAULT NULL,
+  `rider_id` varchar(255) DEFAULT NULL,
+  `special_instructions` longtext DEFAULT NULL,
+  `assign_status` enum('pending','assigntoRider','acceptedbyRider','riderGoingToStor','arrivedatstor','onthewayToDeliver','arrivedatLocation','delivered','cancelled') NOT NULL DEFAULT 'pending',
+  `delivery_started_at` timestamp NULL DEFAULT NULL,
+  `cancel_reason` longtext DEFAULT NULL,
+  `latitude` varchar(255) DEFAULT NULL,
+  `longitude` varchar(255) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `stor_orders`
+--
+
+INSERT INTO `stor_orders` (`id`, `stor_id`, `storLoginId`, `cust_id`, `address_id`, `order_key`, `stor_food_id`, `cart_id`, `f_qty`, `total_cost_price`, `subTotal`, `distance_between_shop_customer`, `minimum_order_diffrence`, `shipping_charge`, `rider_charge`, `owncharge_form_riderside`, `owncharge_form_storside`, `new_customer_discount`, `discount_offer`, `totalPayAmount`, `currency_id`, `TransactionId`, `payment_type`, `payment_status`, `response_all`, `attach_slip`, `payment_time`, `gateway_name`, `order_status`, `order_date`, `rider_id`, `special_instructions`, `assign_status`, `delivery_started_at`, `cancel_reason`, `latitude`, `longitude`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '3', '4', '2', '1', 'BNG-0001', '12', '185', '1', '100', '125', '2', '0', '20', '10', '10', '5', '20', '0', '125', '3', NULL, 'online', 'pending', NULL, NULL, NULL, NULL, 'cancelled', '2026-01-24 12:20:13', NULL, NULL, 'cancelled', NULL, 'fffffffff', '-435734587375843', '-3456347534', NULL, '2026-01-24 05:20:13', '2026-01-23 22:20:22'),
+(2, '3', '4', '2', '1', 'BNG-0002', '19', '186', '1', '96', '120', '2', '0', '20', '10', '10', '24', '0', '0', '140', '3', NULL, 'online', 'success', NULL, 'paymentSlip/1w25ZtOIDKdZdwVXyRxENrvCbdbpUIqPZvAqsgZF.png', NULL, NULL, 'delivered', '2026-01-24 12:21:20', NULL, 'need spicy', 'delivered', '2026-01-24 05:27:29', NULL, '-435734587375843', '-3456347534', NULL, '2026-01-24 05:21:20', '2026-01-24 05:27:29'),
+(3, '1', '2', '2', '1', 'BNG-0003', '6', '187', '1', '44', '55', '2', '5', '20', '10', '10', '16', '0', '0', '80', '3', NULL, 'online', 'success', NULL, 'paymentSlip/ZuZikFs9qnZgzRQnVt7Q4MLkAEgUR4qnieFOh7Ah.jpg', NULL, NULL, 'delivered', '2026-01-23 03:50:46', NULL, 'need sweet', 'delivered', '2026-01-24 08:53:51', NULL, '-435734587375843', '-3456347534', NULL, '2026-01-24 08:50:46', '2026-01-24 08:53:51'),
+(4, '3', '4', '2', '1', 'BNG-0004', '22', '188', '1', '104', '130', '2', '0', '20', '10', '10', '26', '0', '0', '150', '3', NULL, 'online', 'pending', NULL, NULL, NULL, NULL, 'cancelled', '2026-01-24 04:32:43', NULL, NULL, 'cancelled', NULL, 'dfgfgfgfg', '-435734587375843', '-3456347534', NULL, '2026-01-24 09:32:43', '2026-01-24 02:32:51'),
+(5, '3', '4', '2', '1', 'BNG-0005', '14', '189', '1', '72', '90', '2', '0', '20', '10', '10', '18', '0', '0', '110', '3', NULL, 'online', 'success', NULL, 'paymentSlip/WGjfRxNmzKwEX5LDze5dGgpaAqLUgIfrQperZC7K.jpg', NULL, NULL, 'delivered', '2026-01-24 04:39:51', NULL, NULL, 'delivered', '2026-01-24 09:45:42', NULL, '-435734587375843', '-3456347534', NULL, '2026-01-24 09:39:51', '2026-01-24 09:45:42'),
+(6, '2', '3', '2', '1', 'BNG-0006', '31', '190', '1', '92', '115', '2', '0', '20', '10', '10', '23', '0', '0', '135', '3', NULL, 'online', 'awaiting verification', NULL, 'paymentSlip/Q83KFTeMdG2qawEH9F6d3vm5CoGNtE8iu1GgodIU.jpg', NULL, NULL, 'success', '2026-01-26 11:58:05', NULL, NULL, 'pending', NULL, NULL, '-435734587375843', '-3456347534', NULL, '2026-01-26 04:58:05', '2026-01-26 04:23:36'),
+(7, '3', '4', '2', '1', 'BNG-0007', '12', '191', '1', '819', '1024', '2', '0', '20', '10', '10', '205', '0', '0', '1044', '3', NULL, 'online', 'awaiting verification', NULL, 'paymentSlip/vleHIu6054AwkYzoBjetndjLdQwipGGwuOR5VbEW.png', NULL, NULL, 'success', '2026-01-27 11:42:51', NULL, NULL, 'pending', NULL, NULL, '-435734587375843', '-3456347534', NULL, '2026-01-27 04:42:51', '2026-01-26 21:43:02'),
+(8, '3', '4', '2', '1', 'BNG-0007', '13', '192', '1', '819', '1024', '2', '0', '20', '10', '10', '205', '0', '0', '1044', '3', NULL, 'online', 'awaiting verification', NULL, 'paymentSlip/vleHIu6054AwkYzoBjetndjLdQwipGGwuOR5VbEW.png', NULL, NULL, 'success', '2026-01-27 11:42:51', NULL, NULL, 'pending', NULL, NULL, '-435734587375843', '-3456347534', NULL, '2026-01-27 04:42:51', '2026-01-26 21:43:02'),
+(9, '3', '4', '2', '1', 'BNG-0008', '12', '193', '1', '819', '1024', '2', '0', '20', '10', '10', '205', '0', '0', '1044', '3', NULL, 'online', 'success', NULL, 'paymentSlip/bdVKd18w2hnF1fPpValCYT2TMaeVxMbK34fB9mEj.jpg', NULL, NULL, 'success', '2026-01-28 10:09:29', NULL, 'need spicy', 'delivered', NULL, NULL, '-435734587375843', '-3456347534', NULL, '2026-01-28 03:09:29', '2026-01-27 20:09:42'),
+(10, '3', '4', '2', '1', 'BNG-0008', '13', '194', '1', '819', '1024', '2', '0', '20', '10', '10', '205', '0', '0', '1044', '3', NULL, 'online', 'success', NULL, 'paymentSlip/bdVKd18w2hnF1fPpValCYT2TMaeVxMbK34fB9mEj.jpg', NULL, NULL, 'success', '2026-01-28 10:09:29', NULL, 'need spicy', 'delivered', NULL, NULL, '-435734587375843', '-3456347534', NULL, '2026-01-28 03:09:29', '2026-01-27 20:09:42'),
+(11, '2', '3', '2', '1', 'BNG-0009', '31', '195', '1', '92', '115', '2', '0', '20', '10', '10', '23', '0', '0', '135', '3', NULL, 'online', 'success', NULL, 'paymentSlip/uCZVK2LkVdOrFvyP66sX99achW15ZmlWLkWgTRLO.jpg', NULL, NULL, 'success', '2026-01-28 10:19:07', NULL, NULL, 'delivered', '2026-01-28 03:21:50', NULL, '-435734587375843', '-3456347534', NULL, '2026-01-28 03:19:07', '2026-01-28 03:21:50'),
+(12, '3', '4', '2', '1', 'BNG-0010', '12', '196', '1', '100', '125', '2', '0', '20', '10', '10', '25', '0', '0', '145', '3', NULL, 'online', 'success', NULL, 'paymentSlip/gi9ahgoWFtbsWACN0rf9H2afdXZBBU2mTrcotacz.png', NULL, NULL, 'delivered', '2026-01-29 04:25:17', NULL, NULL, 'delivered', '2026-01-29 09:28:31', NULL, '-435734587375843', '-3456347534', NULL, '2026-01-29 09:25:17', '2026-01-29 09:28:31'),
+(13, '2', '3', '2', '1', 'BNG-0011', '32', '199', '1', '184', '230', '2', '0', '20', '10', '10', '46', '0', '0', '250', '3', NULL, 'online', 'success', NULL, 'paymentSlip/7aqMGzD2p15r5JlxANrzoPyLQ6GiibK5Zv4uF5QV.png', NULL, NULL, 'cancelled', '2026-01-29 05:36:09', NULL, 'need sweet', 'cancelled', NULL, 'not delicious', '-435734587375843', '-3456347534', NULL, '2026-01-29 10:36:09', '2026-01-29 03:40:06'),
+(14, '2', '3', '2', '1', 'BNG-0011', '31', '200', '1', '184', '230', '2', '0', '20', '10', '10', '46', '0', '0', '250', '3', NULL, 'online', 'success', NULL, 'paymentSlip/7aqMGzD2p15r5JlxANrzoPyLQ6GiibK5Zv4uF5QV.png', NULL, NULL, 'cancelled', '2026-01-29 05:36:09', NULL, 'need sweet', 'cancelled', '2026-01-29 10:39:09', 'not delicious', '-435734587375843', '-3456347534', NULL, '2026-01-29 10:36:09', '2026-01-29 03:40:06');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stor_translations`
 --
 
@@ -740,10 +876,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phoneNumber`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'gobongadmin@gmail.com', '72345678', 'Admin', '1', '$2y$12$/eNX8CH92F200MvFXA/KmuHRar9CzPv9ttYAMQ8ze4k6q7k0Vkn5i', 'l0GDFTXskJ9TFfrOOTyu9ZBLGFXWDwNwCt7FMmvRps3Zvm1FhsJ2lsV1Gj7K', '2025-09-22 03:22:09', '2025-09-24 23:50:45'),
-(2, 'MARUCHA Zone 3', 'MARUCHA@gmail.com', '33333333', 'Shop Manager', '1', '$2y$12$SenUSes1o1WwnDJN.pYjae8qOIzdS4188S/dHUiQ/WeGqCoOqRkYO', 'o1xneecSWl1RwtOhn9Y1X9ASXmyKd2qwkfUQg5StTDL1IzataIc0HDSaN6Y9', '2025-09-24 23:41:19', '2025-10-03 23:32:58'),
+(1, 'Super Admin', 'gobongadmin@gmail.com', '72345678', 'Admin', '1', '$2y$12$/eNX8CH92F200MvFXA/KmuHRar9CzPv9ttYAMQ8ze4k6q7k0Vkn5i', 'mrLCDbsyX2bsBOL0xVKDQcuhpyUTyC5hDdGLCIGvBlXKMAvtA5Q6BIIRK1v0', '2025-09-22 03:22:09', '2025-09-24 23:50:45'),
+(2, 'MARUCHA Zone 3', 'MARUCHA@gmail.com', '33333333', 'Shop Manager', '1', '$2y$12$SenUSes1o1WwnDJN.pYjae8qOIzdS4188S/dHUiQ/WeGqCoOqRkYO', 'zNnbHfIH6oQLF01tvFXioJE90vz3qqjpsYhTV796ZE0GlL80hsuIL7mLthwx', '2025-09-24 23:41:19', '2025-10-03 23:32:58'),
 (3, 'Wall\'s Ice Cream', 'IceCream@gmail.com', '11111111', 'Shop Manager', '1', '$2y$12$sA6q.FfOQar/PZfHbrpk9epsNyL/WFj.DCJUHQ.Cl0uui31mhxwm2', NULL, '2025-09-26 02:09:21', '2025-10-07 01:46:28'),
-(4, 'Beer City Delivery', 'BeerCity@gmail.com', '88888888', 'Shop Manager', '1', '$2y$12$FYiFRdruf5FE9EpXKnQ4/eS2QQ/43yPFX7ecWWNLRjax0PQseoBSq', 'WzGUszgwRUui934nFm30SkyXszWoHZbon3W6SYafkQHxya9GQUSvbpDOD0p6', '2025-09-26 02:17:31', '2025-10-02 01:46:57'),
+(4, 'Beer City Delivery', 'BeerCity@gmail.com', '88888888', 'Shop Manager', '1', '$2y$12$FYiFRdruf5FE9EpXKnQ4/eS2QQ/43yPFX7ecWWNLRjax0PQseoBSq', 'lSvIwbRpbWAQctX5UbAfmHIByGACJn5wpeC3azR2T9wLWL5wXYdkNg5aYqu7', '2025-09-26 02:17:31', '2025-10-02 01:46:57'),
 (5, 'Go bong laundry service', 'beercitylaundryservice@gmail.com', '22222222', 'Shop Manager', '1', '$2y$12$plJouHZLpqsHzYCT/lItQe7DukN1v5gazXzcg2pAlf88fyvBKYbNS', NULL, '2025-09-26 02:29:26', '2025-10-07 02:33:45'),
 (6, 'Khun  nui', 'khunnui@gmail.com', '77777777', 'Rider', '1', '$2y$12$GXISdCy.fPhwj5HzWy6iZuS5iQLoj9T2HM9Hypv0HM0vhfsvc.6D2', NULL, '2025-10-02 01:37:30', '2025-10-02 01:37:30'),
 (18, ' Chicken Bomb', 'sirichaiB@gmail.com', '44444444', 'Shop Manager', '1', NULL, NULL, '2025-10-20 01:23:03', '2025-10-27 02:46:25');
@@ -794,6 +930,18 @@ ALTER TABLE `currencies`
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_addresses`
+--
+ALTER TABLE `delivery_addresses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `delivery_charges`
+--
+ALTER TABLE `delivery_charges`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -869,6 +1017,12 @@ ALTER TABLE `stor_food_translations`
   ADD KEY `stor_food_translations_language_id_foreign` (`language_id`);
 
 --
+-- Indexes for table `stor_orders`
+--
+ALTER TABLE `stor_orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stor_translations`
 --
 ALTER TABLE `stor_translations`
@@ -891,7 +1045,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -918,6 +1072,18 @@ ALTER TABLE `customers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `delivery_addresses`
+--
+ALTER TABLE `delivery_addresses`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `delivery_charges`
+--
+ALTER TABLE `delivery_charges`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -939,7 +1105,7 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `popups`
@@ -957,13 +1123,19 @@ ALTER TABLE `stors`
 -- AUTO_INCREMENT for table `stor_foods`
 --
 ALTER TABLE `stor_foods`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `stor_food_translations`
 --
 ALTER TABLE `stor_food_translations`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+
+--
+-- AUTO_INCREMENT for table `stor_orders`
+--
+ALTER TABLE `stor_orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `stor_translations`
