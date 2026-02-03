@@ -5,7 +5,7 @@
                     <div class="category-carousel">
                         
                         <div class="category-grid">
-                            <div v-for="(category, index) in visibleCategories" :key="index" class="category-item">
+                            <div v-for="(category, index) in visibleCategories" :key="index" class="category-item" @click="goToCategory(category.name)">
                                 <div class="category-circle">
                                     <img :src="category.image" :alt="category.name">
                                 </div>
@@ -25,6 +25,9 @@
     const t = (key, fallback = key) => {
         return page.props.translations?.[key] ?? fallback
     }
+    
+
+
 export default {
   name: 'CategoryCarousel',
   data() {
@@ -104,7 +107,12 @@ export default {
       if (this.currentIndex >= this.categories.length) {
         this.currentIndex = 0;
       }
+    },
+    goToCategory(name) {
+      const encoded = btoa(unescape(encodeURIComponent(name))) // safe base64
+      window.location.href = `/stores/${encoded}`
     }
+
   }
 }
 </script>
