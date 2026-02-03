@@ -6,6 +6,7 @@ use App\Livewire\Website\HomePage;
 use App\Http\Controllers\LanguageController;
 // use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\StoreController;
 use App\Http\Controllers\Web\FoodListingController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\AuthController;
@@ -26,6 +27,8 @@ use App\Http\Controllers\Web\OrderController;
 Route::middleware('guest')->group(function (){
     
     Route::get('/', [HomeController::class, 'index'])->name('/');
+    Route::get('/stores/{encodedCategory}', [StoreController::class, 'getSearchingBasedStorlistfun'])->name('stores.byCategory');
+
     Route::get('/menus/{storId}', [FoodListingController::class, 'showFoodList'])->name('food.list');
    
     Route::post('/cart/add', [FoodListingController::class, 'addToCart']);
