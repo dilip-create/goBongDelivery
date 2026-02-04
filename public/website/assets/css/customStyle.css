@@ -232,3 +232,42 @@ a.activecatColor {
     justify-content: center;
     padding: 20px;
 }
+.promo-badge {
+  position: absolute;
+  top: 8px;       /* distance from top */
+  right: 8px;     /* distance from right */
+  width: 40px;
+  height: 40px;
+  border-radius: 20px; /* pill/rounded look */
+  overflow: hidden;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;     /* stay above image */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.promo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fruite-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.fruite-img {
+  position: relative;
+}
+
+.fruite-item .p-2 {
+  flex: 1;                 /* makes bottom section stretch */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes content evenly */
+  min-height: 170px;       /* 🔧 adjust this value as you like */
+}
+

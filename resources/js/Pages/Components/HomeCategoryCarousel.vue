@@ -5,7 +5,7 @@
                     <div class="category-carousel">
                         
                         <div class="category-grid">
-                            <div v-for="(category, index) in visibleCategories" :key="index" class="category-item" @click="goToCategory(category.name)">
+                            <div v-for="(category, index) in visibleCategories" :key="index" class="category-item" @click="goToCategory(category.keyword)">
                                 <div class="category-circle">
                                     <img :src="category.image" :alt="category.name">
                                 </div>
@@ -35,45 +35,70 @@ export default {
       currentIndex: 0,
       categories: [
         // Page 1 (8 items)
-        { name: 'All', image: '/website/assets/img/categories/all1.jpg' },
-        { name: t('New&Pro'), image: '/website/assets/img/categories/new-arrival.jpg' },
-        { name: t('Topped-chicken'), image: '/website/assets/img/categories/topped-chicken.jpg' },
-        { name: t('Fast Food'), image: '/website/assets/img/categories/fastfood.gif' },
-        { name: t('Water & snacks'), image: '/website/assets/img/categories/water-snack.jpg' },
-        { name: t('Isaan pork thai'), image: '/website/assets/img/categories/issan-food2.jpg' },
-        { name: t('Laundry'), image: '/website/assets/img/categories/laundry.png' },
-        { name: t('Admin'), image: '/website/assets/img/categories/admin.jpg' },
+        { name: 'All', keyword: 'All', image: '/website/assets/img/categories/all1.jpg' },
+        { name: t('New&Pro'), keyword: 'New&Pro', image: '/website/assets/img/categories/new-arrival.jpg' },
+        { name: t('Topped-chicken'), keyword: 'Topped-chicken', image: '/website/assets/img/categories/topped-chicken.jpg' },
+        { name: t('Fast Food'), keyword: 'Fast Food', image: '/website/assets/img/categories/fastfood.gif' },
+        { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/water-snack.jpg' },
+        { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/issan-food2.jpg' },
+
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
+        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+
+
+        { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
+        { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
         
         // Page 2 (8 items)
-        { name: 'All', image: '/website/assets/img/categories/all1.jpg' },
-        { name: t('New&Pro'), image: '/website/assets/img/categories/super-promo.jpg' },
-        { name: t('Noodle'), image: '/website/assets/img/categories/noodle.jpg' },
-        { name: t('Fast Food'), image: '/website/assets/img/categories/fastfood.gif' },
-        { name: t('Water & snacks'), image: '/website/assets/img/categories/water-snack.jpg' },
-        { name: t('Isaan pork thai'), image: '/website/assets/img/categories/food-issan.jpg' },
-        { name: t('Laundry'), image: '/website/assets/img/categories/laundry.png' },
-        { name: t('Admin'), image: '/website/assets/img/categories/admin.jpg' },
+        { name: 'All', keyword: 'All', image: '/website/assets/img/categories/all1.jpg' },
+        { name: t('New&Pro'), keyword: 'New&Pro', image: '/website/assets/img/categories/super-promo.jpg' },
+        { name: t('Noodle'), keyword: 'Noodle', image: '/website/assets/img/categories/noodle.jpg' },
+        { name: t('Fast Food'), keyword: 'Fast Food', image: '/website/assets/img/categories/fastfood.gif' },
+        { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/water-snack.jpg' },
+        { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/food-issan.jpg' },
+
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
+        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+
+        { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
+        { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
          // Page 3 (8 items)
-        { name: 'All', image: '/website/assets/img/categories/all2.png' },
-        { name: t('New&Pro'), image: '/website/assets/img/categories/new-arrival.jpg' },
-        { name: t('Noodle'), image: '/website/assets/img/categories/noodle.jpg' },
-        { name: t('Fast Food'), image: '/website/assets/img/categories/fastfood.gif' },
-        { name: t('Water & snacks'), image: '/website/assets/img/categories/drink.jpg' },
-        { name: t('Isaan pork thai'), image: '/website/assets/img/categories/issan-food2.jpg' },
-        { name: t('Laundry'), image: '/website/assets/img/categories/laundry.png' },
-        { name: t('Admin'), image: '/website/assets/img/categories/admin.jpg' },
+        { name: 'All', keyword: 'All', image: '/website/assets/img/categories/all2.png' },
+        { name: t('New&Pro'), keyword: 'New&Pro', image: '/website/assets/img/categories/new-arrival.jpg' },
+        { name: t('Noodle'), keyword: 'Noodle', image: '/website/assets/img/categories/noodle.jpg' },
+        { name: t('Fast Food'), keyword: 'Fast Food', image: '/website/assets/img/categories/fastfood.gif' },
+        { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/drink.jpg' },
+        { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/issan-food2.jpg' },
+
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
+        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+
+        { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
+        { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
          // Page 4 (8 items)
-        { name: 'All', image: '/website/assets/img/categories/all3.jpg' },
-        { name: t('New&Pro'), image: '/website/assets/img/categories/super-promo.jpg' },
-        { name: t('Topped-chicken'), image: '/website/assets/img/categories/topped-chicken.jpg' },
-        { name: t('Fast Food'), image: '/website/assets/img/categories/fastfood.gif' },
-        { name: t('Water & snacks'), image: '/website/assets/img/categories/drink.jpg' },
-        { name: t('Isaan pork thai'), image: '/website/assets/img/categories/food-issan.jpg' },
-        { name: t('Laundry'), image: '/website/assets/img/categories/laundry.png' },
-        { name: t('Admin'), image: '/website/assets/img/categories/admin.jpg' },
+        { name: 'All', keyword: 'All', image: '/website/assets/img/categories/all3.jpg' },
+        { name: t('New&Pro'), keyword: 'New&Pro', image: '/website/assets/img/categories/super-promo.jpg' },
+        { name: t('Topped-chicken'), keyword: 'Topped-chicken', image: '/website/assets/img/categories/topped-chicken.jpg' },
+        { name: t('Fast Food'), keyword: 'Fast Food', image: '/website/assets/img/categories/fastfood.gif' },
+        { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/drink.jpg' },
+        { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/food-issan.jpg' },
+
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
+        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+        
+        { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
+        { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
       ],
       autoChangeInterval: null,
-      itemsPerPage: 8
+      itemsPerPage: 12
     }
   },
   computed: {
@@ -108,8 +133,8 @@ export default {
         this.currentIndex = 0;
       }
     },
-    goToCategory(name) {
-      const encoded = btoa(unescape(encodeURIComponent(name))) // safe base64
+    goToCategory(keyword) {
+      const encoded = btoa(unescape(encodeURIComponent(keyword))) // safe base64
       window.location.href = `/stores/${encoded}`
     }
 

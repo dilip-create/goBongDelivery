@@ -710,6 +710,10 @@ return [
     "The rider has arrived at location" => "អ្នកជិះបានមកដល់ទីតាំងហើយ។",
     "Order has been cancelled" => "ការបញ្ជាទិញត្រូវបានលុបចោល",
     "Noodle" => "គុយទាវ",
+    "International" => "អន្តរជាតិ",
+    "Store" => "ហាង",
+    "Pick up and drop off" => "យកហើយទម្លាក់ចុះ",
+    "Deposit to buy" => "ដាក់ប្រាក់ដើម្បីទិញ",
 
 
 
