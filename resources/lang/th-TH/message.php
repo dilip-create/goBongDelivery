@@ -711,6 +711,10 @@ return [
     "The rider has arrived at location" => "ผู้ขับขี่ได้มาถึงสถานที่แล้ว",
     "Order has been cancelled" => "คำสั่งซื้อถูกยกเลิกแล้ว",
     "Noodle" => "ก๋วยเตี๋ยว",
+    "International" => "ระหว่างประเทศ",
+    "Store" => "เก็บ",
+    "Pick up and drop off" => "รับและส่ง",
+    "Deposit to buy" => "ฝากซื้อครับ",
     
     
     
