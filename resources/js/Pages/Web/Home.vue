@@ -6,6 +6,8 @@
     //For base URL code START
     import { router, usePage } from '@inertiajs/vue3'
     const appUrl = usePage().props.appUrl;
+    const allstor = btoa('All'.toString());
+    const mart = btoa('store24'.toString());
      //For base URL code ENND
     // Props passed from Laravel controller
     const props = defineProps({
@@ -130,7 +132,7 @@ onMounted(() => {
             <div class="container py-3">
                 <div class="row g-4 justify-content-center">
                     <div class="col-md-6 col-lg-3">
-                        <a href="#">
+                        <Link :href="`/stores/${allstor}`">
                             <div class="service-card bg-secondary rounded border border-secondary">
                                 <span class="service-badge">Promo</span>
                                 <img :src="`${appUrl}/website/assets/img/adition/food.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
@@ -141,7 +143,7 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <a href="#">
@@ -170,7 +172,7 @@ onMounted(() => {
                         </a>
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <a href="#">
+                        <Link :href="`/stores/${mart}`">
                             <div class="service-card bg-secondary rounded border border-secondary">
                                 <span class="service-badge">Deal</span>
                                 <img :src="`${appUrl}/website/assets/img/adition/mart.jpg`" class="img-fluid rounded-top w-100" style="height: 172px;" alt="">
@@ -181,7 +183,7 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <a href="#">
