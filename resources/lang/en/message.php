@@ -717,7 +717,7 @@ return [
     "Noodle" => "Noodle",
     "International" => "International",
     "Store" => "Store",
-    "Pick up and drop off" => "Pick up and drop off",
+    "Pick up and drop up" => "Pick up and drop up",
     "Deposit to buy" => "Deposit to buy",
     "Categories" => "Categories",
     "Categories" => "Categories",

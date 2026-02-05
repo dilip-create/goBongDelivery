@@ -9,7 +9,10 @@
                                 <div class="category-circle">
                                     <img :src="category.image" :alt="category.name">
                                 </div>
+                                <p v-if="category.keyword!=='Admin'" class="category-name">{{ category.name }}</p>
+                                <Link v-if="category.keyword=='Admin'" :href="`/admin/login`" :target="_blank" rel="noopener">  
                                 <p class="category-name">{{ category.name }}</p>
+                                </Link>
                             </div>
                         </div>
                         
@@ -43,9 +46,9 @@ export default {
         { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/issan-food2.jpg' },
 
         { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
-        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
-        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
-        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+        { name: t('Store'), keyword: 'store24', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop up'), keyword: 'rider', image: '/website/assets/img/categories/pick-up.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/deposit-to-buy.png' },
 
 
         { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
@@ -60,9 +63,9 @@ export default {
         { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/food-issan.jpg' },
 
         { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
-        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
-        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
-        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+        { name: t('Store'), keyword: 'store24', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop up'), keyword: 'rider', image: '/website/assets/img/categories/drop-off.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/deposit-to-buy.png' },
 
         { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
         { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
@@ -74,10 +77,10 @@ export default {
         { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/drink.jpg' },
         { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/issan-food2.jpg' },
 
-        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
-        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
-        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
-        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood2.jpg' },
+        { name: t('Store'), keyword: 'store24', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop up'), keyword: 'rider', image: '/website/assets/img/categories/pick-up.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/deposit-to-buy.png' },
 
         { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
         { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
@@ -89,10 +92,10 @@ export default {
         { name: t('Water & snacks'), keyword: 'Water & snacks', image: '/website/assets/img/categories/drink.jpg' },
         { name: t('Isaan pork thai'), keyword: 'Isaan pork thai', image: '/website/assets/img/categories/food-issan.jpg' },
 
-        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood.jpg' },
-        { name: t('Store'), keyword: 'Store', image: '/website/assets/img/categories/24.png' },
-        { name: t('Pick up and drop off'), keyword: 'Laundry', image: '/website/assets/img/categories/24.png' },
-        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/24.png' },
+        { name: t('International'), keyword: 'International', image: '/website/assets/img/categories/internationalfood2.jpg' },
+        { name: t('Store'), keyword: 'store24', image: '/website/assets/img/categories/24.png' },
+        { name: t('Pick up and drop up'), keyword: 'rider', image: '/website/assets/img/categories/drop-off.png' },
+        { name: t('Deposit to buy'), keyword: 'Deposit to buy', image: '/website/assets/img/categories/deposit-to-buy.png' },
         
         { name: t('Laundry'), keyword: 'Laundry', image: '/website/assets/img/categories/laundry.png' },
         { name: t('Admin'), keyword: 'Admin', image: '/website/assets/img/categories/admin.jpg' },
@@ -135,7 +138,11 @@ export default {
     },
     goToCategory(keyword) {
       const encoded = btoa(unescape(encodeURIComponent(keyword))) // safe base64
-      window.location.href = `/stores/${encoded}`
+      if(keyword == 'Admin'){
+        window.location.href = `https://t.me/Tha_Vorn`;
+         alert(keyword);
+      }
+      window.location.href = `/stores/${encoded}`;
     }
 
   }
