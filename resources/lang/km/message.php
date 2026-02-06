@@ -714,6 +714,13 @@ return [
     "Store" => "ហាង",
     "Pick up and drop off" => "យកហើយទម្លាក់ចុះ",
     "Deposit to buy" => "ដាក់ប្រាក់ដើម្បីទិញ",
+    "Manage Riders" => "គ្រប់គ្រងអ្នកជិះ",
+    "Riders" => "អ្នកជិះ",
+    "License plate" => "ផ្លាកលេខ",
+    "View location" => "មើលទីតាំង",
+    "New Rider" => "អ្នកជិះថ្មី។",
+    "Look at the bill" => "មើលវិក័យប័ត្រ",
+    "Modify order" => "កែប្រែលំដាប់",
 
 
 
