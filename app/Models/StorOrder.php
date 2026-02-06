@@ -38,6 +38,11 @@ class StorOrder extends Model
         return $this->belongsTo(Customer::class, 'cust_id');
     }
 
+    public function getRiderdata()
+    {
+        return $this->belongsTo(Rider::class, 'rider_id');
+    }
+
     public function getCurrencydata()
     {
         return $this->belongsTo(Currency::class, 'currency_id');

@@ -715,6 +715,13 @@ return [
     "Store" => "เก็บ",
     "Pick up and drop off" => "รับและส่ง",
     "Deposit to buy" => "ฝากซื้อครับ",
+    "Manage Riders" => "จัดการไรเดอร์",
+    "Riders" => "ไรเดอร์",
+    "License plate" => "ป้ายทะเบียน",
+    "View location" => "ดูสถานที่",
+    "New Rider" => "ไรเดอร์ใหม่",
+    "Look at the bill" => "ดูบิลสิ",
+    "Modify order" => "ปรับเปลี่ยนคำสั่งซื้อ",
     
     
     

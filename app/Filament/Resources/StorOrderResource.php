@@ -20,6 +20,10 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
+
+
+use App\Models\Rider;
+
 class StorOrderResource extends Resource
 {
     protected static ?string $model = StorOrder::class;
@@ -54,39 +58,13 @@ class StorOrderResource extends Resource
                 Forms\Components\TextInput::make('stor_food_id')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('cart_id')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('total_cost_price')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('subTotal')
-                    ->maxLength(255)
-                    ->default(null),
+               
+               
                 Forms\Components\TextInput::make('distance_between_shop_customer')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('minimum_order_diffrence')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('shipping_charge')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('rider_charge')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('owncharge_form_riderside')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('owncharge_form_storside')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('new_customer_discount')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('discount_offer')
-                    ->maxLength(255)
-                    ->default(null),
+               
+              
                 Forms\Components\TextInput::make('totalPayAmount')
                     ->maxLength(255)
                     ->default(null),
@@ -96,23 +74,18 @@ class StorOrderResource extends Resource
                 Forms\Components\TextInput::make('TransactionId')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('payment_type')
-                    ->maxLength(255)
-                    ->default(null),
+               
                 Forms\Components\TextInput::make('payment_status')
                     ->required()
                     ->maxLength(255)
                     ->default('pending'),
-                Forms\Components\Textarea::make('response_all')
-                    ->columnSpanFull(),
+               
                 Forms\Components\Textarea::make('attach_slip')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('payment_time')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('gateway_name')
-                    ->maxLength(255)
-                    ->default(null),
+               
                 Forms\Components\TextInput::make('order_status')
                     ->required()
                     ->maxLength(255)
@@ -120,21 +93,25 @@ class StorOrderResource extends Resource
                 Forms\Components\TextInput::make('order_date')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('rider_id')
-                    ->maxLength(255)
-                    ->default(null),
+                Forms\Components\Select::make('rider_id')
+                            ->label(__('message.Riders'))
+                            ->options(
+                                Rider::orderByDesc('id')
+                                    ->get()
+                                    ->mapWithKeys(function ($rider) {
+                                        return [$rider->id => ucfirst($rider->name) . ' => ' . $rider->mobile];
+                                    })
+                                    ->toArray()
+                            )
+                            ->prefixIcon('heroicon-o-tag')
+                            ->searchable()
+                            ->required(),
                 Forms\Components\Textarea::make('special_instructions')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('assign_status')
                     ->required(),
                 Forms\Components\Textarea::make('cancel_reason')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('latitude')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('longitude')
-                    ->maxLength(255)
-                    ->default(null),
             ]);
     }
 
@@ -196,9 +173,21 @@ class StorOrderResource extends Resource
                         Str::ucfirst($record->getCustomerdata->phoneNumber)
                     )
                     ->searchable(),
-                Tables\Columns\TextColumn::make('deliveryBoydata.name')
+                
+
+                Tables\Columns\TextColumn::make('combinedfff')
                     ->label(__('message.Rider name'))
+                    ->html()
+                    ->getStateUsing(function ($record) {
+                        $riderName = optional($record->getRiderdata)->name ?? '—';
+                        $phone     = optional($record->getRiderdata)->mobile ?? '—';
+
+                        return '<strong>' . e(Str::ucfirst($riderName)) . '</strong><br>' .
+                            e($phone);
+                    })
                     ->searchable(),
+
+                
                 
                 Tables\Columns\TextColumn::make('order_status')
                     ->label(__('message.Order Status'))
@@ -234,8 +223,8 @@ class StorOrderResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label(__('message.View'))->modalHeading(__('message.View')),
-                Tables\Actions\EditAction::make()->label(__('message.Edit'))->modalHeading(__('message.Edit'))->modalButton(__('message.Save changes')),
+                Tables\Actions\ViewAction::make()->label(__('message.Look at the bill'))->modalHeading(__('message.View')),
+                Tables\Actions\EditAction::make()->label(__('message.Modify order'))->modalHeading(__('message.Modify order'))->modalButton(__('message.Save changes')),
                 Tables\Actions\Action::make('Custom Action')->label(__('message.Link'))->url('https://heroicons.com/outline')->icon('heroicon-m-link')->color('success')->openUrlInNewTab(),
             ])
             ->bulkActions([
@@ -264,8 +253,8 @@ class StorOrderResource extends Resource
         return [
             'index' => Pages\ListStorOrders::route('/'),
             // 'create' => Pages\CreateStorOrder::route('/create'),
-            'view' => Pages\ViewStorOrder::route('/{record}'),
-            'edit' => Pages\EditStorOrder::route('/{record}/edit'),
+            // 'view' => Pages\ViewStorOrder::route('/{record}'),
+            // 'edit' => Pages\EditStorOrder::route('/{record}/edit'),
         ];
     }
 
