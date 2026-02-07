@@ -303,7 +303,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6>{{ capitalizeFirst(storData.translationforvuepage?.stor_name || storData.cuisine) }}</h6>
+                                                <h6>{{ OrderData.distance_between_shop_customer ?? '' }} km</h6>
                                             </td>
                                         </tr>
                                         <tr>
@@ -371,7 +371,7 @@
                                     <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.subTotal ?? '' }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
-                                        <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
+                                        <h6 class="mb-0 me-4">{{ $page.props.translations['Delivery cost'] }}</h6>
                                         <p class="mb-0">{{ currencyData.currency_symbol ?? '' }} {{ OrderData.shipping_charge ?? '' }}</p>
                                 </div>
                                 <div v-if="OrderData.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">
