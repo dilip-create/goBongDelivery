@@ -313,7 +313,7 @@
                                     <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.sub_total ?? '' }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
-                                        <h6 class="mb-0 me-4">{{ $page.props.translations['Shipping cost'] }}</h6>
+                                        <h6 class="mb-0 me-4">{{ $page.props.translations['Delivery cost'] }}</h6>
                                         <p class="mb-0">{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.shippingCharge ?? '' }}</p>
                                 </div>
                                 <div v-if="summary.minimum_order_diffrence > 0" class="d-flex justify-content-between mb-2">

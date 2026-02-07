@@ -195,7 +195,8 @@ class StorOrderResource extends Resource
                     ->formatStateUsing(fn (string $state): string => ucfirst($state))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'success' => 'warning',
+                        'pending' => 'warning',
+                        'success' => 'success',
                         'cancelled' => 'danger',
                         'delivered' => 'success',
                     }),
@@ -206,10 +207,16 @@ class StorOrderResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'danger',
-                        'assigned' => 'primary',
-                        'accepted' => 'success',
-                        'shipped' => 'warning',
-                        'rejected' => 'danger',
+
+                        'assigntoRider' => 'primary',
+                        'acceptedbyRider' => 'primary',
+                        'riderGoingToStor' => 'primary',
+                        'arrivedatstor' => 'primary',
+                        'onthewayToDeliver' => 'primary',
+                        'arrivedatLocation' => 'primary',
+                        
+                       
+
                         'delivered' => 'success',
                         'cancelled' => 'danger',
                     }),

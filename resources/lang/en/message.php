@@ -726,7 +726,7 @@ return [
     "New Rider" => "New Rider",
     "Look at the bill" => "Look at the bill",
     "Modify order" => "Modify order",
-    "Categories" => "Categories",
+    "Delivery cost" => "Delivery cost",
     "Categories" => "Categories",
     "Categories" => "Categories",
     "Categories" => "Categories",
