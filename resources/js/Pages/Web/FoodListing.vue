@@ -293,7 +293,7 @@
                                                             </div>
                                                             <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
                                                             <h6>{{ selectedFood.get_currencies?.currency_symbol ?? '฿' }}{{ selectedFood.selling_price }}</h6>
-
+                                                            <span v-if="selectedFood.cooking_time>0">{{ $page.props.translations['Making in'] }} : {{ selectedFood.cooking_time }}min</span>
                                                             <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
                                                             <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" />
 

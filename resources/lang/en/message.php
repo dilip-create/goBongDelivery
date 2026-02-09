@@ -727,7 +727,7 @@ return [
     "Look at the bill" => "Look at the bill",
     "Modify order" => "Modify order",
     "Delivery cost" => "Delivery cost",
-    "Categories" => "Categories",
+    "Making in" => "Making in",
     "Categories" => "Categories",
     "Categories" => "Categories",
 

@@ -96,20 +96,21 @@ const appUrl = usePage().props.appUrl;
                                                 <span>{{ records.order_date }}</span>
                                             </div>
 
-                                            <div v-if="records.payment_status !== 'awaiting verification'" class="order-row">
+                                            <div class="order-row">
                                                 <span>{{ $page.props.translations['Status'] }}</span>
                                                 <span
                                                     class="badge"
                                                     :class="{
-                                                        'bg-success': records.order_status === 'delivered',
+                                                        'bg-success': records.order_status === 'delivered' || records.order_status === 'success',
                                                         'bg-danger': records.order_status === 'cancelled',
-                                                        'bg-warning text-dark': records.order_status === 'success'
+                                                        'bg-warning text-dark': records.order_status === 'pending'
                                                     }"
                                                 >
-                                                    {{ capitalizeFirst(records.order_status ?? '') }}
+                                                    {{ records.order_status === 'success' ? 'Processing' : capitalizeFirst(records.order_status ?? '') }}
                                                 </span>
+
                                             </div>
-                                            <div v-if="records.order_status === 'success'" class="order-row">
+                                            <!-- <div v-if="records.order_status === 'success'" class="order-row">
                                                 <span>{{ $page.props.translations['Payment Status'] }}</span>
                                                 <span
                                                     class="badge"
@@ -121,7 +122,7 @@ const appUrl = usePage().props.appUrl;
                                                 >
                                                     {{ capitalizeFirst(records.payment_status ?? '') }}
                                                 </span>
-                                            </div>
+                                            </div> -->
                                         </div>
 
 

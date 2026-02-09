@@ -282,8 +282,11 @@ onMounted(() => {
                                 <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/ok.png`" class="img-fluid w-100 step-img  rounded" alt="OK">
                                 </div>
-                                 <div class="carousel-item rounded">
+                                <div class="carousel-item rounded">
                                     <img :src="`${appUrl}/website/assets/img/banners/step4.png`" class="img-fluid w-100 step-img  rounded" alt="Thank you"> 
+                                </div>
+                                 <div class="carousel-item rounded">
+                                    <img :src="`${appUrl}/website/assets/img/banners/tips.png`" class="img-fluid w-100 step-img  rounded" alt="After delivery ask for tips"> 
                                 </div>
                             </div>
                             <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
