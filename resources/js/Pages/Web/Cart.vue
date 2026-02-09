@@ -252,7 +252,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4">{{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }}</p>
+                                    <p class="mb-0 mt-4">{{ capitalizeFirst(records.translationforvuepage?.food_translation_name || records.food_name) }}  <span v-if="records.cooking_time>0">|  {{ records.cooking_time }} min</span></p>
                                     <button @click="openFoodDetails(records)" class="btn btn-md rounded-circle bg-light border">
                                         <i class="fa fa-edit text-danger"></i>
                                     </button>
@@ -354,7 +354,7 @@
             </div>
             <h5>{{ selectedFood.translationforvuepage?.food_translation_name || selectedFood.food_name }}</h5>
             <h6>{{ selectedFood.get_currencies?.currency_symbol ?? '฿' }}{{ selectedFood.selling_price }}</h6>
-
+            <span v-if="selectedFood.cooking_time>0">{{ $page.props.translations['Making in'] }} : {{ selectedFood.cooking_time }}min</span>
             <label class="form-label mt-3">{{ $page.props.translations['Product recommendations (optional)'] }}</label>
             <input v-model="suggestion" type="text" class="form-control" :placeholder="$page.props.translations['Enter here']" />
 

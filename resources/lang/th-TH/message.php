@@ -722,6 +722,8 @@ return [
     "New Rider" => "ไรเดอร์ใหม่",
     "Look at the bill" => "ดูบิลสิ",
     "Modify order" => "ปรับเปลี่ยนคำสั่งซื้อ",
+    "Delivery cost" => "ค่าจัดส่ง",
+    "Making in" => "กำลังเข้าครับ",
     
     
     

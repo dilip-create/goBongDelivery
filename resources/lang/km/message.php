@@ -721,6 +721,8 @@ return [
     "New Rider" => "អ្នកជិះថ្មី។",
     "Look at the bill" => "មើលវិក័យប័ត្រ",
     "Modify order" => "កែប្រែលំដាប់",
+    "Delivery cost" => "ថ្លៃដឹកជញ្ជូន",
+    "Making in" => "ការ​ធ្វើ​នៅ​ក្នុង",
 
 
 
