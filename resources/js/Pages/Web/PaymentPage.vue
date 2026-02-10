@@ -280,7 +280,7 @@
                                             </td>
                                             <td></td>
                                             <td>
-                                                <h6><span class="text text-primary">Success</span></h6>
+                                                <h6><span class="text text-primary">Ordered</span></h6>
                                             </td>
                                         </tr>
                                         <tr v-if="success">

@@ -724,6 +724,13 @@ return [
     "Modify order" => "ปรับเปลี่ยนคำสั่งซื้อ",
     "Delivery cost" => "ค่าจัดส่ง",
     "Making in" => "กำลังเข้าครับ",
+    "Delivery status" => "สถานะการจัดส่ง",
+    "Payment slip" => "สลิปการชำระเงิน",
+    "Click to view order details" => "คลิกเพื่อดูรายละเอียดการสั่งซื้อ",
+    "Would you like to tip the rider" => "คุณต้องการให้ทิปแก่คนขับหรือไม่",
+    "Skip" => "ข้าม",
+    "Tip Now" => "เคล็ดลับตอนนี้",
+    "Write something nice..." => "เขียนอะไรดีๆ...",
     
     
     

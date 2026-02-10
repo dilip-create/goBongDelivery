@@ -101,12 +101,13 @@ const appUrl = usePage().props.appUrl;
                                                 <span
                                                     class="badge"
                                                     :class="{
-                                                        'bg-success': records.order_status === 'delivered' || records.order_status === 'success',
+                                                        'bg-success': records.order_status === 'delivered',
+                                                        'bg-warning': records.order_status === 'ordered',
                                                         'bg-danger': records.order_status === 'cancelled',
                                                         'bg-warning text-dark': records.order_status === 'pending'
                                                     }"
                                                 >
-                                                    {{ records.order_status === 'success' ? 'Processing' : capitalizeFirst(records.order_status ?? '') }}
+                                                    {{ capitalizeFirst(records.order_status ?? '') }}
                                                 </span>
 
                                             </div>
