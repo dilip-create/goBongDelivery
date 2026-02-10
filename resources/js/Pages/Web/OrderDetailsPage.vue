@@ -1,9 +1,9 @@
 <script setup>
-    // import TextInput from '../Components/TextInput.vue'
-   
+    import TextInput from '../Components/TextInput.vue'
     import { ref, onMounted, onUnmounted } from 'vue'
     import axios from "axios";
     import { router, usePage, useForm  } from '@inertiajs/vue3'
+    const appUrl = usePage().props.appUrl;
     const page = usePage()
     const t = (key, fallback = key) => {
         return page.props.translations?.[key] ?? fallback
@@ -118,8 +118,6 @@
             }
         }
 
-
-
         const startPolling = () => {
             fetchOrderStatus()
             polling.value = setInterval(fetchOrderStatus, 10000)
@@ -166,7 +164,6 @@
             return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
         }
 
-
         onMounted(startPolling)
         onUnmounted(() => {
             stopPolling()
@@ -176,6 +173,67 @@
 
 
 
+    // 3-step popup flow AFTER order is delivered START
+    const showTipsPopup = ref(false)
+    const showReviewPopup = ref(false)
+    const showNextOrderPopup = ref(false)
+
+    const deliveryCompletedAt = ref(null)
+    const tipsTimeout = ref(null)
+
+    import { watch } from 'vue'
+    watch(
+    () => props.OrderRecords.assign_status,
+    async (newStatus) => {
+        if (newStatus !== 'delivered') return
+
+        // check if order date is today
+        const today = new Date()
+        const orderDate = new Date(props.OrderRecords.order_date)
+        const isToday =
+        today.getFullYear() === orderDate.getFullYear() &&
+        today.getMonth() === orderDate.getMonth() &&
+        today.getDate() === orderDate.getDate()
+        if (!isToday) return
+
+        // prevent duplicate timers
+        if (deliveryCompletedAt.value) return
+
+        // check if tips already exist for this order_key
+        try {
+            const response = await axios.get(`/check-tip/${props.OrderRecords.order_key}`)
+        if (response.data.exists) return // already exists → no popup
+        } catch (error) {
+            // console.error('Error checking tips:', error)
+            return
+        }
+
+        // set timer for popup
+        deliveryCompletedAt.value = Date.now()
+        tipsTimeout.value = setTimeout(() => {
+        showTipsPopup.value = true
+        }, 10000) // ⏱ 10 seconds
+    },
+    { immediate: true }
+    )
+
+    const tipAmount = ref(null)
+    const tipDesc = ref('')
+
+    const closeTipsPopup = () => {
+        showTipsPopup.value = false
+        showReviewPopup.value = true
+    }
+
+    const submitTips = () => {
+        router.visit(
+            `/tips/${base64Encode(props.OrderRecords.order_key)}`
+        )
+    }
+
+
+
+    // 3-step popup flow AFTER order is delivered END
 
    
 
@@ -252,7 +310,7 @@
     <Head :title="`- ${$page.props.translations['My orders']}`" />
          
         <!-- Fruits Shop Start--><br/><br/><br/><br/>
-        <div  class="container-fluid fruite py-5">
+        <div class="container-fluid fruite py-5">
             <div class="container bg-light p-2 rounded py-1">
 
                     <div class="order-header d-flex align-items-center">
@@ -537,6 +595,27 @@
         </div>
     </div>
     <!-- Edit Popup END-->
+
+    <!-- TIPS POPUP START-->
+    <div v-if="showTipsPopup" class="modal-overlay popup-overlay d-flex align-items-center justify-content-center">
+        <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;">
+            <!-- <button @click="closeTipsPopup" class="btn-close position-absolute top-0 end-0 m-2"></button> -->
+            <img :src="`${appUrl}/website/assets/img/banners/tips.png`" class="img-fluid rounded mb-3 cart-popup-img" />
+            <h5 class="mb-3">{{ $page.props.translations['Would you like to tip the rider'] }}?</h5>
+            <div class="d-flex gap-3 justify-content-center">
+                <label><input type="radio" checked class="form-check-input bg-primary border-0" v-model="tipAmount" value="5"> ฿5</label>
+                <label><input type="radio" class="form-check-input bg-primary border-0" v-model="tipAmount" value="10"> ฿10</label>
+                <label><input type="radio" class="form-check-input bg-primary border-0" v-model="tipAmount" value="15"> ฿15</label>
+            </div>
+            <textarea v-model="tipDesc" class="form-control mt-3" :placeholder="$page.props.translations['Write something nice...']"></textarea>
+            <div class="mt-3 d-flex justify-content-between">
+                <button class="btn btn-gray" @click="closeTipsPopup">{{ $page.props.translations['Skip'] }}</button>
+                <button class="btn btn-primary" @click="submitTips">{{ $page.props.translations['Tip Now'] }} ฿{{ tipAmount ?? '5' }}</button>
+            </div>
+        </div>
+    </div>
+    <!-- TIPS POPUP END-->
+
       
 </template>
 

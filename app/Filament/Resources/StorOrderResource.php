@@ -21,8 +21,10 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 
-
+use Filament\Tables\Columns\ImageColumn;
 use App\Models\Rider;
+use App\Models\Stor;
+use App\Models\User;
 
 class StorOrderResource extends Resource
 {
@@ -40,59 +42,46 @@ class StorOrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('stor_id')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('storLoginId')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('cust_id')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('address_id')
-                    ->maxLength(255)
-                    ->default(null),
+                Forms\Components\Select::make('storLoginId')
+                    ->label(__('message.Store name'))
+                    
+                            ->options(
+                                User::where('role', 'Shop Manager')->orderByDesc('id')
+                                    ->get()
+                                    ->mapWithKeys(function ($seller) {
+                                        return [$seller->id => ucfirst($seller->name) . ' => ' . $seller->phoneNumber];
+                                    })
+                                    ->toArray()
+                            )
+                            ->prefixIcon('heroicon-o-building-office')
+                            ->required()
+                            ->disabled()
+                            ->reactive(),
                 Forms\Components\TextInput::make('order_key')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('stor_food_id')
-                    ->maxLength(255)
-                    ->default(null),
-               
-               
-                Forms\Components\TextInput::make('distance_between_shop_customer')
-                    ->maxLength(255)
-                    ->default(null),
-               
-              
-                Forms\Components\TextInput::make('totalPayAmount')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('currency_id')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('TransactionId')
-                    ->maxLength(255)
-                    ->default(null),
-               
-                Forms\Components\TextInput::make('payment_status')
+                    ->label(__('message.Order'))
+                    ->disabled()
+                    ->prefixIcon('heroicon-o-tag'),
+                Forms\Components\Select::make('payment_status')
+                    ->label(__('message.Payment Status'))
+                    ->options([
+                                'pending' => 'pending',
+                                'awaiting verification' => 'awaiting verification',
+                                'success' => 'success',
+                            ])
+                            ->prefixIcon('heroicon-m-document-currency-dollar')
                     ->required()
-                    ->maxLength(255)
                     ->default('pending'),
-               
-                Forms\Components\Textarea::make('attach_slip')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('payment_time')
-                    ->maxLength(255)
-                    ->default(null),
-               
-                Forms\Components\TextInput::make('order_status')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('pending'),
-                Forms\Components\TextInput::make('order_date')
-                    ->maxLength(255)
-                    ->default(null),
+                Forms\Components\Select::make('order_status')
+                            ->label(__('message.Order Status'))
+                            ->options([
+                                'pending' => 'pending',
+                                'ordered' => 'ordered',
+                                'cancelled' => 'cancelled',
+                                'delivered' => 'delivered',
+                            ])
+                            ->prefixIcon('heroicon-m-bookmark-square')
+                            ->required()
+                            ->default('pending'),
                 Forms\Components\Select::make('rider_id')
                             ->label(__('message.Riders'))
                             ->options(
@@ -103,15 +92,37 @@ class StorOrderResource extends Resource
                                     })
                                     ->toArray()
                             )
-                            ->prefixIcon('heroicon-o-tag')
+                            ->prefixIcon('heroicon-o-rocket-launch')
                             ->searchable()
                             ->required(),
+                Forms\Components\Select::make('assign_status')
+                    ->label(__('message.Delivery status'))
+                    ->options([
+                                'pending' => 'pending',
+                                'assigntoRider' => 'assigntoRider',
+                                'acceptedbyRider' => 'acceptedbyRider',
+                                'riderGoingToStor' => 'riderGoingToStor',
+                                'arrivedatstor' => 'arrivedatstor',
+                                'onthewayToDeliver' => 'onthewayToDeliver',
+                                'arrivedatLocation' => 'arrivedatLocation',
+                                'delivered' => 'delivered',
+                                'cancelled' => 'cancelled',
+                            ])
+                    ->prefixIcon('heroicon-m-ticket')
+                    ->required()
+                    ->default('pending'),
                 Forms\Components\Textarea::make('special_instructions')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('assign_status')
-                    ->required(),
+                    ->label(__('message.Special Instructions'))
+                    ->disabled(),
                 Forms\Components\Textarea::make('cancel_reason')
-                    ->columnSpanFull(),
+                    ->label(__('message.Cancellation reason'))
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('attach_slip')
+                                    ->label(__('message.Payment slip'))
+                                    ->directory('paymentSlip')
+                                    ->disabled()
+                                    ->image(),
+                
             ]);
     }
 
@@ -143,6 +154,13 @@ class StorOrderResource extends Resource
                     ->state(fn($column) => $column->getRowLoop()->iteration),
                 Tables\Columns\TextColumn::make('order_key')
                     ->label(__('message.Order'))
+                    // ->formatStateUsing(fn ($state) => 'View Order')
+                    ->badge()
+                    ->color('success')
+                    ->icon('heroicon-m-eye')
+                    ->tooltip(__('message.Click to view order details'))
+                    ->url(fn ($record) => url('/myOrder/orderDetails/' . base64_encode((string) $record->order_key)))
+                    ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->label(__('message.Payment Status'))
@@ -196,7 +214,7 @@ class StorOrderResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
-                        'success' => 'success',
+                        'ordered' => 'warning',
                         'cancelled' => 'danger',
                         'delivered' => 'success',
                     }),
@@ -230,9 +248,27 @@ class StorOrderResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\EditAction::make()
+                        ->label(__('message.Modify order'))
+                        ->modalHeading(__('message.Modify order'))
+                        ->modalButton(__('message.Save changes'))
+                        ->using(function (\App\Models\StorOrder $record, array $data) {
+
+                            \App\Models\StorOrder::withoutGlobalScopes()
+                                ->where('order_key', $record->order_key)
+                                ->update([
+                                    'payment_status' => $data['payment_status'],
+                                    'order_status'   => $data['order_status'],
+                                    'rider_id'       => $data['rider_id'],
+                                    'assign_status'  => $data['assign_status'],
+                                    'cancel_reason'  => $data['cancel_reason'] ?? null,
+                                ]);
+
+                            return $record->refresh();
+                        }),
                 Tables\Actions\ViewAction::make()->label(__('message.Look at the bill'))->modalHeading(__('message.View')),
-                Tables\Actions\EditAction::make()->label(__('message.Modify order'))->modalHeading(__('message.Modify order'))->modalButton(__('message.Save changes')),
-                Tables\Actions\Action::make('Custom Action')->label(__('message.Link'))->url('https://heroicons.com/outline')->icon('heroicon-m-link')->color('success')->openUrlInNewTab(),
+                // Tables\Actions\Action::make('Custom Action')->label(__('message.Link'))->url('https://heroicons.com/outline')->icon('heroicon-m-link')->color('success')->openUrlInNewTab(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

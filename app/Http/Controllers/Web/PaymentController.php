@@ -66,7 +66,7 @@ class PaymentController extends Controller
                 ->store('paymentSlip', 'public');
 
         StorOrder::where('order_key', $request->order_key)->update([
-            'order_status'    => 'success',
+            'order_status'    => 'ordered',
             'payment_status' => 'awaiting verification',
             'attach_slip'     => $path,
         ]);

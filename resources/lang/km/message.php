@@ -723,6 +723,13 @@ return [
     "Modify order" => "កែប្រែលំដាប់",
     "Delivery cost" => "ថ្លៃដឹកជញ្ជូន",
     "Making in" => "ការ​ធ្វើ​នៅ​ក្នុង",
+    "Delivery status" => "ស្ថានភាពដឹកជញ្ជូន",
+    "Payment slip" => "ប័ណ្ណទូទាត់",
+    "Click to view order details" => "ចុចដើម្បីមើលព័ត៌មានលម្អិតនៃការបញ្ជាទិញ",
+    "Would you like to tip the rider" => "តើអ្នកចង់ណែនាំអ្នកជិះទេ",
+    "Skip" => "រំលង",
+    "Tip Now" => "គន្លឹះឥឡូវនេះ",
+    "Write something nice..." => "សរសេរអ្វីដែលល្អ ...",
 
 
 
