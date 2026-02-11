@@ -731,6 +731,10 @@ return [
     "Skip" => "ข้าม",
     "Tip Now" => "เคล็ดลับตอนนี้",
     "Write something nice..." => "เขียนอะไรดีๆ...",
+    "Make Tips payment" => "ชำระเงินค่าทิป",
+    "Attach the tips confirmation slip" => "แนบสลิปยืนยันการให้ทิป",
+    "Thank you" => "ขอบคุณ",
+    "Rider tips" => "เคล็ดลับไรเดอร์",
     
     
     

@@ -13,6 +13,7 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\CheckoutController;
 use App\Http\Controllers\Web\PaymentController;
 use App\Http\Controllers\Web\OrderController;
+use App\Http\Controllers\Web\TipPaymentController;
 use App\Models\Tip;
 // Route::get('/', function () {
 //     return view('welcome');
@@ -63,6 +64,8 @@ Route::middleware('guest')->group(function (){
         $exists = Tip::where('order_key', $orderKey)->exists();
         return response()->json(['exists' => $exists]);
     });
+    Route::get('/tips/{tipAmount}/{tipDesc}/{orderKey}', [TipPaymentController::class, 'tipspaymentpage'])->name('payment.tips');
+    Route::post('/save/tipPaymentslip', [TipPaymentController::class, 'saveTipPaymentSlip'])->name('save.tipPaymentslip');
 
 
 
