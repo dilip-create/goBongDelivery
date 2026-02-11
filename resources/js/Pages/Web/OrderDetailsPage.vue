@@ -174,6 +174,8 @@
 
 
     // 3-step popup flow AFTER order is delivered START
+
+    // FOR TIP POPUP CODE START
     const showTipsPopup = ref(false)
     const showReviewPopup = ref(false)
     const showNextOrderPopup = ref(false)
@@ -217,7 +219,7 @@
     { immediate: true }
     )
 
-    const tipAmount = ref(null)
+    const tipAmount = ref('5')
     const tipDesc = ref('')
 
     const closeTipsPopup = () => {
@@ -227,9 +229,10 @@
 
     const submitTips = () => {
         router.visit(
-            `/tips/${base64Encode(props.OrderRecords.order_key)}`
+            `/tips/${base64Encode(tipAmount.value)}/${base64Encode(tipDesc.value)}/${base64Encode(props.OrderRecords.order_key)}`
         )
     }
+    // FOR TIP POPUP CODE END
 
 
 
@@ -537,11 +540,12 @@
 
                                 </div>
                                 <div class="col-4 d-flex">                           
-                                            <button v-if="OrderRecords.order_status != 'cancelled'  && OrderRecords.order_status != 'delivered' 
-                                            && OrderRecords.assign_status != 'onthewayToDeliver' && OrderRecords.assign_status != 'arrivedatLocation'" 
-                                            class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
+                                            <button v-if="OrderRecords.order_status !== 'cancelled' && OrderRecords.order_status !== 'delivered' &&
+                                                    OrderRecords.assign_status !== 'onthewayToDeliver' && OrderRecords.assign_status !== 'arrivedatLocation'"
+                                                class="btn btn-danger px-2 py-2 text-white mb-4 ms-4 w-100" @click="openCancelPopup">
                                                 {{ $page.props.translations['Cancel'] }}
                                             </button>
+
                                             <!-- Cancel Popup -->
                                             <div v-if="showCancelPopup" class="popup-overlay d-flex align-items-center justify-content-center">
                                                 <div class="popup-content bg-white rounded p-4 position-relative" style="width: 400px;">
@@ -610,7 +614,7 @@
             <textarea v-model="tipDesc" class="form-control mt-3" :placeholder="$page.props.translations['Write something nice...']"></textarea>
             <div class="mt-3 d-flex justify-content-between">
                 <button class="btn btn-gray" @click="closeTipsPopup">{{ $page.props.translations['Skip'] }}</button>
-                <button class="btn btn-primary" @click="submitTips">{{ $page.props.translations['Tip Now'] }} ฿{{ tipAmount ?? '5' }}</button>
+                <button class="btn btn-primary" @click="submitTips">{{ $page.props.translations['Tip Now'] }} ฿{{ tipAmount ?? '' }}</button>
             </div>
         </div>
     </div>

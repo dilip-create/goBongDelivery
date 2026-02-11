@@ -191,8 +191,6 @@ class StorOrderResource extends Resource
                         Str::ucfirst($record->getCustomerdata->phoneNumber)
                     )
                     ->searchable(),
-                
-
                 Tables\Columns\TextColumn::make('combinedfff')
                     ->label(__('message.Rider name'))
                     ->html()
@@ -204,9 +202,6 @@ class StorOrderResource extends Resource
                             e($phone);
                     })
                     ->searchable(),
-
-                
-                
                 Tables\Columns\TextColumn::make('order_status')
                     ->label(__('message.Order Status'))
                     ->searchable()

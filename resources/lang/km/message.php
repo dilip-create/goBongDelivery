@@ -730,6 +730,10 @@ return [
     "Skip" => "រំលង",
     "Tip Now" => "គន្លឹះឥឡូវនេះ",
     "Write something nice..." => "សរសេរអ្វីដែលល្អ ...",
+    "Make Tips payment" => "ធ្វើការទូទាត់ព័ត៌មានជំនួយ",
+    "Attach the tips confirmation slip" => "ភ្ជាប់លិខិតបញ្ជាក់ព័ត៌មានជំនួយ",
+    "Thank you" => "សូមអរគុណ",
+    "Rider tips" => "គន្លឹះអ្នកជិះ",
 
 
 
