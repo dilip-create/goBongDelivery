@@ -734,6 +734,12 @@ return [
     "Attach the tips confirmation slip" => "ភ្ជាប់លិខិតបញ្ជាក់ព័ត៌មានជំនួយ",
     "Thank you" => "សូមអរគុណ",
     "Rider tips" => "គន្លឹះអ្នកជិះ",
+    "Submit Review" => "បញ្ជូនការពិនិត្យឡើងវិញ",
+    "Please Rate & comment on your delivery" => "សូមវាយតម្លៃ និងផ្តល់យោបល់លើការដឹកជញ្ជូនរបស់អ្នក។",
+    "Do you want to place your next order" => "តើអ្នកចង់ដាក់ការបញ្ជាទិញបន្ទាប់របស់អ្នកដែរឬទេ",
+    "Thanks for Review" => "អរគុណសម្រាប់ការពិនិត្យឡើងវិញ",
+    "Customer Reviews" => "ការពិនិត្យអតិថិជន",
+    "Rating" => "ការវាយតម្លៃ",
 
 
 

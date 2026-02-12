@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\PaymentController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\TipPaymentController;
 use App\Models\Tip;
+use App\Models\Review;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -60,16 +61,27 @@ Route::middleware('guest')->group(function (){
     Route::get('/myOrder/status/{orderKey}', [OrderController::class, 'orderStatus']);
     Route::get('/myOrder', [OrderController::class, 'orderlist'])->name('orderlist');
 
-    Route::get('/check-tip/{orderKey}', function($orderKey) {
-        $exists = Tip::where('order_key', $orderKey)->exists();
-        return response()->json(['exists' => $exists]);
+    
+    Route::get('/check-tip/{orderKey}', function ($orderKey) {
+        return response()->json([
+            'exists' => Tip::where('order_key', $orderKey)->exists()
+        ]);
     });
+
+    Route::get('/check-review/{orderKey}', function ($orderKey) {
+        return response()->json([
+            'exists' => Review::where('order_key', $orderKey)->exists()
+        ]);
+    });
+
     Route::get('/tips/{tipAmount}/{tipDesc}/{orderKey}', [TipPaymentController::class, 'tipspaymentpage'])->name('payment.tips');
     Route::post('/save/tipPaymentslip', [TipPaymentController::class, 'saveTipPaymentSlip'])->name('save.tipPaymentslip');
+    Route::post('/save/reviews', [TipPaymentController::class, 'saveCustomerReview'])->name('save.CustomerReview');
 
 
 
     
+
 
  
 

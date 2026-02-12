@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Currency;
 use App\Models\StorOrder;
 use App\Models\Tip;
+use App\Models\Review;
 use Session;
 use Storage;
 
@@ -75,6 +76,29 @@ class TipPaymentController extends Controller
 
 
     }
+
+    public function saveCustomerReview(Request $request)
+    {
+        // dd($request->all());
+
+        Review::updateOrCreate(
+            // Condition to find existing record
+            ['order_key' => $request->order_key],
+
+            // Data to update or insert
+            [
+                'stor_id' => $request->stor_id,
+                'cust_id' => $request->cust_id,
+                'rating'  => $request->rating,
+                'desc'    => $request->desc,
+            ]
+        );
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
 
 
 }
