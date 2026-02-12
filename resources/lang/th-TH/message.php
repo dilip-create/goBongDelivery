@@ -735,6 +735,12 @@ return [
     "Attach the tips confirmation slip" => "แนบสลิปยืนยันการให้ทิป",
     "Thank you" => "ขอบคุณ",
     "Rider tips" => "เคล็ดลับไรเดอร์",
+    "Submit Review" => "ส่งรีวิว",
+    "Please Rate & comment on your delivery" => "โปรดให้คะแนนและแสดงความคิดเห็นเกี่ยวกับการจัดส่งของคุณ",
+    "Do you want to place your next order" => "คุณต้องการสั่งซื้อครั้งต่อไปหรือไม่",
+    "Thanks for Review" => "ขอบคุณสำหรับการรีวิว",
+    "Customer Reviews" => "รีวิวลูกค้า",
+    "Rating" => "เรตติ้ง",
     
     
     

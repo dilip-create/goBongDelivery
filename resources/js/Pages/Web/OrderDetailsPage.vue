@@ -1,5 +1,4 @@
 <script setup>
-    import TextInput from '../Components/TextInput.vue'
     import { ref, onMounted, onUnmounted } from 'vue'
     import axios from "axios";
     import { router, usePage, useForm  } from '@inertiajs/vue3'
@@ -178,62 +177,133 @@
     // FOR TIP POPUP CODE START
     const showTipsPopup = ref(false)
     const showReviewPopup = ref(false)
+    const showReviewPopupstatus = ref(false)
     const showNextOrderPopup = ref(false)
 
     const deliveryCompletedAt = ref(null)
     const tipsTimeout = ref(null)
 
+    const reviewExists = ref(false) // set this during DB check
+    const tipExists = ref(false) // set this during DB check
+
     import { watch } from 'vue'
+
     watch(
-    () => props.OrderRecords.assign_status,
-    async (newStatus) => {
-        if (newStatus !== 'delivered') return
+        () => props.OrderRecords.assign_status,
+        (newStatus) => {
+            if (newStatus !== 'delivered') return
 
-        // check if order date is today
-        const today = new Date()
-        const orderDate = new Date(props.OrderRecords.order_date)
-        const isToday =
-        today.getFullYear() === orderDate.getFullYear() &&
-        today.getMonth() === orderDate.getMonth() &&
-        today.getDate() === orderDate.getDate()
-        if (!isToday) return
+            // ✅ check order is today
+            const today = new Date()
+            const orderDate = new Date(props.OrderRecords.order_date)
 
-        // prevent duplicate timers
-        if (deliveryCompletedAt.value) return
+            const isToday =
+                today.getFullYear() === orderDate.getFullYear() &&
+                today.getMonth() === orderDate.getMonth() &&
+                today.getDate() === orderDate.getDate()
 
-        // check if tips already exist for this order_key
-        try {
-            const response = await axios.get(`/check-tip/${props.OrderRecords.order_key}`)
-        if (response.data.exists) return // already exists → no popup
-        } catch (error) {
-            // console.error('Error checking tips:', error)
-            return
-        }
+            if (!isToday) return
 
-        // set timer for popup
-        deliveryCompletedAt.value = Date.now()
-        tipsTimeout.value = setTimeout(() => {
-        showTipsPopup.value = true
-        }, 10000) // ⏱ 10 seconds
-    },
-    { immediate: true }
+            // ✅ prevent duplicate timers
+            if (deliveryCompletedAt.value) return
+
+            deliveryCompletedAt.value = Date.now()
+
+            // ⏱ DELAY FIRST
+            tipsTimeout.value = setTimeout(async () => {
+                try {
+                    // 🔍 CASE 1: check tips
+                    const tipRes = await axios.get(
+                        `/check-tip/${props.OrderRecords.order_key}`
+                    )
+
+                    // 🔍 CASE 2: check review
+                    const reviewRes = await axios.get(
+                        `/check-review/${props.OrderRecords.order_key}`
+                    )
+
+                    reviewExists.value = reviewRes.data.exists
+                    tipExists.value = tipRes.data.exists
+
+                    // 🎯 DECISION TREE
+                    if (!tipExists.value) {
+                        showTipsPopup.value = true
+                        return
+                    }
+
+                    if (tipExists.value && !reviewExists.value) {
+                        showReviewPopup.value = true
+                        return
+                    }
+
+                    if (tipExists.value && reviewExists.value) {
+                        showNextOrderPopup.value = true
+                    }
+
+                } catch (error) {
+                    console.error('Popup flow error:', error)
+                }
+            }, 10000) // ⏱ 10 sec delay
+        },
+        { immediate: true }
     )
 
+
     const tipAmount = ref('5')
-    const tipDesc = ref('')
+    const tipDesc = ref('') 
 
     const closeTipsPopup = () => {
         showTipsPopup.value = false
-        showReviewPopup.value = true
+
+        if(!reviewExists.value) {
+            showReviewPopup.value = true
+        }else{
+            showNextOrderPopup.value = true
+        }
+
     }
 
     const submitTips = () => {
+         const desc = tipDesc.value && tipDesc.value.trim() !== '' ? tipDesc.value : 'Nice Delivery'
+
         router.visit(
-            `/tips/${base64Encode(tipAmount.value)}/${base64Encode(tipDesc.value)}/${base64Encode(props.OrderRecords.order_key)}`
+            `/tips/${base64Encode(tipAmount.value)}/${base64Encode(desc)}/${base64Encode(props.OrderRecords.order_key)}`
         )
+       
     }
     // FOR TIP POPUP CODE END
 
+    // FOR REVIEW LOGIC START
+    const reviewRating = ref(0)
+    const reviewDesc = ref('')
+
+    const closeReviewPopup = () => {
+        showReviewPopup.value = false
+        showNextOrderPopup.value = true
+    }
+
+    
+
+    const submitReview = async () => {
+        await axios.post('/save/reviews', {
+            order_key: props.OrderRecords.order_key,
+            stor_id: props.OrderRecords.stor_id,
+            cust_id: props.OrderRecords.cust_id,
+            rating: reviewRating.value,
+            desc: reviewDesc.value
+        })
+
+        showReviewPopup.value = false
+        showReviewPopupstatus.value = true
+        showNextOrderPopup.value = true
+    }
+    // FOR REVIEW LOGIC END
+
+    const closeNextOrderPopup = () => {
+        showTipsPopup.value = false
+        showReviewPopup.value = false
+        showNextOrderPopup.value = false
+    }
 
 
     // 3-step popup flow AFTER order is delivered END
@@ -307,6 +377,7 @@
     function base64Encode(value) {
         return window.btoa(String(value));
     }
+    const allstor = btoa('All'.toString());
 </script>
 
 <template>
@@ -336,11 +407,11 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-success mb-4 text-center">
+                    <div v-if="statusText" class="alert alert-success mb-4 text-center">
                         <strong>{{ statusText }}.</strong>
                     </div>
 
-                    <div class="text-center">
+                    <div v-if="statusImage" class="text-center">
                         <img
                             :src="statusImage"
                             class="img-fluid mb-3 rounded"
@@ -605,7 +676,7 @@
         <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;">
             <!-- <button @click="closeTipsPopup" class="btn-close position-absolute top-0 end-0 m-2"></button> -->
             <img :src="`${appUrl}/website/assets/img/banners/tips.png`" class="img-fluid rounded mb-3 cart-popup-img" />
-            <h5 class="mb-3">{{ $page.props.translations['Would you like to tip the rider'] }}?</h5>
+            <h6 class="mb-3">{{ $page.props.translations['Would you like to tip the rider'] }}?</h6>
             <div class="d-flex gap-3 justify-content-center">
                 <label><input type="radio" checked class="form-check-input bg-primary border-0" v-model="tipAmount" value="5"> ฿5</label>
                 <label><input type="radio" class="form-check-input bg-primary border-0" v-model="tipAmount" value="10"> ฿10</label>
@@ -619,6 +690,46 @@
         </div>
     </div>
     <!-- TIPS POPUP END-->
+
+    <!-- REVIEW POPUP  START-->
+        <div v-if="showReviewPopup" class="modal-overlay popup-overlay d-flex align-items-center justify-content-center">
+            <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;">
+                <img :src="`${appUrl}/website/assets/img/banners/leave-comment.png`" class="img-fluid rounded mb-3 cart-popup-img" />
+                <h6>{{ $page.props.translations['Please Rate & comment on your delivery'] }}</h6>
+
+                <div class="stars">
+                    <i v-for="n in 5" :key="n" class="fa-star" :class="reviewRating >= n ? 'fas text-warning' : 'far'" @click="reviewRating = n"></i>
+                </div>
+
+                <textarea v-model="reviewDesc" class="form-control mt-3" placeholder="Leave a comment"></textarea>
+
+                <div class="mt-3 d-flex justify-content-between">
+                    <button class="btn btn-gray" @click="closeReviewPopup">{{ $page.props.translations['Skip'] }}</button>
+                    <button class="btn btn-primary" @click="submitReview">{{ $page.props.translations['Submit Review'] }}</button>
+                </div>
+            </div>
+        </div>
+    <!-- REVIEW POPUP END-->
+
+    <!-- NEXT ORDER POPUP START-->
+        <div v-if="showNextOrderPopup" class="modal-overlay popup-overlay d-flex align-items-center justify-content-center">
+            <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;">
+                <div v-if="showReviewPopupstatus" class="alert alert-success mb-4 text-center">
+                        <strong>{{ $page.props.translations['Thanks for Review'] }}.</strong>
+                </div>
+                <img :src="`${appUrl}/website/assets/img/banners/next-order.png`" class="img-fluid rounded mb-3 cart-popup-img" />
+
+                <h6>{{ $page.props.translations['Do you want to place your next order'] }}?</h6>
+                <div class="mt-3 d-flex justify-content-between">
+                    <button class="btn btn-gray" @click="closeNextOrderPopup">{{ $page.props.translations['Skip'] }}</button>
+                    <Link :href="`/stores/${allstor}`" class="btn btn-primary mt-3">Order Now <i class="fa fa-arrow-right"></i></Link>
+                </div>
+                
+            </div>
+        </div>
+    <!-- NEXT ORDER POPUP END-->
+
+
 
       
 </template>

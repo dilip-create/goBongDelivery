@@ -128,8 +128,7 @@ class TipResource extends Resource
                     ->getStateUsing(fn ($record) =>
                         '<strong>' . Str::ucfirst($record->getCustomerdata->name) . '</strong><br>' .
                         Str::ucfirst($record->getCustomerdata->phoneNumber)
-                    )
-                    ->searchable(),
+                    ),
                 Tables\Columns\TextColumn::make('combinedfff')
                     ->label(__('message.Rider name'))
                     ->html()
@@ -139,15 +138,13 @@ class TipResource extends Resource
 
                         return '<strong>' . e(Str::ucfirst($riderName)) . '</strong><br>' .
                             e($phone);
-                    })
-                    ->searchable(),
+                    }),
                 Tables\Columns\TextColumn::make('combineded')
                     ->label(__('message.Amount'))
                     ->getStateUsing(fn ($record) =>
                         $record->amount . ' ' .
                         $record->getCurrencydata->currency_symbol  ,
-                    )
-                    ->searchable(),
+                    ),
                 Tables\Columns\TextColumn::make('desc')
                     ->label(__('message.Description'))
                     ->searchable(),
