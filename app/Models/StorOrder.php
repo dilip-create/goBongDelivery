@@ -13,6 +13,11 @@ class StorOrder extends Model
     use SoftDeletes;
     protected $guarded = ['id'];
 
+    // protected $casts = [
+    //     'order_date' => 'date',
+    // ];
+
+
     public function stor_food_records()
     {
         return $this->belongsTo(StorFood::class, 'stor_food_id');
