@@ -13,6 +13,11 @@ class StorOrder extends Model
     use SoftDeletes;
     protected $guarded = ['id'];
 
+    // protected $casts = [
+    //     'order_date' => 'date',
+    // ];
+
+
     public function stor_food_records()
     {
         return $this->belongsTo(StorFood::class, 'stor_food_id');
@@ -46,6 +51,12 @@ class StorOrder extends Model
     public function getCurrencydata()
     {
         return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function getstorTranslation()
+    {
+        return $this->hasOne(StorTranslation::class, 'stor_id', 'stor_id')
+            ->where('language_id', Language::where('code', app()->getLocale())->first()?->id);
     }
     
 

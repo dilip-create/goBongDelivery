@@ -741,6 +741,22 @@ return [
     "Thanks for Review" => "ขอบคุณสำหรับการรีวิว",
     "Customer Reviews" => "รีวิวลูกค้า",
     "Rating" => "เรตติ้ง",
+    "Store Revenue" => "รายได้ของร้าน",
+    "Total Rider Revenue" => "รายได้รวมของผู้ขับขี่",
+    "Rider Revenue" => "รายได้ไรเดอร์",
+    "Report Type" => "ประเภทรายงาน",
+    "Manage Report" => "จัดการรายงาน",
+    "Rider Revenue Report" => "รายงานรายได้ไรเดอร์",
+    "Store Revenue Report" => "รายงานรายได้ของร้านค้า",
+    "Total Revenue" => "รายได้รวม",
+    "Total Store Revenue" => "รายได้รวมของร้านค้า",
+    "Revenue" => "รายได้",
+    "GoBong Finance Report" => "รายงานการเงินของโกบอง",
+    "Total Revenue" => "รายได้รวม",
+    "GoBong Revenue Report" => "รายงานรายได้ของ GoBong",
+    "Payment amount" => "จำนวนเงินที่ชำระ",
+    "Cost charge" => "ค่าใช้จ่าย",
+    "Shipping charge" => "ค่าจัดส่ง",
     
     
     
