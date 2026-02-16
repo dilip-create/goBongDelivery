@@ -8,6 +8,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <?php echo e($this->table); ?>
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

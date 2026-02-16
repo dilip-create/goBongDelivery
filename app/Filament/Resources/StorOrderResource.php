@@ -235,7 +235,7 @@ class StorOrderResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('order_date')
                     ->label(__('message.Order Date'))
-                    ->dateTime('d-M-Y')
+                    ->dateTime('d-M-Y h:i:s')
                     ->searchable(),
             ])
             ->defaultSort('created_at', 'desc')

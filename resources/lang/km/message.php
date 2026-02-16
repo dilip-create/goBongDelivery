@@ -740,6 +740,22 @@ return [
     "Thanks for Review" => "អរគុណសម្រាប់ការពិនិត្យឡើងវិញ",
     "Customer Reviews" => "ការពិនិត្យអតិថិជន",
     "Rating" => "ការវាយតម្លៃ",
+    "Store Revenue" => "ប្រាក់ចំណូលហាង",
+    "Total Rider Revenue" => "ចំណូលពីអ្នកជិះសរុប",
+    "Rider Revenue" => "ចំណូលពីអ្នកជិះ",
+    "Report Type" => "ប្រភេទរបាយការណ៍",
+    "Manage Report" => "គ្រប់គ្រងរបាយការណ៍",
+    "Rider Revenue Report" => "របាយការណ៍ចំណូលពីអ្នកជិះ",
+    "Store Revenue Report" => "របាយការណ៍ចំណូលហាង",
+    "Total Revenue" => "ប្រាក់ចំណូលសរុប",
+    "Total Store Revenue" => "ប្រាក់ចំណូលហាងសរុប",
+    "Revenue" => "ចំណូល",
+    "GoBong Finance Report" => "របាយការណ៍ហិរញ្ញវត្ថុ GoBong",
+    "Total Revenue" => "ប្រាក់ចំណូលសរុប",
+    "GoBong Revenue Report" => "របាយការណ៍ចំណូល GoBong",
+    "Payment amount" => "ចំនួនទឹកប្រាក់ទូទាត់",
+    "Cost charge" => "ថ្លៃដើម",
+    "Shipping charge" => "ថ្លៃដឹកជញ្ជូន",
 
 
 

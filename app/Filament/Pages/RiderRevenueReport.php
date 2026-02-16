@@ -25,8 +25,24 @@ class RiderRevenueReport extends Page implements Tables\Contracts\HasTable
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.rider-revenue-report';
-    protected static ?string $navigationGroup = 'Manage Report';
-    protected static ?string $title = 'Rider Revenue Report';
+    protected static ?string $title = null;
+
+     /* Sidebar group */
+    public static function getNavigationGroup(): ?string
+    {
+        return __('message.Manage Report');
+    }
+    /* Sidebar item label */
+    public static function getNavigationLabel(): string
+    {
+        return __('message.Rider Revenue Report');
+    }
+    /* Page title */
+    public function getTitle(): string
+    {
+        return __('message.Rider Revenue Report');
+    }
+
 
     // Table query
     public function table(Table $table): Table
@@ -37,7 +53,7 @@ class RiderRevenueReport extends Page implements Tables\Contracts\HasTable
                     ->select([
                         'order_key',
                         'rider_id',
-                        DB::raw('SUM(owncharge_form_riderside) as rider_revenue'),
+                        DB::raw('SUM(rider_charge) as rider_revenue'),
                         DB::raw('MAX(order_date) as order_date'),
                         DB::raw("CONCAT(order_key, '-', rider_id) as table_key"), // unique key for Filament
                     ])
@@ -48,17 +64,22 @@ class RiderRevenueReport extends Page implements Tables\Contracts\HasTable
                             ->groupBy('order_key', 'rider_id');
                     })
                     ->groupBy('order_key', 'rider_id')
+                    ->orderBy('order_date', 'DESC') 
             )
             ->headerActions([
-                ExportAction::make()->label(__('message.Export'))->exports([
-                    ExcelExport::make()->fromTable()->except([
-                        'Serial_number', 'Total Rider Revenue',
+                ExportAction::make()
+                    ->label(__('message.Export'))
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromTable()
+                             ->withFilename(
+                                __('message.Rider Revenue Report') . '_' . now()->format('dMY') . '.xlsx'
+                            )
+                            ->except([
+                                'Serial_number',
+                                'Total Rider Revenue',
+                            ]),
                     ]),
-                    // ExcelExport::make()->fromTable()->only([
-                    //     'email', 'phone',
-                    // ]),
-                ])
-
             ])
             ->columns([
                 Tables\Columns\TextColumn::make('Serial_number')
@@ -85,7 +106,7 @@ class RiderRevenueReport extends Page implements Tables\Contracts\HasTable
 
                 Tables\Columns\TextColumn::make('order_date')
                     ->label(__('message.Order Date'))
-                    ->dateTime('d-M-Y')
+                    ->dateTime('d-M-Y h:i:s')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('rider_revenue')
                     ->label(__('message.Rider Revenue'))

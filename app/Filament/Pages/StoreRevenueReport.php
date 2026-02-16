@@ -8,14 +8,35 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Filament\Tables\Columns\Summarizers\Sum;
 
+use Illuminate\Support\Str;
+use Filament\Forms\Components\Select;
+use Filament\Resources\Tables\Actions\Action;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+
 class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-     protected static string $view = 'filament.pages.store-revenue-report';
-    protected static ?string $navigationGroup = 'Manage Report';
-    protected static ?string $title = 'Store Revenue Report';
+    protected static string $view = 'filament.pages.store-revenue-report';
+
+    // /* Sidebar group */
+    // public static function getNavigationGroup(): ?string
+    // {
+    //     return __('message.Manage Report');
+    // }
+    // /* Sidebar item label */
+    // public static function getNavigationLabel(): string
+    // {
+    //     return __('message.Store Revenue Report');
+    // }
+    // /* Page title */
+    // public function getTitle(): string
+    // {
+    //     return __('message.Store Revenue Report');
+    // }
    
 
     public function table(Table $table): Table
@@ -37,7 +58,23 @@ class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
                             ->groupBy('order_key', 'stor_id');
                     })
                     ->groupBy('order_key', 'stor_id')
+                     ->orderBy('order_date', 'DESC') 
             )
+            ->headerActions([
+                ExportAction::make()
+                    ->label(__('message.Export'))
+                    ->exports([
+                        ExcelExport::make()
+                            ->fromTable()
+                             ->withFilename(
+                                    __('message.Store Revenue Report') . '_' . now()->format('dMY') . '.xlsx'
+                                )
+                            ->except([
+                                'Serial_number',
+                                'Total Store Revenue',
+                            ]),
+                    ]),
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('Serial_number')
                     ->label(__('message.Serial number'))
@@ -48,14 +85,16 @@ class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
                     ->badge()
                     ->color('success')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('stor_id')->label('Store ID'),
+                Tables\Columns\TextColumn::make('getstorTranslation.stor_name')
+                    ->label(__('message.Store name'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('order_date')
                     ->label(__('message.Order Date'))
-                    ->dateTime('d-M-Y')
+                    ->dateTime('d-M-Y h:i:s')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('store_revenue')
                     ->label(__('message.Store Revenue'))
-                    ->summarize(Sum::make()->label('Total Store Revenue'))
+                    ->summarize(Sum::make()->label(__('message.Total Store Revenue')))
                     ->money('THB'),
             ])
             ->filters([
@@ -82,9 +121,6 @@ class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
                             $query->whereYear('order_date', now()->year);
                         }
                     }),
-            ])
-            ->headerActions([
-                Tables\Actions\ExportAction::make(),
             ]);
     }
 
