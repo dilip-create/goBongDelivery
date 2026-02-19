@@ -22,21 +22,22 @@ class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.store-revenue-report';
 
-    // /* Sidebar group */
-    // public static function getNavigationGroup(): ?string
-    // {
-    //     return __('message.Manage Report');
-    // }
-    // /* Sidebar item label */
-    // public static function getNavigationLabel(): string
-    // {
-    //     return __('message.Store Revenue Report');
-    // }
-    // /* Page title */
-    // public function getTitle(): string
-    // {
-    //     return __('message.Store Revenue Report');
-    // }
+    /* Sidebar group */
+    public static function getNavigationGroup(): ?string
+    {
+        return __('message.Manage Report');
+    }
+    /* Sidebar item label */
+    public static function getNavigationLabel(): string
+    {
+        return __('message.Store Revenue Report');
+    }
+    
+    /* Page title */
+    public function getTitle(): string
+    {
+        return __('message.Store Revenue Report');
+    }
    
 
     public function table(Table $table): Table
