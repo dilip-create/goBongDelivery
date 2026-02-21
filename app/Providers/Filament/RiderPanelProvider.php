@@ -30,6 +30,9 @@ class RiderPanelProvider extends PanelProvider
         return $panel
             ->id('rider')
             ->path('rider')
+            ->login(CustomLogin::class)
+            ->registration()
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
