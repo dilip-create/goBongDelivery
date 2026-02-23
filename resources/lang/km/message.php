@@ -756,6 +756,10 @@ return [
     "Payment amount" => "ចំនួនទឹកប្រាក់ទូទាត់",
     "Cost charge" => "ថ្លៃដើម",
     "Shipping charge" => "ថ្លៃដឹកជញ្ជូន",
+    "Your account have been disabled!" => "គណនីរបស់អ្នកត្រូវបានបិទ!",
+    "Daily" => "ប្រចាំថ្ងៃ",
+    "Monthly" => "ប្រចាំខែ",
+    "Yearly" => "ប្រចាំឆ្នាំ",
 
 
 

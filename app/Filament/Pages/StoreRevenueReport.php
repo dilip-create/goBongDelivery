@@ -102,9 +102,9 @@ class StoreRevenueReport extends Page implements Tables\Contracts\HasTable
                 Tables\Filters\SelectFilter::make('report_type')
                     ->label(__('message.Report Type'))
                     ->options([
-                        'daily' => 'Daily',
-                        'monthly' => 'Monthly',
-                        'yearly' => 'Yearly',
+                        'daily' =>  __('message.Daily'),
+                        'monthly' => __('message.Monthly'),
+                        'yearly' => __('message.Yearly'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if (!isset($data['value'])) return;

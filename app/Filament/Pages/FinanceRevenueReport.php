@@ -26,20 +26,20 @@ class FinanceRevenueReport extends Page implements Tables\Contracts\HasTable
     protected static ?string $title = null;
 
      /* Sidebar group */
-    // public static function getNavigationGroup(): ?string
-    // {
-    //     return __('message.Manage Report');
-    // }
-    // /* Sidebar item label */
-    // public static function getNavigationLabel(): string
-    // {
-    //     return __('message.GoBong Finance Report');
-    // }
-    // /* Page title */
-    // public function getTitle(): string
-    // {
-    //     return __('message.GoBong Finance Report');
-    // }
+    public static function getNavigationGroup(): ?string
+    {
+        return __('message.Manage Report');
+    }
+    /* Sidebar item label */
+    public static function getNavigationLabel(): string
+    {
+        return __('message.GoBong Finance Report');
+    }
+    /* Page title */
+    public function getTitle(): string
+    {
+        return __('message.GoBong Finance Report');
+    }
 
     public function table(Table $table): Table
     {
@@ -111,9 +111,9 @@ class FinanceRevenueReport extends Page implements Tables\Contracts\HasTable
                 Tables\Filters\SelectFilter::make('report_type')
                     ->label(__('message.Report Type'))
                     ->options([
-                        'daily' => 'Daily',
-                        'monthly' => 'Monthly',
-                        'yearly' => 'Yearly',
+                        'daily' =>  __('message.Daily'),
+                        'monthly' => __('message.Monthly'),
+                        'yearly' => __('message.Yearly'),
                     ])
                     ->query(function (Builder $query, array $data) {
                         if (!isset($data['value'])) return;
