@@ -757,6 +757,10 @@ return [
     "Payment amount" => "จำนวนเงินที่ชำระ",
     "Cost charge" => "ค่าใช้จ่าย",
     "Shipping charge" => "ค่าจัดส่ง",
+    "Your account have been disabled!" => "บัญชีของคุณถูกปิดใช้งานแล้ว!",
+    "Daily" => "รายวัน",
+    "Monthly" => "รายเดือน",
+    "Yearly" => "เป็นประจำทุกปี",
     
     
     

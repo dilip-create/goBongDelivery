@@ -174,12 +174,12 @@ class StorOrderResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('combineded')
                     ->label(__('message.Amount/Distance'))
+                    ->html()
                     ->getStateUsing(fn ($record) =>
                         $record->totalPayAmount . ' ' .
                         $record->getCurrencydata->currency_symbol . ' / ' .
                         $record->distance_between_shop_customer . ' km' ,
-                    )
-                    ->searchable(),
+                    ),
                 Tables\Columns\TextColumn::make('getShopName.name')
                     ->label(__('message.Store name'))
                     ->searchable(),
@@ -189,8 +189,7 @@ class StorOrderResource extends Resource
                     ->getStateUsing(fn ($record) =>
                         '<strong>' . Str::ucfirst($record->getCustomerdata->name) . '</strong><br>' .
                         Str::ucfirst($record->getCustomerdata->phoneNumber)
-                    )
-                    ->searchable(),
+                    ),
                 Tables\Columns\TextColumn::make('combinedfff')
                     ->label(__('message.Rider name'))
                     ->html()
@@ -200,8 +199,7 @@ class StorOrderResource extends Resource
 
                         return '<strong>' . e(Str::ucfirst($riderName)) . '</strong><br>' .
                             e($phone);
-                    })
-                    ->searchable(),
+                    }),
                 Tables\Columns\TextColumn::make('order_status')
                     ->label(__('message.Order Status'))
                     ->searchable()

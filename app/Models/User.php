@@ -91,11 +91,32 @@ class User extends Authenticatable implements FilamentUser
             }
         }
 
+        // Rider panel access
+        // dd($this->id);
+        if ($panel->getId() === 'rider' && $this->role === 'Rider') {
+            $rider = Rider::where('riderLoginId', $this->id)->first();
+
+            if ($rider && $rider->status == '1') {
+                return true; // Allow access
+            } else {
+                // Show warning in Filament
+                Notification::make()
+                    ->title(__('message.Access Denied!'))
+                    ->body(__('message.Your account have been disabled!'))
+                    ->warning()
+                    ->send();
+
+                return false; // Deny access
+            }
+        }
+
         
 
         return false;
     }
 
+
+       
 
 
     
