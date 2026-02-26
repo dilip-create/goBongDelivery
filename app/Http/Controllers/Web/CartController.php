@@ -106,7 +106,7 @@ class CartController extends Controller
 
 
         return Inertia::render('Web/Cart', [
-            'shipAddress' => $shipAddress,
+            'shipAddress' => $shipAddress ?? '',
             'storData' => $storData,
             'foodLists' => $foodLists,
              'summary' => [
