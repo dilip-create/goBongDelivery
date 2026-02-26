@@ -761,6 +761,15 @@ return [
     "Daily" => "รายวัน",
     "Monthly" => "รายเดือน",
     "Yearly" => "เป็นประจำทุกปี",
+    "Today Orders" => "วันนี้ออเดอร์",
+    "Yesterday Orders" => "ออเดอร์เมื่อวาน",
+    "Total Customers" => "ลูกค้าทั้งหมด",
+    "All Stores" => "ร้านค้าทั้งหมด",
+    "Open Stores" => "เปิดร้านค้า",
+    "Closed Stores" => "ร้านค้าปิด",
+    "Total Riders" => "จำนวนผู้ขับขี่ทั้งหมด",
+    "Available Riders" => "ผู้ขับขี่ที่มีอยู่",
+    "DayOff Riders" => "ผู้ขับขี่ DayOff",
     
     
     

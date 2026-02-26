@@ -247,6 +247,18 @@ class StorOrderResource extends Resource
                         ->modalButton(__('message.Save changes'))
                         ->using(function (\App\Models\StorOrder $record, array $data) {
 
+                            // ✅ Sync logic
+                            if ($data['order_status'] === 'delivered' || $data['assign_status'] === 'delivered') {
+                                $data['order_status']  = 'delivered';
+                                $data['assign_status'] = 'delivered';
+                            }
+
+                            if ($data['order_status'] === 'cancelled' || $data['assign_status'] === 'cancelled') {
+                                $data['order_status']  = 'cancelled';
+                                $data['assign_status'] = 'cancelled';
+                            }
+
+                            // ✅ Save
                             \App\Models\StorOrder::withoutGlobalScopes()
                                 ->where('order_key', $record->order_key)
                                 ->update([

@@ -334,7 +334,7 @@
                                 <h6>{{ foodLists.get_currencies?.currency_symbol ?? '฿' }} {{ summary.final_amount ?? '' }}</h6>
                             </div>
                            
-                            <button class="btn border-secondary px-4 py-3 text-primary text-uppercase w-100" :disabled="form.processing">{{ $page.props.translations['Confirm Order'] }} <i class="fa fa-arrow-right"></i></button>
+                            <button class="btn border-secondary px-4 py-3 text-primary text-uppercase w-100" :disabled="!shipAddress.address || form.processing">{{ $page.props.translations['Confirm Order'] }} <i class="fa fa-arrow-right"></i></button>
                         </div>
                     </div>
                     

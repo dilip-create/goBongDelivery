@@ -760,6 +760,15 @@ return [
     "Daily" => "ប្រចាំថ្ងៃ",
     "Monthly" => "ប្រចាំខែ",
     "Yearly" => "ប្រចាំឆ្នាំ",
+    "Today Orders" => "ការបញ្ជាទិញថ្ងៃនេះ",
+    "Yesterday Orders" => "ការបញ្ជាទិញកាលពីម្សិលមិញ",
+    "Total Customers" => "អតិថិជនសរុប",
+    "All Stores" => "ហាងទាំងអស់។",
+    "Open Stores" => "បើកហាង",
+    "Closed Stores" => "ហាងដែលបិទ",
+    "Total Riders" => "អ្នកជិះសរុប",
+    "Available Riders" => "អ្នកជិះដែលមាន",
+    "DayOff Riders" => "DayOff Riders",
 
 
 
