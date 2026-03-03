@@ -274,8 +274,32 @@
     // FOR TIP POPUP CODE END
 
     // FOR REVIEW LOGIC START
-    const reviewRating = ref(0)
+
+    import { nextTick } from 'vue';
+
     const reviewDesc = ref('')
+    const reviewTextarea = ref(null)
+
+    const addEmoji = async (emoji) => {
+        const textarea = reviewTextarea.value
+        const start = textarea.selectionStart
+        const end = textarea.selectionEnd
+
+        reviewDesc.value =
+            reviewDesc.value.substring(0, start) +
+            emoji +
+            reviewDesc.value.substring(end)
+
+        await nextTick()
+
+        textarea.focus()
+        textarea.selectionStart = textarea.selectionEnd = start + emoji.length
+    }
+
+
+
+    const reviewRating = ref(0)
+    // const reviewDesc = ref('')
 
     const closeReviewPopup = () => {
         showReviewPopup.value = false
@@ -379,7 +403,22 @@
     }
     const allstor = btoa('All'.toString());
 </script>
+<style>
+.emoji-toolbar {
+    display: flex;
+    gap: 8px;
+    font-size: 22px;
+}
 
+.emoji-btn {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.emoji-btn:hover {
+    transform: scale(1.3);
+}
+</style>
 <template>
     <Head :title="`- ${$page.props.translations['My orders']}`" />
          
@@ -693,15 +732,23 @@
 
     <!-- REVIEW POPUP  START-->
         <div v-if="showReviewPopup" class="modal-overlay popup-overlay d-flex align-items-center justify-content-center">
-            <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;">
+            <div class="modal-box popup-content bg-white rounded p-4 position-relative" style="width: 500px;"> 
                 <img :src="`${appUrl}/website/assets/img/banners/leave-comment.png`" class="img-fluid rounded mb-3 cart-popup-img" />
                 <h6>{{ $page.props.translations['Please Rate & comment on your delivery'] }}</h6>
 
                 <div class="stars">
                     <i v-for="n in 5" :key="n" class="fa-star" :class="reviewRating >= n ? 'fas text-warning' : 'far'" @click="reviewRating = n"></i>
                 </div>
-
-                <textarea v-model="reviewDesc" class="form-control mt-3" placeholder="Leave a comment"></textarea>
+                <div class="emoji-toolbar mb-2">
+                    <span class="emoji-btn" @click="addEmoji('😊')">😊</span>
+                    <span class="emoji-btn" @click="addEmoji('😂')">😂</span>
+                    <span class="emoji-btn" @click="addEmoji('😍')">😍</span>
+                    <span class="emoji-btn" @click="addEmoji('😐')">😐</span>
+                    <span class="emoji-btn" @click="addEmoji('😡')">😡</span>
+                    <span class="emoji-btn" @click="addEmoji('👍')">👍</span>
+                </div>
+                <textarea ref="reviewTextarea" v-model="reviewDesc" class="form-control mt-2" :placeholder="$page.props.translations['Leave a comment']"></textarea>
+                
 
                 <div class="mt-3 d-flex justify-content-between">
                     <button class="btn btn-gray" @click="closeReviewPopup">{{ $page.props.translations['Skip'] }}</button>

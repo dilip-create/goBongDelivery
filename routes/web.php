@@ -71,7 +71,7 @@ Route::middleware('guest')->group(function (){
     Route::get('/check-review/{orderKey}', function ($orderKey) {
         return response()->json([
             'exists' => Review::where('order_key', $orderKey)->exists()
-        ]);
+        ]); 
     });
 
     Route::get('/tips/{tipAmount}/{tipDesc}/{orderKey}', [TipPaymentController::class, 'tipspaymentpage'])->name('payment.tips');
