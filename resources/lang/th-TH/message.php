@@ -770,6 +770,7 @@ return [
     "Total Riders" => "จำนวนผู้ขับขี่ทั้งหมด",
     "Available Riders" => "ผู้ขับขี่ที่มีอยู่",
     "DayOff Riders" => "ผู้ขับขี่ DayOff",
+    "Leave a comment" => "แสดงความคิดเห็น",
     
     
     

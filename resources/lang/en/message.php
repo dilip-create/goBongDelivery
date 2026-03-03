@@ -774,7 +774,7 @@ return [
     "Total Riders" => "Total Riders",
     "Available Riders" => "Available Riders",
     "DayOff Riders" => "DayOff Riders",
-    "Daily" => "Daily",
+    "Leave a comment" => "Leave a comment",
     "Daily" => "Daily",
     "Daily" => "Daily",
     "Daily" => "Daily",

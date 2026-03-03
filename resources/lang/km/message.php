@@ -769,6 +769,7 @@ return [
     "Total Riders" => "អ្នកជិះសរុប",
     "Available Riders" => "អ្នកជិះដែលមាន",
     "DayOff Riders" => "DayOff Riders",
+    "Leave a comment" => "ទុកមតិយោបល់",
 
 
 
